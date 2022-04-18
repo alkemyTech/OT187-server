@@ -1,17 +1,18 @@
 package com.alkemy.ong.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
+
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
+@Data
 public class OrganizationDto {
     @JsonProperty("id")
     @NotNull

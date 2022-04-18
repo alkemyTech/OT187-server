@@ -1,12 +1,11 @@
 package com.alkemy.ong.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+
 
 import javax.validation.constraints.NotNull;
-@Getter
-@Setter
+@Data
 public class OrganizationSlimDto {
     @JsonProperty("name")
     @NotNull
