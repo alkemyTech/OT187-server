@@ -30,8 +30,8 @@ public class NewsServiceImp implements NewsService {
     @Transactional
     @Override
     public void delete(Long id) {
-        News news = newsRepository.findById(id).orElseThrow(RuntimeException::new);
-        newsRepository.delete(news);
+        newsRepository.findById(id).orElseThrow(RuntimeException::new);
+        newsRepository.softDelete(id);
     }
 
 

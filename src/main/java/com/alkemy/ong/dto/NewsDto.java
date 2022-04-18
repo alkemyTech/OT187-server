@@ -1,10 +1,10 @@
 package com.alkemy.ong.dto;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 public class NewsDto {
     private Long id;
     private String name;
