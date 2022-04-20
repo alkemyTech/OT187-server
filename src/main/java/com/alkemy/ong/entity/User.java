@@ -11,7 +11,6 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "users")
 @Data
-@Where(clause = "active = 1")
 public class User {
     
     @Id
