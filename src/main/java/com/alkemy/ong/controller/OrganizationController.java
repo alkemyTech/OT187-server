@@ -10,12 +10,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+
 import java.util.List;
 
+import static com.alkemy.ong.utility.Constantes.*;
+
 @RestController
-@RequestMapping(value = "/organization/public")
+@RequestMapping(value = ORGANIZATION_MAP_REQUEST)
 @AllArgsConstructor
 public class OrganizationController {
+
     @Autowired
     private  OrganizationMapper mapStructMapper;
     @Autowired
@@ -27,7 +31,7 @@ public class OrganizationController {
         return new ResponseEntity<>(mapStructMapper.organizationsToOrganizationsSlimDto(organizationService.getAllOrganizations()), HttpStatus.OK);
     }
 
-    @GetMapping("/{name}")
+    @GetMapping(ORGANIZATION_GET_NAME)
     public ResponseEntity<OrganizationSlimDto> getOrganizationByName(@PathVariable(value = "name") String name){
         return new ResponseEntity<>(mapStructMapper.organizationToOrganizationSlimDto(organizationService.findOrganizationByName(name)),HttpStatus.OK);
 
