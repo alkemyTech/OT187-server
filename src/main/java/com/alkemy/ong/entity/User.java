@@ -1,9 +1,7 @@
 package com.alkemy.ong.entity;
 
 import com.sun.istack.NotNull;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.SQLDelete;
+import lombok.Data;
 import org.hibernate.annotations.Where;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -12,9 +10,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "users")
-@Getter
-@Setter
-@SQLDelete(sql = "UPDATE users SET deleted = true WHERE id=?")
+@Data
 @Where(clause = "active = 1")
 public class User {
     
