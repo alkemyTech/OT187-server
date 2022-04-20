@@ -14,5 +14,8 @@ public interface OrganizationMapper {
 
     Organization organizationDtoToOrganization(OrganizationDto organizationDto);
 
-    List<OrganizationSlimDto> organizationToOrganizationSlimDto(List<Organization> organization);
+    List<OrganizationSlimDto> organizationsToOrganizationsSlimDto(List<Organization> organization);
+
+    OrganizationSlimDto organizationToOrganizationSlimDto(Organization organization);
+
 }
