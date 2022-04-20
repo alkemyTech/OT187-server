@@ -20,11 +20,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.alkemy.ong.utility.Constantes.AUTH_URL;
+import static com.alkemy.ong.utility.Constantes.LOGIN_URL;
+
 import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("auth/")
+@RequestMapping(AUTH_URL)
 public class UserAuthController {
 
     @Autowired
@@ -45,7 +48,7 @@ public class UserAuthController {
     @Autowired
     private UserMapper userMapper;
 
-    @PostMapping("/login")
+    @PostMapping(LOGIN_URL)
     public ResponseEntity<?> login(@Valid @RequestBody AuthenticationRequest authenticationRequest) {
 
         Optional<User> userOptional = userRepository.findByEmail(authenticationRequest.getEmail());
