@@ -1,6 +1,7 @@
 package com.alkemy.ong.entity;
 
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,8 +11,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name ="members" )
-@Getter
-@Setter
+@Data
 public class Member {
 
     @Id

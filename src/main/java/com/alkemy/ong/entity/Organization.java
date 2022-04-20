@@ -1,16 +1,15 @@
 package com.alkemy.ong.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+
 
 import javax.persistence.*;
-import java.time.LocalDate;
+
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "organizations")
-@Getter
-@Setter
+@Data
 public class Organization {
 
     @Id
