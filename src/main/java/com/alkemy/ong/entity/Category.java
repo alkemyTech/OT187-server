@@ -50,5 +50,10 @@ public class Category {
         this.id = id;
     }
 
-
+    public Category(Long id, String name, String description, String image) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.image = image;
+    }
 }
