@@ -5,7 +5,7 @@ import com.alkemy.ong.dto.AuthenticationResponse;
 import com.alkemy.ong.entity.User;
 import com.alkemy.ong.mapper.UserMapper;
 import com.alkemy.ong.repository.UserRepository;
-import com.alkemy.ong.service.UserDetailsServiceImpl;
+import com.alkemy.ong.service.UserServiceImpl;
 import com.alkemy.ong.utility.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -43,7 +43,7 @@ public class UserAuthController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+    private UserServiceImpl userDetailsService;
 
     @Autowired
     private UserMapper userMapper;
@@ -69,7 +69,7 @@ public class UserAuthController {
                 authenticationResponse.setJwt(jwt);
                 authenticationResponse.setFirstName(userOptional.get().getFirstName());
                 authenticationResponse.setEmail(userOptional.get().getEmail());
-                authenticationResponse.setRole(userOptional.get().getRole.getName);
+                authenticationResponse.setRole(userOptional.get().getRoleId().getName());
             } else {
                 return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Password doesn't match");
             }
