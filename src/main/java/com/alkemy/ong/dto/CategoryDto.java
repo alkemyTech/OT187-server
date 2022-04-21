@@ -5,11 +5,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Data
-public class NewsDto {
+@Getter
+@Setter
+public class CategoryDto {
+
     private Long id;
     private String name;
-    private String content;
+    private String description;
     private String image;
-    private CategoryDto categoryId;
+    private CategoryDto categoryDto;
 
 }
