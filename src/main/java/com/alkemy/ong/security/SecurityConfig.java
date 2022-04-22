@@ -17,7 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import static com.alkemy.ong.utility.Constantes.ORGANIZATION_MAP_REQUEST;
+import static com.alkemy.ong.utility.Constantes.*;
 
 @Configuration
 @EnableWebSecurity
@@ -50,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers().hasAnyAuthority("ADMIN")
 
                 //Organization
-                .antMatchers(HttpMethod.POST, ORGANIZATION_MAP_REQUEST).hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, ORGANIZATION_MAP_REQUEST + REQUEST_ID).hasRole("ADMIN")
 
 
                 .anyRequest().authenticated()

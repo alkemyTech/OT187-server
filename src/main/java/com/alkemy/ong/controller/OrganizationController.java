@@ -32,12 +32,12 @@ public class OrganizationController {
         return new ResponseEntity<>(mapStructMapper.organizationsToOrganizationsSlimDto(organizationService.getAllOrganizations()), HttpStatus.OK);
     }
 
-    @GetMapping(ORGANIZATION_GET_NAME)
+    @GetMapping(REQUEST_NAME)
     public ResponseEntity<OrganizationSlimDto> getOrganizationByName(@PathVariable(value = "name") String name){
         return new ResponseEntity<>(mapStructMapper.organizationToOrganizationSlimDto(organizationService.findOrganizationByName(name)),HttpStatus.OK);
     }
 
-    @PostMapping(ORGANIZATION_UPDATE)
+    @PostMapping(REQUEST_ID)
     public ResponseEntity<OrganizationDto> updateOrganization (@PathVariable Long id, @RequestBody OrganizationDto organizationDto) {
         return ResponseEntity.ok().body(organizationService.updateOrganization(id, organizationDto));
     }
