@@ -5,7 +5,6 @@ import com.alkemy.ong.dto.AuthenticationResponse;
 import com.alkemy.ong.entity.User;
 import com.alkemy.ong.mapper.UserMapper;
 import com.alkemy.ong.repository.UserRepository;
-import com.alkemy.ong.service.UserDetailsServiceImpl;
 import com.alkemy.ong.service.UserServiceImpl;
 import com.alkemy.ong.utility.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;

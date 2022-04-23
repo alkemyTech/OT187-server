@@ -39,8 +39,8 @@ public class Category {
     @CreationTimestamp
     private LocalDateTime timestamps;
 
-    @Column(name = "soft_delete", nullable = false)
-    private boolean softDelete=Boolean.FALSE;
+    @Column(name = "active")
+    private Integer active;
 
     public Long getId() {
         return id;

@@ -1,5 +1,6 @@
 package com.alkemy.ong.controller;
 
+import com.alkemy.ong.dto.OrganizationDto;
 import com.alkemy.ong.dto.OrganizationSlimDto;
 import com.alkemy.ong.mapper.OrganizationMapper;
 import com.alkemy.ong.service.OrganizationServiceImpl;
@@ -31,12 +32,14 @@ public class OrganizationController {
         return new ResponseEntity<>(mapStructMapper.organizationsToOrganizationsSlimDto(organizationService.getAllOrganizations()), HttpStatus.OK);
     }
 
-    @GetMapping(ORGANIZATION_GET_NAME)
+    @GetMapping(REQUEST_NAME)
     public ResponseEntity<OrganizationSlimDto> getOrganizationByName(@PathVariable(value = "name") String name){
         return new ResponseEntity<>(mapStructMapper.organizationToOrganizationSlimDto(organizationService.findOrganizationByName(name)),HttpStatus.OK);
-
-
     }
 
+    @PostMapping(REQUEST_ID)
+    public ResponseEntity<OrganizationDto> updateOrganization (@PathVariable Long id, @RequestBody OrganizationDto organizationDto) {
+        return ResponseEntity.ok().body(organizationService.updateOrganization(id, organizationDto));
+    }
 
 }
