@@ -19,11 +19,11 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserDetailsServiceImpl implements UserService, UserDetailsService {
     private final UserMapper userMapper;
     private final UserRepository userRepository;
     
-    public UserServiceImpl(UserMapper userMapper, UserRepository userRepository) {
+    public UserDetailsServiceImpl(UserMapper userMapper, UserRepository userRepository) {
     this.userMapper = userMapper;
     this.userRepository = userRepository;
     }

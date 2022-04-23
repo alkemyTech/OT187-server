@@ -2,6 +2,7 @@ package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.AuthenticationRequest;
 import com.alkemy.ong.dto.AuthenticationResponse;
+import com.alkemy.ong.dto.UserDto;
 import com.alkemy.ong.entity.User;
 import com.alkemy.ong.mapper.UserMapper;
 import com.alkemy.ong.repository.UserRepository;
@@ -20,11 +21,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.alkemy.ong.utility.Constantes.AUTH_URL;
-import static com.alkemy.ong.utility.Constantes.LOGIN_URL;
-
 import javax.validation.Valid;
 import java.util.Optional;
+
+import static com.alkemy.ong.utility.Constantes.*;
 
 @RestController
 @RequestMapping(AUTH_URL)
@@ -41,7 +41,7 @@ public class UserAuthController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
-
+    
     @Autowired
     private UserServiceImpl userDetailsService;
 
@@ -79,6 +79,12 @@ public class UserAuthController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
+    }
+    
+    @PostMapping(REGISTER_URL)
+    public ResponseEntity<UserDto> signup(@Valid @RequestBody UserDto userDto) {
+        UserDto savedUser = userDetailsService.save(userDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
     }
 
 }
