@@ -44,11 +44,4 @@ public class OrganizationDto {
     @JsonProperty("aboutUsText")
     private String aboutUsText;
 
-    @JsonProperty("timestamps")
-    @NotNull
-    private LocalDateTime timestamps;
-
-    @JsonProperty("softDelete")
-    @NotNull
-    private Integer softDelete;
 }

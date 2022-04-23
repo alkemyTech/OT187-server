@@ -39,8 +39,8 @@ public class Category {
     @CreationTimestamp
     private LocalDateTime timestamps;
 
-    @Column(name = "soft_delete", nullable = false)
-    private boolean softDelete=Boolean.FALSE;
+    @Column(name = "active")
+    private Integer active;
 
     public Long getId() {
         return id;
@@ -50,5 +50,10 @@ public class Category {
         this.id = id;
     }
 
-
+    public Category(Long id, String name, String description, String image) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.image = image;
+    }
 }
