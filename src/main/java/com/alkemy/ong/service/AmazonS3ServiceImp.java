@@ -17,6 +17,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
 
+import static com.alkemy.ong.utility.Constantes.AWS_EXCEPTION_NOT_FOUND;
+import static com.alkemy.ong.utility.Constantes.AWS_EXCEPTION_ERR_UPLOAD;
+
 @Service
 public class AmazonS3ServiceImp implements AmazonS3Service {
 
@@ -60,9 +63,9 @@ public class AmazonS3ServiceImp implements AmazonS3Service {
 
             file.delete();
         } catch (FileNotFoundException e) {
-            throw new AmazonS3IOException("Not file to upload found");
+            throw new AmazonS3IOException(AWS_EXCEPTION_NOT_FOUND);
         } catch (IOException e) {
-            throw new AmazonS3IOException("Error while uploading file. It could not be saved");
+            throw new AmazonS3IOException(AWS_EXCEPTION_ERR_UPLOAD);
         }
 
         return new AmazonS3ResponseDto(fileURL);

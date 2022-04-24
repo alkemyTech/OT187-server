@@ -16,5 +16,7 @@ public class Constantes {
      public static final String AWS_STORAGE_REQUEST = "storage/";
      public static final String AWS_DELETE_FILE = "/uploadFile";
      public static final String AWS_UPLOAD_FILE = "/uploadFile";
+     public static final String AWS_EXCEPTION_NOT_FOUND = "Not file to upload found";
+     public static final String AWS_EXCEPTION_ERR_UPLOAD = "Error while uploading file. It could not be saved";
 
 }
