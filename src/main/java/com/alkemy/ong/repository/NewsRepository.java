@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface NewsRepository extends JpaRepository<News, Long> {
-    @Query("UPDATE news e SET e.active = 0 WHERE e.id = :id")
+    @Query("UPDATE News e SET e.active = 0 WHERE e.id = :id")
     @Modifying
     void softDelete(@Param("id") Long id);
 
