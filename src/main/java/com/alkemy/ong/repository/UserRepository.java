@@ -16,5 +16,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     void softDelete(@Param("id") Integer id);
     Optional<User> findByEmail(String email);
     Optional<User> findByFirstName(String firstName);
-    Optional<User> findByEmail(String email);
+
 }
