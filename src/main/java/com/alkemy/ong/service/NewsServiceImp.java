@@ -2,6 +2,7 @@ package com.alkemy.ong.service;
 
 import com.alkemy.ong.dto.NewsDto;
 import com.alkemy.ong.entity.News;
+import com.alkemy.ong.mapper.CategoryMapper;
 import com.alkemy.ong.mapper.NewsMapper;
 import com.alkemy.ong.repository.NewsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
