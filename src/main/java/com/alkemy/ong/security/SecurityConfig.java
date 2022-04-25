@@ -48,11 +48,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
                 .authorizeRequests().antMatchers("/auth/*").permitAll()
-                .antMatchers().hasAnyAuthority("ADMIN")
 
                 //Organization
-                .antMatchers(HttpMethod.POST, ORGANIZATION_MAP_REQUEST + REQUEST_ID).hasRole("ADMIN")
-
+                .antMatchers(HttpMethod.POST, ORGANIZATION_MAP_REQUEST + REQUEST_ID).hasAnyAuthority("ADMIN")
 
                 .anyRequest().authenticated()
                 .and().exceptionHandling()

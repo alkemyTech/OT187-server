@@ -39,6 +39,6 @@ public class User {
     @DateTimeFormat(pattern = "yyyy/MM/dd")
     private LocalDate creationDate;
     
-    @Column(columnDefinition = "INT default 1")
-    private Integer active;
+    //@Column(columnDefinition = "integer default 1")
+    private Integer active = 1;
 }

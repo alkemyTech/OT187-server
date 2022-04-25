@@ -14,8 +14,6 @@ import java.time.LocalDateTime;
 @Table(name = "categories")
 @Data
 @NoArgsConstructor
-@SQLDelete(sql="UPDATE categories SET soft_delete = true WHERE id=?")
-@Where(clause = "soft_delete=false")
 @Getter
 @Setter
 

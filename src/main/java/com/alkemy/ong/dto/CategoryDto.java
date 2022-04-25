@@ -13,7 +13,6 @@ public class CategoryDto {
     private String name;
     private String description;
     private String image;
-    private CategoryDto categoryDto;
 
     public CategoryDto(Long id, String name, String description, String image) {
         this.id = id;

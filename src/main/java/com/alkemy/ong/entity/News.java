@@ -37,7 +37,6 @@ public class News {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime creationDate;
 
-    @Column(columnDefinition = "INT default 1")
-    private int active;
+    private int active = 1;
 
 }

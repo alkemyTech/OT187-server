@@ -37,11 +37,12 @@ public class OrganizationServiceImpl implements OrganizationService{
     @Override
     public OrganizationDto updateOrganization(Long id, OrganizationDto organizationDto) {
 
-        Optional<Organization> organizationOptional = organizationRepository.findById(organizationDto.getId());
+        Optional<Organization> organizationOptional = organizationRepository.findById(id);
 
         if(organizationOptional.isPresent()) {
 
             Organization organization = organizationOptional.get();
+            organization.setId(id);
             organization.setName(organizationDto.getName());
             organization.setImage(organizationDto.getImage());
             organization.setAddress(organizationDto.getAddress());

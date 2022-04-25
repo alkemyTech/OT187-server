@@ -6,14 +6,18 @@ import com.alkemy.ong.entity.User;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Component
 public class UserMapper {
     @Autowired
     RoleRepository roleRepository;
+
     
     public User convertToEntity(UserDto dto) {
         User entity = new User();
@@ -22,9 +26,9 @@ public class UserMapper {
         entity.setEmail(dto.getEmail());
         entity.setPassword(dto.getPassword());
         entity.setPhoto(dto.getPhoto());
-        entity.setRoleId(dto.getRoleId());
-        entity.setRoleId(lookForRole(dto.getReceivedRoleId()));
-        entity.setCreationDate(dto.getCreationDate());
+        //entity.setRoleId(dto.getRoleId());
+        entity.setRoleId(lookForRole(dto.getRoleId()));
+        entity.setCreationDate(string2LocalDate(dto.getCreationDate()));
         return entity;
     }
     
@@ -36,8 +40,8 @@ public class UserMapper {
         dto.setEmail(entity.getEmail());
         dto.setPassword(entity.getPassword());
         dto.setPhoto(entity.getPhoto());
-        dto.setRoleId(entity.getRoleId());
-        dto.setCreationDate(entity.getCreationDate());
+        dto.setRoleId(entity.getRoleId().getId());
+        dto.setCreationDate(entity.getCreationDate().toString());
         return dto;
     }
     
@@ -54,8 +58,11 @@ public class UserMapper {
         }
         return role;
     }
-    
-    
-//        entity.setRoleId(id_received.get());
+
+    public LocalDate string2LocalDate (String stringDate) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        LocalDate date = LocalDate.parse(stringDate, formatter);
+        return date;
+    }
 
 }
