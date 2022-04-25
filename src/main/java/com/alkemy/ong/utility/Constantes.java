@@ -11,4 +11,5 @@ public class Constantes {
      public static final String LOGIN_URL = "/login";
      public static final String REGISTER_URL = "/register";
      public static final String CATEGORY_URL="/category";
+     public static final String USER_URL="/users";
 }

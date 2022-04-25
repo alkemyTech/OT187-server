@@ -21,23 +21,27 @@ import java.util.stream.Stream;
 
 @Service
 public class UserDetailsServiceImpl implements UserService, UserDetailsService {
+
     private final UserMapper userMapper;
     private final UserRepository userRepository;
     
-    public UserDetailsServiceImpl(UserMapper userMapper, UserRepository userRepository) {
-    this.userMapper = userMapper;
-    this.userRepository = userRepository;
+    public UserDetailsServiceImpl(UserMapper userMapper, UserRepository userRepository)
+    {
+        this.userMapper = userMapper;
+        this.userRepository = userRepository;
     }
     
     @Transactional
-    public UserDto save(UserDto userDto) {
+    public UserDto save(UserDto userDto)
+    {
         User user = userMapper.convertToEntity(userDto);
         User savedUser = userRepository.save(user);
         return userMapper.convertToDTO(savedUser);
     }
     
     @Transactional
-    public void delete(Integer id) {
+    public void delete(Integer id)
+    {
         userRepository.softDelete(id);
     }
     
@@ -48,7 +52,8 @@ public class UserDetailsServiceImpl implements UserService, UserDetailsService {
         return userRepository.findById(id).orElseThrow( () -> new NotFoundException("User not found"));
     }
     
-    private void validateReceivedDTO(UserDto dto) {
+    private void validateReceivedDTO(UserDto dto)
+    {
     
         if (dto == null) {
             throw new InvalidDTOException("No character was received");
@@ -80,7 +85,8 @@ public class UserDetailsServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String firstName) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String firstName) throws UsernameNotFoundException
+    {
         User user=userRepository.findByFirstName(firstName).orElse(null);
 
         if(user==null){
