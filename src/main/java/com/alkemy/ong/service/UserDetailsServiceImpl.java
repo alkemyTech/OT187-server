@@ -4,6 +4,7 @@ import com.alkemy.ong.dto.UserDto;
 import com.alkemy.ong.entity.Role;
 import com.alkemy.ong.entity.User;
 import com.alkemy.ong.exception.InvalidDTOException;
+import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.mapper.UserMapper;
 import com.alkemy.ong.repository.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
@@ -42,8 +43,9 @@ public class UserDetailsServiceImpl implements UserService, UserDetailsService {
     
     @Transactional
     @Override
-    public User findById(Integer id) {
-        return userRepository.findById(id).orElseThrow();
+    public User findById(Integer id)
+    {
+        return userRepository.findById(id).orElseThrow( () -> new NotFoundException("User not found"));
     }
     
     private void validateReceivedDTO(UserDto dto) {

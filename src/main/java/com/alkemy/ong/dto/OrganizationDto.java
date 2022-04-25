@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
@@ -14,6 +13,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class OrganizationDto {
+
     @JsonProperty("id")
     @NotNull
     private Long id;
