@@ -54,6 +54,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //Organization
                 .antMatchers(HttpMethod.POST, ORGANIZATION_MAP_REQUEST + REQUEST_ID).hasRole("ADMIN")
 
+                //AmazonS3
+                .antMatchers(AWS_STORAGE_REQUEST + "*").hasRole("ADMIN")
+
 
                 .anyRequest().authenticated()
                 .and().exceptionHandling()
