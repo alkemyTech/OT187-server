@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-
     @Query("UPDATE Category c SET c.active = 0 WHERE c.id = :id")
     @Modifying
     void softDelete(@Param("id") Long id);
