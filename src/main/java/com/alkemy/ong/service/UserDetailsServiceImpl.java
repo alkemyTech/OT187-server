@@ -49,31 +49,25 @@ public class UserDetailsServiceImpl implements UserService, UserDetailsService {
     private void validateReceivedDTO(UserDto dto) {
     
         if (dto == null) {
-            throw new InvalidDTOException("No character was received");
+            throw new InvalidDTOException("No data received");
         }
         if (dto.getFirstName() == null || dto.getFirstName().isBlank()) {
-            throw new InvalidDTOException("");
+            throw new InvalidDTOException("You must enter your name");
         }
         if (dto.getLastName() == null || dto.getLastName().isBlank()) {
-            throw new InvalidDTOException("Character must have an image");
+            throw new InvalidDTOException("You must enter your last name");
         }
         if (dto.getEmail() == null || dto.getEmail().isBlank()) {
-            throw new InvalidDTOException("Character must have an image");
+            throw new InvalidDTOException("You must enter an email");
         }
         if (dto.getPassword() == null || dto.getPassword().isBlank()) {
-            throw new InvalidDTOException("Character must have an image");
-        }
-        if (dto.getPhoto() == null || dto.getPhoto().isBlank()) {
-            throw new InvalidDTOException("Character must have an image");
+            throw new InvalidDTOException("You must enter a password");
         }
         if (dto.getReceivedRoleId() == null) {
-            throw new InvalidDTOException("Character must have an image");
-        }
-        if (dto.getEmail() == null || dto.getEmail().isBlank()) {
-            throw new InvalidDTOException("Character must have an image");
+            throw new InvalidDTOException("Internal error: Role not found");
         }
         if (dto.getCreationDate() == null) {
-            throw new InvalidDTOException("Character must have an image");
+            throw new InvalidDTOException("Internal error: No creation date");
         }
     }
 

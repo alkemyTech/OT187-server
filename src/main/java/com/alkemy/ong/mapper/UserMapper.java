@@ -3,9 +3,12 @@ package com.alkemy.ong.mapper;
 import com.alkemy.ong.dto.UserDto;
 import com.alkemy.ong.entity.Role;
 import com.alkemy.ong.entity.User;
+import com.alkemy.ong.exception.EmailExistsException;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.repository.RoleRepository;
+import com.alkemy.ong.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -15,12 +18,22 @@ public class UserMapper {
     @Autowired
     RoleRepository roleRepository;
     
-    public User convertToEntity(UserDto dto) {
+    @Autowired
+    UserRepository userRepository;
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    
+    public User convertToEntity(UserDto dto) throws EmailExistsException {
+        if (emailExist(dto.getEmail())) {
+            throw new EmailExistsException("An account with the email address "
+                    + dto.getEmail() + " already exists.");
+        }
         User entity = new User();
         entity.setFirstName(dto.getFirstName());
         entity.setLastName(dto.getLastName());
         entity.setEmail(dto.getEmail());
-        entity.setPassword(dto.getPassword());
+        entity.setPassword(passwordEncoder.encode(dto.getPassword()));
         entity.setPhoto(dto.getPhoto());
         entity.setRoleId(dto.getRoleId());
         entity.setRoleId(lookForRole(dto.getReceivedRoleId()));
@@ -41,7 +54,6 @@ public class UserMapper {
         return dto;
     }
     
-    
     private Role lookForRole(Integer id) {
         Role role = new Role();
         if (id != null) {
@@ -55,7 +67,8 @@ public class UserMapper {
         return role;
     }
     
-    
-//        entity.setRoleId(id_received.get());
-
+    private boolean emailExist(String emailAccount) {
+        Optional<User> userFound = userRepository.findByEmail(emailAccount);
+        return userFound.isPresent();
+    }
 }
