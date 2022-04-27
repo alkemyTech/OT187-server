@@ -1,15 +1,21 @@
 package com.alkemy.ong.dto;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @Data
-@Getter
-@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@ToString
 public class CategoryDto {
 
-    private Long id;
+    @NotBlank(message = "the name field cannot be empty")
+    @NotNull(message = "field name cannot be null")
+    @Pattern(regexp = "[a-zA-Z\\s]*", message = "The name cannot contain numbers or characters other than letters")
     private String name;
     private String description;
     private String image;

@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 @Service
 public class CategoryServiceImp implements CategoryService {
@@ -51,6 +53,13 @@ public class CategoryServiceImp implements CategoryService {
             categoryRepository.save(category);
             return categoryMapper.categoryToCategoryDto(category);
 
+    }
+
+    @Override
+    public List<CategoryDto> getAll() {
+        List<Category> entities = categoryRepository.findAll();
+        List<CategoryDto> result = categoryMapper.categoryListToCategoryDtoList(entities,false);
+        return result;
     }
 
 }
