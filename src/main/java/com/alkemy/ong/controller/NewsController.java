@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import static com.alkemy.ong.utility.Constantes.REQUEST_ID;
+
 public class NewsController {
     @Autowired
     NewsRepository newsRepository;
@@ -21,7 +23,7 @@ public class NewsController {
     @Autowired
     NewsService newsService;
     
-    @GetMapping("/{id}")
+    @GetMapping(REQUEST_ID)
     public ResponseEntity<NewsDto> getDetails(@PathVariable Long id) {
         NewsDto news = newsService.findById(id);
         return ResponseEntity.ok().body(news);
@@ -33,13 +35,13 @@ public class NewsController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedNews);
     }
     
-    @PutMapping("/{id}")
+    @PutMapping(REQUEST_ID)
     public ResponseEntity<NewsDto> update(@PathVariable Long id, @RequestBody NewsDto newsDto) {
         NewsDto updatedNews = newsService.update(newsDto, id);
         return ResponseEntity.ok(updatedNews);
     }
     
-    @DeleteMapping("/{id}")
+    @DeleteMapping(REQUEST_ID)
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         newsService.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
