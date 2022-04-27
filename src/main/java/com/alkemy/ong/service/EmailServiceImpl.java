@@ -1,7 +1,6 @@
 package com.alkemy.ong.service;
 
 import com.alkemy.ong.config.request.EmailRequest;
-import com.alkemy.ong.services.Interface.IEmailService;
 import com.alkemy.ong.utility.EmailUtility;
 import com.sendgrid.Method;
 import com.sendgrid.Request;
@@ -20,7 +19,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class EmailServiceImpl implements IEmailService{
+public class EmailServiceImpl implements EmailService{
 
   
 

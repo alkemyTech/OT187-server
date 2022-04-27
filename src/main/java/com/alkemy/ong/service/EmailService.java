@@ -1,8 +1,8 @@
 
-package com.alkemy.ong.services.Interface;
+package com.alkemy.ong.service;
 
 import java.io.IOException;
 
-public interface IEmailService {
+public interface EmailService {
     void send(String sendTo, String subject_email, String template) throws IOException;
 }
