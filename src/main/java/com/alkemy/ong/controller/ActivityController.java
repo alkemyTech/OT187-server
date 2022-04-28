@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import static com.alkemy.ong.utility.Constantes.ACTIVITY_URL;
 import static com.alkemy.ong.utility.Constantes.REQUEST_ID;
 
+
 @RestController
 @RequestMapping(ACTIVITY_URL)
 public class ActivityController {
@@ -26,4 +27,3 @@ public class ActivityController {
     public ResponseEntity<ActivityDto> updateActivity(@PathVariable Long id, @RequestBody ActivityDto activityDto) {
         return ResponseEntity.ok().body(activityService.updateActivity(id, activityDto));
     }
-}

@@ -8,7 +8,9 @@ import com.alkemy.ong.mapper.ActivityMapper;
 import com.alkemy.ong.repository.ActivityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import org.springframework.transaction.annotation.Transactional;
+
 
 @Service
 public class ActivityServiceImp implements ActivityService {
@@ -20,14 +22,15 @@ public class ActivityServiceImp implements ActivityService {
     private ActivityRepository activityRepository;
 
     @Transactional
+
     @Override
     public ActivityDto createActivity(ActivityDto activityDto) throws InvalidDTOException {
 
-        if(activityDto.getName() == null || activityDto.getName().isEmpty()){
+        if (activityDto.getName() == null || activityDto.getName().isEmpty()) {
             throw new InvalidDTOException("Activity name is required");
         }
 
-        if(activityDto.getContent() == null || activityDto.getContent().isEmpty()){
+        if (activityDto.getContent() == null || activityDto.getContent().isEmpty()) {
             throw new InvalidDTOException("Activity content is required");
         }
 
@@ -50,3 +53,4 @@ public class ActivityServiceImp implements ActivityService {
         return activityMapper.activityToActivityDto(activityRepository.save(activity));
     }
 }
+
