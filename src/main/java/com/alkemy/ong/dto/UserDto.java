@@ -1,6 +1,5 @@
 package com.alkemy.ong.dto;
 
-import com.alkemy.ong.entity.Role;
 import lombok.Data;
 
 @Data
@@ -11,5 +10,5 @@ public class UserDto {
     private String email;
     private String password;
     private String photo;
-    private Role roleId;
+    private RoleDto roleId;
 }
