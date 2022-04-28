@@ -12,7 +12,5 @@ public class UserDto {
     private String email;
     private String password;
     private String photo;
-    private Integer receivedRoleId;
     private Role roleId;
-    private LocalDate creationDate;
 }
