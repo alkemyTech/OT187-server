@@ -55,7 +55,7 @@ public class UserAuthController {
 
         AuthenticationResponse authenticationResponse = new AuthenticationResponse();
 
-        if (userOptional.isPresent()) {
+        if (userOptional.isPresent() && (userOptional.get().getActive() == 1)) {
 
             UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getEmail());
 
