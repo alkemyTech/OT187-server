@@ -45,42 +45,15 @@ public class UserDetailsServiceImpl implements UserService, UserDetailsService {
     public User findById(Integer id) {
         return userRepository.findById(id).orElseThrow();
     }
-    
-    private void validateReceivedDTO(UserDto dto) {
-    
-        if (dto == null) {
-            throw new InvalidDTOException("No data received");
-        }
-        if (dto.getFirstName() == null || dto.getFirstName().isBlank()) {
-            throw new InvalidDTOException("You must enter your name");
-        }
-        if (dto.getLastName() == null || dto.getLastName().isBlank()) {
-            throw new InvalidDTOException("You must enter your last name");
-        }
-        if (dto.getEmail() == null || dto.getEmail().isBlank()) {
-            throw new InvalidDTOException("You must enter an email");
-        }
-        if (dto.getPassword() == null || dto.getPassword().isBlank()) {
-            throw new InvalidDTOException("You must enter a password");
-        }
-        if (dto.getReceivedRoleId() == null) {
-            throw new InvalidDTOException("Internal error: Role not found");
-        }
-        if (dto.getCreationDate() == null) {
-            throw new InvalidDTOException("Internal error: No creation date");
-        }
-    }
 
     @Override
-    public UserDetails loadUserByUsername(String firstName) throws UsernameNotFoundException {
-        User user=userRepository.findByFirstName(firstName).orElse(null);
-
-        if(user==null){
-            throw new UsernameNotFoundException("Usuario no encontrado");
-        }
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        
         Role role=user.getRoleId();
         List<GrantedAuthority> authority= Stream.of(role).map(role1 -> new SimpleGrantedAuthority(role1.getName()))
                 .collect(Collectors.toList());
-        return new org.springframework.security.core.userdetails.User(user.getFirstName(),user.getPassword(),authority);
+        return new org.springframework.security.core.userdetails.User(user.getEmail(),user.getPassword(),authority);
     }
 }
