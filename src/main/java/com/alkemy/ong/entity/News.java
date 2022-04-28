@@ -38,11 +38,10 @@ public class News {
     @Column(columnDefinition = "varchar(20) default 'News'")
     private String type;
 
-    @Column(name = "creation_date", nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column(name= "creation_date" , nullable = false, updatable = false)
+    @CreationTimestamp
     private LocalDateTime creationDate;
 
-    @Column(columnDefinition = "INT default 1")
-    private int active;
+    private Integer active = 1;
 
 }
