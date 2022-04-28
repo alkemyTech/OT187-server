@@ -49,7 +49,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
                 .authorizeRequests().antMatchers("/auth/*").permitAll()
-                .antMatchers().hasAnyAuthority("ADMIN")
 
                 //Organization
                 .antMatchers(HttpMethod.POST, ORGANIZATION_MAP_REQUEST + REQUEST_ID).hasRole("ADMIN")
@@ -59,9 +58,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, NEWS_URL).hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, NEWS_URL + REQUEST_ID).hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, NEWS_URL + REQUEST_ID).hasRole("ADMIN")
-        
+
+                //Activities
+                .antMatchers(HttpMethod.POST, ACTIVITY_URL).hasAnyAuthority("ADMIN")
+
                 //AmazonS3
-                .antMatchers(AWS_STORAGE_REQUEST + "*").hasRole("ADMIN")
+                .antMatchers(AWS_STORAGE_REQUEST + "*").hasAnyAuthority("ADMIN")
 
 
                 .anyRequest().authenticated()
