@@ -63,7 +63,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, ACTIVITY_URL).hasAnyAuthority("ADMIN")
                 .antMatchers(HttpMethod.PUT, ACTIVITY_URL + REQUEST_ID).hasAnyAuthority("ADMIN")
 
-
                 //AmazonS3
                 .antMatchers(AWS_STORAGE_REQUEST + "*").hasAnyAuthority("ADMIN")
 
