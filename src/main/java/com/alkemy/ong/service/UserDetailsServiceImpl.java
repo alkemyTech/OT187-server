@@ -72,4 +72,10 @@ public class UserDetailsServiceImpl implements UserService, UserDetailsService {
         Optional<User> userFound = userRepository.findByEmail(emailAccount);
         return userFound.isPresent();
     }
+
+    @Transactional
+    @Override
+    public List<User> getAllUsers(){
+        return userRepository.findAll();
+    }
 }

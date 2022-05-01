@@ -16,12 +16,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 import static com.alkemy.ong.utility.Constantes.*;
@@ -85,6 +83,11 @@ public class UserAuthController {
     public ResponseEntity<UserDto> signup(@Valid @RequestBody UserDto userDto) {
         UserDto savedUser = userDetailsService.save(userDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
+    }
+
+    @GetMapping(value = "/users")
+    public ResponseEntity<List<UserDto>> getAllUsers(){
+        return new ResponseEntity<>(userMapper.allUserstoAllUsersDto(userDetailsService.getAllUsers()), HttpStatus.OK);
     }
 
 }
