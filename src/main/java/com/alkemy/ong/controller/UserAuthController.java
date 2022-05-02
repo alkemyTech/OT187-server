@@ -78,16 +78,36 @@ public class UserAuthController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
     }
-    
+
+
     @PostMapping(REGISTER_URL)
-    public ResponseEntity<UserDto> signup(@Valid @RequestBody UserDto userDto) {
-        UserDto savedUser = userDetailsService.save(userDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
+    public ResponseEntity<String> register(@Valid @RequestBody UserDto userDto){
+        User user = userMapper.userDtoToUser(userDto);
+        userDetailsService.save(user);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
+        String jwt = jwtUtils.generateToken(userDetails);
+        return new ResponseEntity<>(jwt, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/users")
+    @GetMapping(USER_GET)
     public ResponseEntity<List<UserDto>> getAllUsers(){
         return new ResponseEntity<>(userMapper.allUserstoAllUsersDto(userDetailsService.getAllUsers()), HttpStatus.OK);
     }
+
+    @PatchMapping(USER_PATCH)
+    public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto,@PathVariable("id") Integer id){
+        User userUpdated = userMapper.updateUserFromDto(userDto, userDetailsService.findById(id));
+        userDetailsService.save(userUpdated);
+        return new ResponseEntity<>(userMapper.userToUserDto(userUpdated), HttpStatus.OK);
+    }
+    @GetMapping(USER_AUTH_ME)
+    public ResponseEntity<UserDto> getUser(@RequestHeader(name = "Authorization") String token){
+        String tokenObtenido = token.replace("Bearer", " ");
+        String email = jwtUtils.extractUsername(tokenObtenido);
+        User user = userDetailsService.findByEmail(email);
+     return new ResponseEntity<>(userMapper.userToUserDto(user),HttpStatus.OK);
+    }
+
+
 
 }
