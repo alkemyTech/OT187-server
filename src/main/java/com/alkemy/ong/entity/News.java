@@ -1,7 +1,7 @@
 package com.alkemy.ong.entity;
 
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
