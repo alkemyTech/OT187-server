@@ -27,3 +27,4 @@ public class ActivityController {
     public ResponseEntity<ActivityDto> updateActivity(@PathVariable Long id, @RequestBody ActivityDto activityDto) {
         return ResponseEntity.ok().body(activityService.updateActivity(id, activityDto));
     }
+}
