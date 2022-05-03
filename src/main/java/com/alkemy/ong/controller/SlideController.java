@@ -17,5 +17,5 @@ public class SlideController {
         this.slideService = slideService;
     }
 
-    
+
 }
