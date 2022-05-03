@@ -17,6 +17,7 @@ public class SlideServiceImpl implements SlideService {
         this.slideRepository = slideRepository;
     }
 
+
     @Override
     public SlideDto save(SlideDto slideDto)
     {
