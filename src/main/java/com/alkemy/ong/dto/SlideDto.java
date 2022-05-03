@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 public class SlideDto {
 
     private Long id;
+    private String image;
     private String imageUrl;
     private String text;
     private Integer order;

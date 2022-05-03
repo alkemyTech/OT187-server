@@ -50,7 +50,7 @@ public class AmazonS3ServiceImp implements AmazonS3Service {
     }
 
     @Override
-    public AmazonS3ResponseDto uploadFile(MultipartFile multipartFile) {
+    public AmazonS3ResponseDto uploadMultipartFile(MultipartFile multipartFile) {
 
         String fileURL = "";
 
@@ -60,13 +60,26 @@ public class AmazonS3ServiceImp implements AmazonS3Service {
             fileURL = endpointUrl + fileName;
 
             uploadFileToAmazonS3Bucket(fileName, file);
-
             file.delete();
         } catch (FileNotFoundException e) {
             throw new AmazonS3IOException(AWS_EXCEPTION_NOT_FOUND);
         } catch (IOException e) {
             throw new AmazonS3IOException(AWS_EXCEPTION_ERR_UPLOAD);
         }
+
+        return new AmazonS3ResponseDto(fileURL);
+    }
+
+    @Override
+    public AmazonS3ResponseDto uploadFile(File file) {
+
+        String fileURL = "";
+
+        String fileName = file.getName();
+        fileURL = endpointUrl + fileName;
+
+        uploadFileToAmazonS3Bucket(fileName, file);
+        file.delete();
 
         return new AmazonS3ResponseDto(fileURL);
     }

@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+
 import static com.alkemy.ong.utility.Constantes.AWS_STORAGE_REQUEST;
 import static com.alkemy.ong.utility.Constantes.AWS_DELETE_FILE;
 import static com.alkemy.ong.utility.Constantes.AWS_UPLOAD_FILE;
@@ -18,12 +20,12 @@ public class AmazonS3Controller {
     private AmazonS3Service amazonS3Service;
 
     @PostMapping(AWS_UPLOAD_FILE)
-    public ResponseEntity<AmazonS3ResponseDto> uploadFile(@RequestParam("file") MultipartFile file) {
-        return ResponseEntity.ok().body(amazonS3Service.uploadFile(file));
+    public ResponseEntity<AmazonS3ResponseDto> uploadFile(@RequestParam("file") MultipartFile multipartFile) {
+        return ResponseEntity.ok().body(amazonS3Service.uploadMultipartFile(multipartFile));
     }
 
     @DeleteMapping(AWS_DELETE_FILE)
-    public ResponseEntity<Void> deleteFile (@RequestParam(value = "url") String url) {
+    public ResponseEntity<Void> deleteFile(@RequestParam(value = "url") String url) {
         amazonS3Service.deleteFileFromAmazonS3Bucket(url);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
