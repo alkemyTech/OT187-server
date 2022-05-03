@@ -18,11 +18,10 @@ public class ContactController {
 
     @Autowired
     private ContactService contactService;
-    
+
     @GetMapping()
     public ResponseEntity<List<ContactDto>> getAllContacts() {
         return ResponseEntity.ok(contactService.getAll());
     }
-
 
 }
