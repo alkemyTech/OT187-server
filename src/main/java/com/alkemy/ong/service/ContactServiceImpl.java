@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -16,19 +17,27 @@ public class ContactServiceImpl implements ContactService{
     
     private final ContactRepository contactRepository;
     private final ContactMapper contactMapper;
+    private final EmailService emailService;
 
     @Autowired
-    public ContactServiceImpl(ContactRepository contactRepository, ContactMapper contactMapper) {
+    public ContactServiceImpl(ContactRepository contactRepository, ContactMapper contactMapper, EmailService emailService) {
         this.contactRepository = contactRepository;
         this.contactMapper = contactMapper;
+        this.emailService = emailService;
     }
-    
+
     @Transactional
     @Override
     public ContactDto save(ContactDto dto) {
         Contact contact = contactMapper.contactDtoToContact(dto);
         Contact savedContact = contactRepository.save(contact);
-        
+
+        try {
+            emailService.contactEmail(savedContact.getEmail());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return contactMapper.contactToContactDto(savedContact);
     }
     
