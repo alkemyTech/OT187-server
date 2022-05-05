@@ -82,30 +82,27 @@ public class UserAuthController {
 
     @PostMapping(REGISTER_URL)
     public ResponseEntity<String> register(@Valid @RequestBody UserDto userDto){
-        User user = userMapper.userDtoToUser(userDto);
-        userDetailsService.save(user);
-        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
+        userDetailsService.save(userDto);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(userDto.getEmail());
         String jwt = jwtUtils.generateToken(userDetails);
         return new ResponseEntity<>(jwt, HttpStatus.OK);
     }
 
     @GetMapping(USER_GET)
     public ResponseEntity<List<UserDto>> getAllUsers(){
-        return new ResponseEntity<>(userMapper.allUserstoAllUsersDto(userDetailsService.getAllUsers()), HttpStatus.OK);
+        return new ResponseEntity<>(userDetailsService.getAllUsers(), HttpStatus.OK);
     }
 
     @PatchMapping(USER_PATCH)
     public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto,@PathVariable("id") Integer id){
-        User userUpdated = userMapper.updateUserFromDto(userDto, userDetailsService.findById(id));
-        userDetailsService.save(userUpdated);
-        return new ResponseEntity<>(userMapper.userToUserDto(userUpdated), HttpStatus.OK);
+        UserDto userUpdated = userDetailsService.findById(id);
+        return new ResponseEntity<>(userDetailsService.save(userUpdated), HttpStatus.OK);
     }
     @GetMapping(USER_AUTH_ME)
     public ResponseEntity<UserDto> getUser(@RequestHeader(name = "Authorization") String token){
         String tokenObtenido = token.replace("Bearer", " ");
         String email = jwtUtils.extractUsername(tokenObtenido);
-        User user = userDetailsService.findByEmail(email);
-     return new ResponseEntity<>(userMapper.userToUserDto(user),HttpStatus.OK);
+     return new ResponseEntity<>(userDetailsService.findByEmail(email),HttpStatus.OK);
     }
 
 

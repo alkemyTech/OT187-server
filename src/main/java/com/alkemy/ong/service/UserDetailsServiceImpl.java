@@ -36,13 +36,15 @@ public class UserDetailsServiceImpl implements UserService, UserDetailsService {
     }
 
     @Transactional
-    public void save(User user) throws EmailExistsException {
+    public UserDto save(UserDto userDto) throws EmailExistsException {
+        User user = userMapper.userDtoToUser(userDto);
         if (emailExist(user.getEmail())) {
             throw new EmailExistsException("An account with the email address "
                     + user.getEmail() + " already exists.");
         }
         userRepository.save(user);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userMapper.userToUserDto(user);
 
     }
 
@@ -54,14 +56,14 @@ public class UserDetailsServiceImpl implements UserService, UserDetailsService {
 
     @Transactional
     @Override
-    public User findById(Integer id) {
-        return userRepository.findById(id).orElseThrow();
+    public UserDto findById(Integer id) {
+        return userMapper.userToUserDto(userRepository.findById(id).orElseThrow());
     }
 
     @Transactional
     @Override
-    public User findByEmail(String email){
-        return userRepository.findByEmail(email).orElseThrow();
+    public UserDto findByEmail(String email){
+        return userMapper.userToUserDto(userRepository.findByEmail(email).orElseThrow());
     }
 
     @Override
@@ -82,8 +84,8 @@ public class UserDetailsServiceImpl implements UserService, UserDetailsService {
 
     @Transactional
     @Override
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserDto> getAllUsers() {
+        return userMapper.allUserstoAllUsersDto(userRepository.findAll());
     }
 }
 
