@@ -11,6 +11,7 @@ public class Constantes {
      public static final String LOGIN_URL = "/login";
      public static final String REGISTER_URL = "/register";
      public static final String CATEGORY_URL="/category";
+     public static final String MEMBER_RUL="/member";
 
      //AmazonS3
      public static final String AWS_STORAGE_REQUEST = "storage/";
