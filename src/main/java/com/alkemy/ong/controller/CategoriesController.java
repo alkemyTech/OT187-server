@@ -2,8 +2,8 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.CategoriesCreationDto;
+import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.response.dto.CategoryResponseDto;
-import com.amazonaws.services.alexaforbusiness.model.NotFoundException;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
