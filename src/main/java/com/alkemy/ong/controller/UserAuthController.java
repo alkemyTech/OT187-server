@@ -16,12 +16,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 import static com.alkemy.ong.utility.Constantes.*;
@@ -80,11 +78,33 @@ public class UserAuthController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
     }
-    
+
+
     @PostMapping(REGISTER_URL)
-    public ResponseEntity<UserDto> signup(@Valid @RequestBody UserDto userDto) {
-        UserDto savedUser = userDetailsService.save(userDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
+    public ResponseEntity<String> register(@Valid @RequestBody UserDto userDto){
+        userDetailsService.save(userDto);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(userDto.getEmail());
+        String jwt = jwtUtils.generateToken(userDetails);
+        return new ResponseEntity<>(jwt, HttpStatus.OK);
     }
+
+    @GetMapping(USER_GET)
+    public ResponseEntity<List<UserDto>> getAllUsers(){
+        return new ResponseEntity<>(userDetailsService.getAllUsers(), HttpStatus.OK);
+    }
+
+    @PatchMapping(USER_PATCH)
+    public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto,@PathVariable("id") Integer id){
+        UserDto userUpdated = userDetailsService.findById(id);
+        return new ResponseEntity<>(userDetailsService.save(userUpdated), HttpStatus.OK);
+    }
+    @GetMapping(USER_AUTH_ME)
+    public ResponseEntity<UserDto> getUser(@RequestHeader(name = "Authorization") String token){
+        String tokenObtenido = token.replace("Bearer", " ");
+        String email = jwtUtils.extractUsername(tokenObtenido);
+     return new ResponseEntity<>(userDetailsService.findByEmail(email),HttpStatus.OK);
+    }
+
+
 
 }
