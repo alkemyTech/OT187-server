@@ -2,6 +2,7 @@ package com.alkemy.ong.mapper;
 
 import com.alkemy.ong.dto.SlideDto;
 import com.alkemy.ong.dto.SlideFullDto;
+import com.alkemy.ong.dto.SlidePublicOrganizationDto;
 import com.alkemy.ong.entity.Slide;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
@@ -21,4 +22,6 @@ public interface SlideMapper {
     Slide slideFullDtoToSlide(SlideFullDto dto);
 
     List<SlideDto> slideListToDtoList(List<Slide> slideList, boolean b);
+
+    List<SlidePublicOrganizationDto> listSlideToListSlidePublicOrganizationDto(List<Slide> slideList);
 }

@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface SlideRepository {
 
     @Query(nativeQuery = true, value = "SELECT * FROM slides WHERE organization = ?1 ORDER BY order_number DESC")
-    List<Slide> findSlideByOrganizationId(String organizationId);
+    List<Slide> findSlideByOrganizationId(Long organizationId);
 
     @Query(nativeQuery = true, value = "SELECT max(order_number) FROM slides s")
     int getMaxOrder();

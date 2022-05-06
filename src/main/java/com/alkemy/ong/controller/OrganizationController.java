@@ -2,6 +2,7 @@ package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.OrganizationPublicDto;
 import com.alkemy.ong.dto.OrganizationUpdateDto;
+import com.alkemy.ong.entity.Slide;
 import com.alkemy.ong.service.OrganizationService;
 import com.alkemy.ong.service.SlideService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +24,9 @@ public class OrganizationController {
 
     //Get public information of an Organization
     @GetMapping("/public/{organizationId}")
-    public ResponseEntity<List<SlidePublicOrganizationDto>> getOrganization(
+    public ResponseEntity<Slide> getOrganization(
             @PathVariable(name="organizationId", required=true)
-                    String organizationId){
+                    Long organizationId){
 
         return ResponseEntity.ok(slideService.getSlidesForOrganizationByOrder(organizationId));
 
@@ -40,4 +41,4 @@ public class OrganizationController {
     }
 
 
-}
+

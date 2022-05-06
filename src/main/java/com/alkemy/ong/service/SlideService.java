@@ -15,4 +15,6 @@ public interface SlideService {
     SlideDto findById(Long id);
     SlideDto update(Long id, SlideDto slideDto);
     Slide getAll();
+
+    Slide getSlidesForOrganizationByOrder(Long organizationId);
 }
