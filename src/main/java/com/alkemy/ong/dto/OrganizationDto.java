@@ -1,5 +1,6 @@
 package com.alkemy.ong.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
@@ -11,6 +12,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class OrganizationDto {
@@ -43,5 +45,9 @@ public class OrganizationDto {
 
     @JsonProperty("aboutUsText")
     private String aboutUsText;
+
+    @JsonProperty(access= JsonProperty.Access.READ_ONLY)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<SlideDto> slides;
 
 }

@@ -6,6 +6,9 @@ import lombok.Data;
 import javax.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "organizations")
@@ -44,6 +47,8 @@ public class Organization {
     @Column(name = "softDelete", nullable = false)
     private Integer softDelete;
 
+    @OneToMany(targetEntity = Slide.class , mappedBy = "organization", fetch = FetchType.EAGER)
+    private List<Slide> slideList;
 
 
 

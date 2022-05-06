@@ -1,9 +1,11 @@
 package com.alkemy.ong.service;
 
 import com.alkemy.ong.dto.OrganizationDto;
+import com.alkemy.ong.dto.OrganizationSlimDto;
 import com.alkemy.ong.entity.Organization;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.mapper.OrganizationMapper;
+import com.alkemy.ong.mapper.SlideMapper;
 import com.alkemy.ong.repository.OrganizationRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,14 +26,28 @@ public class OrganizationServiceImpl implements OrganizationService{
     @Autowired
     private OrganizationMapper organizationMapper;
 
+    @Autowired
+    private SlideMapper slideMapper;
+
+    @Autowired
+    private SlideService slideService;
+
+
+
     @Override
-    public List<Organization> getAllOrganizations() {
-        return organizationRepository.findAll();
+    public List<OrganizationSlimDto> getAllOrganizations() {
+        return organizationMapper.organizationsToOrganizationsSlimDto(organizationRepository.findAll());
     }
 
     @Override
-    public Organization findOrganizationByName(String name){
-        return organizationRepository.findByName(name);
+    public OrganizationDto getOrganizationById(Long id){
+        return organizationMapper.organizationToOrganizationDto(organizationRepository.findById(id).orElseThrow());
+
+    }
+
+    @Override
+    public OrganizationSlimDto findOrganizationByName(String name){
+        return organizationMapper.organizationToOrganizationSlimDto(organizationRepository.findByName(name));
     }
 
     @Override
@@ -56,4 +72,11 @@ public class OrganizationServiceImpl implements OrganizationService{
         }
 
     }
+   @Override
+    public OrganizationDto getOrganizationAndSlides(Long id) {
+        OrganizationDto organization = getOrganizationById(id);
+        organization.setSlides(slideService.getSlidesByOrder(id));
+        return organization;
+    }
+
 }

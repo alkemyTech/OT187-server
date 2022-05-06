@@ -10,9 +10,9 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "slides")
+@NoArgsConstructor
 public class Slide {
 
     @Id
