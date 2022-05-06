@@ -6,6 +6,7 @@ import com.alkemy.ong.entity.Role;
 import com.alkemy.ong.entity.User;
 import com.alkemy.ong.exception.EmailExistsException;
 import com.alkemy.ong.mapper.UserMapper;
+import com.alkemy.ong.repository.RoleRepository;
 import com.alkemy.ong.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -27,12 +28,14 @@ public class UserDetailsServiceImpl implements UserService, UserDetailsService {
     private final UserMapper userMapper;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public UserDetailsServiceImpl(UserMapper userMapper, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserDetailsServiceImpl(UserMapper userMapper, UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
         this.userMapper = userMapper;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.roleRepository = roleRepository;
     }
 
     @Transactional
@@ -42,8 +45,9 @@ public class UserDetailsServiceImpl implements UserService, UserDetailsService {
             throw new EmailExistsException("An account with the email address "
                     + user.getEmail() + " already exists.");
         }
-        userRepository.save(user);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoleId(roleRepository.findByName("USER"));
+        userRepository.save(user);
         return userMapper.userToUserDto(user);
 
     }
