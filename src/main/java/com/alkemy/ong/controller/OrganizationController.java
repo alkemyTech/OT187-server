@@ -1,40 +1,41 @@
 package com.alkemy.ong.controller;
 
-import com.alkemy.ong.dto.OrganizationSlimDto;
-import com.alkemy.ong.mapper.OrganizationMapper;
-import com.alkemy.ong.service.OrganizationServiceImpl;
-import lombok.AllArgsConstructor;
+import com.alkemy.ong.dto.OrganizationPublicDto;
+import com.alkemy.ong.dto.OrganizationUpdateDto;
+import com.alkemy.ong.service.OrganizationService;
+import com.alkemy.ong.service.SlideService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-
-import java.util.List;
-
-import static com.alkemy.ong.utility.Constantes.*;
+import javax.validation.Valid;
 
 @RestController
-@RequestMapping(value = ORGANIZATION_MAP_REQUEST)
-@AllArgsConstructor
+@RequestMapping("/organization")
 public class OrganizationController {
 
     @Autowired
-    private  OrganizationMapper mapStructMapper;
+    private OrganizationService organizationService;
+
     @Autowired
-    private  OrganizationServiceImpl organizationService;
+    private SlideService slideService;
 
+    //Get public information of an Organization
+    @GetMapping("/public/{organizationId}")
+    public ResponseEntity<List<SlidePublicOrganizationDto>> getOrganization(
+            @PathVariable(name="organizationId", required=true)
+                    String organizationId){
 
-    @GetMapping()
-    public ResponseEntity<List<OrganizationSlimDto>> getAllOrganizations(){
-        return new ResponseEntity<>(mapStructMapper.organizationsToOrganizationsSlimDto(organizationService.getAllOrganizations()), HttpStatus.OK);
+        return ResponseEntity.ok(slideService.getSlidesForOrganizationByOrder(organizationId));
+
     }
+    //Update public information of an Organization only for Admin User
+    @PutMapping("/public")
+    public ResponseEntity<OrganizationPublicDto> update(@RequestBody @Valid OrganizationUpdateDto organizationupdateDto){
 
-    @GetMapping(ORGANIZATION_GET_NAME)
-    public ResponseEntity<OrganizationSlimDto> getOrganizationByName(@PathVariable(value = "name") String name){
-        return new ResponseEntity<>(mapStructMapper.organizationToOrganizationSlimDto(organizationService.findOrganizationByName(name)),HttpStatus.OK);
-
+        return ResponseEntity.ok(organizationService.update(organizationupdateDto));
+    }
 
     }
 

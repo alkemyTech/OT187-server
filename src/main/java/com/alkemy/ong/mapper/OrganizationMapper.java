@@ -1,21 +1,22 @@
 package com.alkemy.ong.mapper;
 
 import com.alkemy.ong.dto.OrganizationDto;
-import com.alkemy.ong.dto.OrganizationSlimDto;
+import com.alkemy.ong.dto.OrganizationPublicDto;
 import com.alkemy.ong.entity.Organization;
 import org.mapstruct.Mapper;
-
-import java.util.List;
+import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
 public interface OrganizationMapper {
 
+    OrganizationMapper organizationMapper = Mappers.getMapper(OrganizationMapper.class);
+
     OrganizationDto organizationToOrganizationDto(Organization organization);
 
-    Organization organizationDtoToOrganization(OrganizationDto organizationDto);
+    Organization organizationDtoToOrganization(OrganizationDto dto);
 
-    List<OrganizationSlimDto> organizationsToOrganizationsSlimDto(List<Organization> organization);
+    Organization organizationPublicDtoToOrganization(OrganizationPublicDto organizationPublicDto);
 
-    OrganizationSlimDto organizationToOrganizationSlimDto(Organization organization);
+    OrganizationPublicDto organizationToOrganizationPublicDto(Organization organization);
 
 }

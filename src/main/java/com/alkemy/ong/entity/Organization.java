@@ -1,49 +1,84 @@
 package com.alkemy.ong.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 
 import javax.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
-@Table(name = "organizations")
 @Data
+@Table(name="organizations")
+@SQLDelete(sql = "UPDATE organizations SET deleted = true WHERE id=?")
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Where(clause = "soft_Delete = false")
 public class Organization {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
     private Long id;
-
-    @Column(name = "name", nullable = false)
+    @Column(name = "NAME", nullable = false)
     private String name;
 
-    @Column(name = "image", nullable = false)
+    @Column(name = "IMAGE", nullable = false)
     private String image;
 
-    @Column(name = "address")
+    @Column(name = "ADDRESS")
     private String address;
 
-    @Column(name = "phone")
+    @Column(name = "PHONE")
     private Integer phone;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "EMAIL", nullable = false)
     private String email;
 
-    @Column(name = "welcomeText", nullable = false)
+
+    @Column(name = "WELCOME_TEXT", nullable = false, columnDefinition = "TEXT")
     private String welcomeText;
 
-    @Column(name = "aboutUsText")
+
+    @Column(name = "ABOUT_US_TEXT", columnDefinition = "TEXT")
     private String aboutUsText;
 
-    @Column(name = "timestamps", nullable = false)
-    private LocalDateTime timestamps;
+    private boolean softDelete=Boolean.FALSE;
 
-    @Column(name = "softDelete", nullable = false)
-    private Integer softDelete;
+    @Column(name= "TIMESTAMPS" ,nullable = false,updatable = false)
+    @CreationTimestamp
+    private LocalDateTime timeStamps;
 
+    @Column(name = "FACEBOOK_URL")
+    private String facebookUrl;
+
+    @Column(name = "LINKEDIN_URL")
+    private String linkedinUrl;
+
+    @Column(name = "INSTAGRAM_URL")
+    private String instagramUrl;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Organization that = (Organization) o;
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(image, that.image) && Objects.equals(email, that.email) && Objects.equals(welcomeText, that.welcomeText);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, image, email, welcomeText);
+    }
 
 
 
