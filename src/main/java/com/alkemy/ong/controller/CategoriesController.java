@@ -5,7 +5,6 @@ import com.alkemy.ong.dto.CategoriesCreationDto;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.response.dto.CategoryResponseDto;
 
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -13,8 +12,6 @@ import io.swagger.annotations.ApiResponses;
 import java.util.Locale;
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
-
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
@@ -29,19 +26,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import com.alkemy.ong.service.CategoriesService;
 
-/*
 @Api(value = "Categorias controller")
 @RestController
 @RequestMapping("/categories")
-@AllArgsConstructor
 public class CategoriesController {
 
-	@Autowired
 	private final CategoriesService iCategory;
-	@Autowired
 	private final MessageSource message;
-
+	@Autowired
+	public CategoriesController(CategoriesService iCategory, MessageSource message) {
+		this.iCategory = iCategory;
+		this.message = message;
+	}
 
 	@ApiOperation("Creation Categories")
 	@ApiResponses({
@@ -94,6 +92,4 @@ public class CategoriesController {
 }
         
 }
-
-
- */
+        

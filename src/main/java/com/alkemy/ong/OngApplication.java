@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfig
 import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+
 @SpringBootApplication(scanBasePackages = {"test"} , exclude = JpaRepositoriesAutoConfiguration.class)
 @EnableTransactionManagement
 
@@ -18,14 +19,15 @@ public class OngApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(OngApplication.class, args);
 	}
-
-	@Bean
+        
+        @Bean
 	public ObjectMapper objectMapper() {
 		return new ObjectMapper()
 				.setDefaultPropertyInclusion(JsonInclude.Include.NON_NULL)
 				.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
 				.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
 				.findAndRegisterModules();
+	
+}
 
-	}
 }

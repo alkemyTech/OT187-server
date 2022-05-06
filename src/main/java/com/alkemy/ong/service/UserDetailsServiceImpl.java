@@ -1,5 +1,6 @@
 package com.alkemy.ong.service;
 
+
 import com.alkemy.ong.dto.UserDto;
 import com.alkemy.ong.entity.Role;
 import com.alkemy.ong.entity.User;
@@ -26,50 +27,67 @@ public class UserDetailsServiceImpl implements UserService, UserDetailsService {
     private final UserMapper userMapper;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    
+
     @Autowired
     public UserDetailsServiceImpl(UserMapper userMapper, UserRepository userRepository, PasswordEncoder passwordEncoder) {
-    this.userMapper = userMapper;
-    this.userRepository = userRepository;
-    this.passwordEncoder = passwordEncoder;
+        this.userMapper = userMapper;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
-    
+
     @Transactional
-    public UserDto save(UserDto userDto) throws EmailExistsException{
-        if (emailExist(userDto.getEmail())) {
-            throw new EmailExistsException("An account with the email address "
-                    + userDto.getEmail() + " already exists.");
-        }
+    public UserDto save(UserDto userDto) throws EmailExistsException {
         User user = userMapper.userDtoToUser(userDto);
+        if (emailExist(user.getEmail())) {
+            throw new EmailExistsException("An account with the email address "
+                    + user.getEmail() + " already exists.");
+        }
+        userRepository.save(user);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        User savedUser = userRepository.save(user);
-        return userMapper.userToUserDto(savedUser);
+        return userMapper.userToUserDto(user);
+
     }
-    
+
+
     @Transactional
     public void delete(Integer id) {
         userRepository.softDelete(id);
     }
-    
+
     @Transactional
     @Override
-    public User findById(Integer id) {
-        return userRepository.findById(id).orElseThrow();
+    public UserDto findById(Integer id) {
+        return userMapper.userToUserDto(userRepository.findById(id).orElseThrow());
+    }
+
+    @Transactional
+    @Override
+    public UserDto findByEmail(String email){
+        return userMapper.userToUserDto(userRepository.findByEmail(email).orElseThrow());
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        
-        Role role=user.getRoleId();
-        List<GrantedAuthority> authority= Stream.of(role).map(role1 -> new SimpleGrantedAuthority(role1.getName()))
+
+        Role role = user.getRoleId();
+        List<GrantedAuthority> authority = Stream.of(role).map(role1 -> new SimpleGrantedAuthority(role1.getName()))
                 .collect(Collectors.toList());
-        return new org.springframework.security.core.userdetails.User(user.getEmail(),user.getPassword(),authority);
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authority);
     }
-    
+
     private boolean emailExist(String emailAccount) {
         Optional<User> userFound = userRepository.findByEmail(emailAccount);
         return userFound.isPresent();
     }
+
+    @Transactional
+    @Override
+    public List<UserDto> getAllUsers() {
+        return userMapper.allUserstoAllUsersDto(userRepository.findAll());
+    }
 }
+
+
+
