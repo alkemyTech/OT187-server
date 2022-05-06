@@ -48,16 +48,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
-                .authorizeRequests().antMatchers("/auth/*").permitAll()
+                .authorizeRequests()
 
                 //Organization
-                .antMatchers(HttpMethod.POST, ORGANIZATION_MAP_REQUEST + REQUEST_ID).hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, ORGANIZATION_MAP_REQUEST + REQUEST_ID).hasAnyAuthority("ADMIN")
         
                 //News
-                .antMatchers(HttpMethod.GET, NEWS_URL + REQUEST_ID).hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST, NEWS_URL).hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT, NEWS_URL + REQUEST_ID).hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, NEWS_URL + REQUEST_ID).hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, NEWS_URL + REQUEST_ID).hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST, NEWS_URL).hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.PUT, NEWS_URL + REQUEST_ID).hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.DELETE, NEWS_URL + REQUEST_ID).hasAnyAuthority("ADMIN")
 
                 //Activities
                 .antMatchers(HttpMethod.POST, ACTIVITY_URL).hasAnyAuthority("ADMIN")
@@ -70,6 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, USER_GET).hasAnyAuthority("ADMIN")
                 .antMatchers(HttpMethod.PATCH, USER_PATCH).hasAnyAuthority("ADMIN")
                 .antMatchers(HttpMethod.GET, USER_AUTH_ME).hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST ,USER_REGISTER).permitAll()
 
 
                 .anyRequest().authenticated()

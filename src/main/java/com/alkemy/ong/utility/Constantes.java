@@ -15,6 +15,7 @@ public class Constantes {
      public static final String USER_GET="/users";
      public static final String USER_PATCH="/users/{id}";
      public static final String USER_AUTH_ME= "auth/me";
+     public static final String USER_REGISTER= "auth/register";
 
      //AmazonS3
      public static final String AWS_STORAGE_REQUEST = "storage/";
