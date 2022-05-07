@@ -54,10 +54,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, ORGANIZATION_MAP_REQUEST + REQUEST_ID).hasRole("ADMIN")
         
                 //News
-                .antMatchers(HttpMethod.GET, NEWS_URL + REQUEST_ID).hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST, NEWS_URL).hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT, NEWS_URL + REQUEST_ID).hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, NEWS_URL + REQUEST_ID).hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, NEWS_URL + REQUEST_ID).hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST, NEWS_URL).hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.PUT, NEWS_URL + REQUEST_ID).hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.DELETE, NEWS_URL + REQUEST_ID).hasAnyAuthority("ADMIN")
 
                 //Activities
                 .antMatchers(HttpMethod.POST, ACTIVITY_URL).hasAnyAuthority("ADMIN")
@@ -65,12 +65,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 //AmazonS3
                 .antMatchers(AWS_STORAGE_REQUEST + "*").hasAnyAuthority("ADMIN")
-
+                
+                //Contacts
+                .antMatchers(HttpMethod.GET, CONTACT_URL).hasAnyAuthority("ADMIN")
+                
                 //Users
                 .antMatchers(HttpMethod.GET, USER_GET).hasAnyAuthority("ADMIN")
                 .antMatchers(HttpMethod.PATCH, USER_PATCH).hasAnyAuthority("ADMIN")
                 .antMatchers(HttpMethod.GET, USER_AUTH_ME).hasAnyAuthority("ADMIN")
-
 
                 .anyRequest().authenticated()
                 .and().exceptionHandling()
