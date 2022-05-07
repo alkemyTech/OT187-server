@@ -14,6 +14,15 @@ public class EmailRequest {
     private String to;
 	private String subject;
 	private String body;
+
+	public EmailRequest(String to, String subject, String body)
+	{
+		super();
+		this.to = to;
+		this.subject = subject;
+		this.body = body;
+	}
+
 	public String getTo() {
 		return to;
 	}
@@ -32,13 +41,5 @@ public class EmailRequest {
 	public void setBody(String body) {
 		this.body = body;
 	}
-	public EmailRequest(String to, String subject, String body) {
-		super();
-		this.to = to;
-		this.subject = subject;
-		this.body = body;
-	}
-	
-	
     
 }

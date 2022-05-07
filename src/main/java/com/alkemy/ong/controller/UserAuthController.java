@@ -6,6 +6,7 @@ import com.alkemy.ong.dto.UserDto;
 import com.alkemy.ong.entity.User;
 import com.alkemy.ong.mapper.UserMapper;
 import com.alkemy.ong.repository.UserRepository;
+import com.alkemy.ong.service.EmailServiceImpl;
 import com.alkemy.ong.service.UserDetailsServiceImpl;
 import com.alkemy.ong.utility.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,6 +47,10 @@ public class UserAuthController {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private EmailServiceImpl emailServiceImpl;
+
 
     @PostMapping(LOGIN_URL)
     public ResponseEntity<?> login(@Valid @RequestBody AuthenticationRequest authenticationRequest) {
@@ -81,8 +87,17 @@ public class UserAuthController {
 
 
     @PostMapping(REGISTER_URL)
-    public ResponseEntity<String> register(@Valid @RequestBody UserDto userDto){
+    public ResponseEntity<String> register(@Valid @RequestBody UserDto userDto)
+    {
         userDetailsService.save(userDto);
+
+        try {
+            emailServiceImpl.registerEmail(userDto.getEmail());
+        } catch (IOException e) {
+            System.out.println("Error while sending email");
+            e.printStackTrace();
+        }
+
         UserDetails userDetails = userDetailsService.loadUserByUsername(userDto.getEmail());
         String jwt = jwtUtils.generateToken(userDetails);
         return new ResponseEntity<>(jwt, HttpStatus.OK);
