@@ -16,8 +16,7 @@ public class Constantes {
      public static final String USER_PATCH="/users/{id}";
      public static final String USER_AUTH_ME= "auth/me";
      public static final String USER_REGISTER= "/auth/register";
-
-     //AmazonS3
+     public static final String USER_LOGIN= "/auth/login";
      public static final String AWS_STORAGE_REQUEST = "storage/";
      public static final String AWS_DELETE_FILE = "/uploadFile";
      public static final String AWS_UPLOAD_FILE = "/uploadFile";
@@ -25,4 +24,5 @@ public class Constantes {
      public static final String AWS_EXCEPTION_ERR_UPLOAD = "Error while uploading file. It could not be saved";
      public static final String NEWS_URL="/news";
      public static final String ACTIVITY_URL="/activity";
+
 }
