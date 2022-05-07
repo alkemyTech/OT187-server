@@ -9,10 +9,8 @@ import javax.validation.constraints.NotNull;
 
 
 @Entity
+@Table(name = "slide")
 @Data
-@AllArgsConstructor
-@Table(name = "slides")
-@NoArgsConstructor
 public class Slide {
 
     @Id
@@ -27,19 +25,11 @@ public class Slide {
     private String text;
 
     @NotNull
-    private Integer order;
+    private Integer disposition;
 
-    @NotNull
+
     @ManyToOne
-    @JoinColumn(name = "organization_id")
     private Organization organization;
 
 
-    public Slide(String imageUrl, String text, Integer order, Organization organization)
-    {
-        this.imageUrl = imageUrl;
-        this.text = text;
-        this.order = order;
-        this.organization = organization;
-    }
 }

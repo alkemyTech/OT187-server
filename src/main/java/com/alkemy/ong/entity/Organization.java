@@ -46,8 +46,9 @@ public class Organization {
     @Column(name = "softDelete", nullable = false)
     private Integer softDelete;
 
-    //@OneToMany(targetEntity = Slide.class,mappedBy = "organization",fetch = FetchType.EAGER)
-    //private Integer slideList;
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
+    @OrderBy("disposition ASC")
+    private List<Slide> slideList;
 
 
 

@@ -70,11 +70,6 @@ public class OrganizationServiceImpl implements OrganizationService{
         }
 
     }
-   @Override
-    public OrganizationDto getOrganizationAndSlides(Long id) {
-        OrganizationDto organization = getOrganizationById(id);
-        organization.setSlides(slideService.getSlidesByOrder(id));
-        return organization;
-    }
+
 
 }

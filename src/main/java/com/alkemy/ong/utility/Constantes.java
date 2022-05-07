@@ -28,4 +28,8 @@ public class Constantes {
      //Slides
      public static final String SLIDE_URL="/slides";
      public static final String SLIDE_ID="/slides/{id}";
+
+     //Organization
+     public static final String ORGANIZATION_ALL= "/organization/all";
+     public static final String ORGANIZATION_ID="/organization/{id}";
 }

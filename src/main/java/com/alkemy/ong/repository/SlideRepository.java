@@ -15,10 +15,8 @@ import java.util.List;
 @Repository
 public interface SlideRepository extends JpaRepository<Slide, Long> {
 
-    @Query("SELECT MAX(s.order) FROM Slide s WHERE s.organization = :organization")
+    @Query(value = "SELECT MAX(s.disposition) FROM Slide s WHERE s.organization = :organization")
     Integer getLastOrder(@Param("organization") Organization organization);
 
-    @Query("SELECT s FROM Slide s WHERE s.organization = :idOrg ORDER BY s.order ASC")
-    List<Slide> findByOrganizationIdOrderByOrderAsc(@Param("idOrg") Long id);
 
 }

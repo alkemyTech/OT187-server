@@ -24,28 +24,26 @@ import java.util.stream.Collectors;
 import static com.alkemy.ong.utility.Constantes.*;
 
 @RestController
-@RequestMapping(value = ORGANIZATION_MAP_REQUEST)
+@RequestMapping(ORGANIZATION_MAP_REQUEST)
 @AllArgsConstructor
 public class OrganizationController {
 
-    @Autowired
-    private  OrganizationMapper mapStructMapper;
     @Autowired
     private  OrganizationServiceImpl organizationService;
 
 
 
-/*
-    @GetMapping(name = "/get")
+
+    @GetMapping(ORGANIZATION_ALL)
     public ResponseEntity<List<OrganizationSlimDto>> getAllOrganizations(){
       return new ResponseEntity<>(organizationService.getAllOrganizations(), HttpStatus.OK);
     }
-    @GetMapping(name = "/slide/{id}")
-    public ResponseEntity<OrganizationDto> getOrganizationsAndSlides(@RequestParam ("id") Long id){
-        return new ResponseEntity<>(organizationService.getOrganizationAndSlides(id), HttpStatus.OK);
+    @GetMapping(ORGANIZATION_ID)
+    public ResponseEntity<OrganizationDto> getOrganizationsById(@RequestParam ("id") Long id){
+        return new ResponseEntity<>(organizationService.getOrganizationById(id), HttpStatus.OK);
     }
 
- */
+
 
     @GetMapping(REQUEST_NAME)
     public ResponseEntity<OrganizationSlimDto> getOrganizationByName(@PathVariable(value = "name") String name){

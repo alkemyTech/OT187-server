@@ -30,14 +30,14 @@ public class SlideServiceImpl implements SlideService {
     private final AmazonS3ServiceImp amazonS3ServiceImp;
 
 
-    /*
+/*
     @Override
     public SlideDto save(SlideDto slideDto)
     {
         Slide slide = slideMapper.SlideDtoToSlide(slideDto);
 
-        if (slide.getOrder() == null)
-            slide.setOrder(slideRepository.getLastOrder(slide.getOrganization()) + 1);
+        if (slide.getDisposition() == null)
+            slide.setDisposition(slideRepository.getLastOrder(slide.getOrganization()) + 1);
 
         String imageUrl = uploadImage(slideDto.getImageUrl());
         slide.setImageUrl(imageUrl);
@@ -46,7 +46,9 @@ public class SlideServiceImpl implements SlideService {
 
         return slideMapper.SlideToSlideDto(slideSaved);
     }
-*/
+
+ */
+
     @Override
     public SlideDto update(SlideDto slideDto) throws NotFoundException
     {
@@ -116,10 +118,6 @@ public class SlideServiceImpl implements SlideService {
         return slideMapper.allSlidesToAllSlidesSlimDto(slideRepository.findAll());
     }
 
-    @Override
-    public List<SlideDto> getSlidesByOrder(Long orgId){
-        return slideMapper.allSlidesToAllSlidesDto(slideRepository.findByOrganizationIdOrderByOrderAsc(orgId));
 
-    }
 
 }

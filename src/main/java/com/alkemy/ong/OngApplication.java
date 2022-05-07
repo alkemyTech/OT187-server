@@ -13,11 +13,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.data.rest.webmvc.RepositoryRestController;
+
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-
+/*
 @EntityScan(basePackages = {"com.alkemy.ong.entity"})
 @ComponentScan(basePackages = {"com."})
 @EnableJpaRepositories(basePackages = {"com.alkemy.ong.repository"})
@@ -27,12 +27,15 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @RepositoryRestController
 @EnableAutoConfiguration
 @SpringBootApplication
+
+ */
+@SpringBootApplication
 public class OngApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(OngApplication.class, args);
 	}
-/*
+
         @Bean
 	public ObjectMapper objectMapper() {
 		return new ObjectMapper()
@@ -43,7 +46,7 @@ public class OngApplication {
 	
 }
 
- */
+
 
 
 

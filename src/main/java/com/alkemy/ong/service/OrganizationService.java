@@ -13,5 +13,4 @@ public interface OrganizationService {
   OrganizationSlimDto findOrganizationByName(String name);
   OrganizationDto updateOrganization(Long id, OrganizationDto organizationDto);
   OrganizationDto getOrganizationById(Long id);
-  OrganizationDto getOrganizationAndSlides(Long id);
 }
