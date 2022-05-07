@@ -7,6 +7,7 @@ import com.alkemy.ong.dto.UserDto;
 import com.alkemy.ong.entity.Role;
 import com.alkemy.ong.entity.User;
 import com.alkemy.ong.exception.EmailExistsException;
+import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.mapper.UserMapper;
 import com.alkemy.ong.repository.RoleRepository;
 import com.alkemy.ong.repository.UserRepository;
@@ -57,6 +58,21 @@ public class UserDetailsServiceImpl implements UserService, UserDetailsService {
         user.setRoleId(roleRepository.findByName("USER"));
         userRepository.save(user);
         return userMapper.userToUserDto(user);
+
+    }
+
+    public UserDto update(UserDto userDto, Integer id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
+
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setEmail(userDto.getEmail());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setPhoto(userDto.getPhoto());
+
+        User savedUser = userRepository.save(user);
+
+        return userMapper.userToUserDto(savedUser);
 
     }
 

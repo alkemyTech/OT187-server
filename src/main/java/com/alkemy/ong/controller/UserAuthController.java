@@ -46,8 +46,7 @@ public class UserAuthController {
 
     @PatchMapping(USER_PATCH)
     public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto,@PathVariable("id") Integer id){
-        UserDto userUpdated = userDetailsService.findById(id);
-        return new ResponseEntity<>(userDetailsService.save(userUpdated), HttpStatus.OK);
+        return new ResponseEntity<>(userDetailsService.update(userDto, id), HttpStatus.OK);
     }
     @GetMapping(USER_AUTH_ME)
     public ResponseEntity<UserDto> getUser(@RequestHeader(name = "Authorization") String token){

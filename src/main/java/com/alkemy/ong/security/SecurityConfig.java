@@ -70,7 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //Users
                 .antMatchers(HttpMethod.GET, USER_GET).hasAnyAuthority("ADMIN")
                 .antMatchers(HttpMethod.PATCH, USER_PATCH).hasAnyAuthority("ADMIN")
-                .antMatchers(HttpMethod.GET, USER_AUTH_ME).hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, USER_AUTH_ME).hasAnyAuthority("ADMIN", "USER")
                 .antMatchers(HttpMethod.POST, USER_REGISTER).permitAll()
                 .antMatchers(HttpMethod.POST, USER_LOGIN).permitAll()
 
