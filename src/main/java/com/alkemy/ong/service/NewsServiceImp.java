@@ -6,6 +6,7 @@ import com.alkemy.ong.entity.User;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.mapper.CategoryMapper;
 import com.alkemy.ong.mapper.NewsMapper;
+import com.alkemy.ong.repository.CategoryRepository;
 import com.alkemy.ong.repository.NewsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,10 +24,16 @@ public class NewsServiceImp implements NewsService {
     @Autowired
     private CategoryMapper categoryMapper;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     @Transactional
     @Override
     public NewsDto save(NewsDto newsDto) {
         News news = newsMapper.newsDtoToNews(newsDto);
+        news.setCategoryId(categoryRepository.findById(
+                newsDto.getCategoryId().getId()).orElseThrow(() -> new NotFoundException("Category not found")
+        ));
         return newsMapper.newsToNewsDto(newsRepository.save(news));
     }
 
@@ -53,7 +60,9 @@ public class NewsServiceImp implements NewsService {
         news.setName(newsDto.getName());
         news.setImage(newsDto.getImage());
         news.setContent(newsDto.getContent());
-        news.setCategoryId(categoryMapper.categoryDtoToCategory(newsDto.getCategoryId()));
+        news.setCategoryId(categoryRepository.findById(
+                newsDto.getCategoryId().getId()).orElseThrow(() -> new NotFoundException("Category not found")
+        ));
 
         return newsMapper.newsToNewsDto(newsRepository.save(news));
 

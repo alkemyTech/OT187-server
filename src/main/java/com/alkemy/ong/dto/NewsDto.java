@@ -7,6 +7,7 @@ public class NewsDto {
     private String name;
     private String content;
     private String image;
+    private String type;
     private CategoryDto categoryId;
 
 }
