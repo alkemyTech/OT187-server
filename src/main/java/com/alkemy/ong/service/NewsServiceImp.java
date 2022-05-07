@@ -2,6 +2,8 @@ package com.alkemy.ong.service;
 
 import com.alkemy.ong.dto.NewsDto;
 import com.alkemy.ong.entity.News;
+import com.alkemy.ong.entity.User;
+import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.mapper.CategoryMapper;
 import com.alkemy.ong.mapper.NewsMapper;
 import com.alkemy.ong.repository.NewsRepository;
@@ -31,7 +33,7 @@ public class NewsServiceImp implements NewsService {
     @Transactional
     @Override
     public void delete(Long id) {
-        newsRepository.findById(id).orElseThrow(RuntimeException::new);
+        News news = newsRepository.findById(id).orElseThrow(() -> new NotFoundException("News not found"));
         newsRepository.softDelete(id);
     }
 
@@ -39,18 +41,18 @@ public class NewsServiceImp implements NewsService {
     @Transactional(readOnly = true)
     @Override
     public NewsDto findById(Long id) {
-        News news = newsRepository.findById(id).orElseThrow(RuntimeException::new);
+        News news = newsRepository.findById(id).orElseThrow(() -> new NotFoundException("News not found"));
         return newsMapper.newsToNewsDto(news);
     }
 
     @Override
     public NewsDto update(NewsDto newsDto, Long id) {
 
-        News news = newsRepository.findById(id).orElseThrow(RuntimeException::new);
+        News news = newsRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
 
         news.setName(newsDto.getName());
         news.setImage(newsDto.getImage());
-        news.setImage(newsDto.getImage());
+        news.setContent(newsDto.getContent());
         news.setCategoryId(categoryMapper.categoryDtoToCategory(newsDto.getCategoryId()));
 
         return newsMapper.newsToNewsDto(newsRepository.save(news));
