@@ -20,7 +20,7 @@ import java.util.Map;
 @RequestMapping("/testimonials")
 public class TestimonialsController {
 
-    /*private final TestimonialsService iTestimonialsService;
+    private final TestimonialsService iTestimonialsService;
     private final MessageSource messageSource;
 
     @Autowired
@@ -70,5 +70,5 @@ public class TestimonialsController {
         iTestimonialsService.deleteById(id);
         response.put("mensaje", "El testimonio se ha eliminado con exito");
         return new ResponseEntity<>(response, HttpStatus.OK);
-    }*/
+    }
 }
