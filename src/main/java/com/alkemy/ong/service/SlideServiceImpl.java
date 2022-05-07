@@ -4,6 +4,7 @@ import com.alkemy.ong.dto.AmazonS3ResponseDto;
 import com.alkemy.ong.dto.SlideDto;
 import com.alkemy.ong.dto.SlideSlimDto;
 import com.alkemy.ong.entity.Slide;
+
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.mapper.SlideMapper;
 import com.alkemy.ong.repository.SlideRepository;
@@ -29,7 +30,7 @@ public class SlideServiceImpl implements SlideService {
     private final AmazonS3ServiceImp amazonS3ServiceImp;
 
 
-
+    /*
     @Override
     public SlideDto save(SlideDto slideDto)
     {
@@ -45,7 +46,7 @@ public class SlideServiceImpl implements SlideService {
 
         return slideMapper.SlideToSlideDto(slideSaved);
     }
-
+*/
     @Override
     public SlideDto update(SlideDto slideDto) throws NotFoundException
     {

@@ -1,7 +1,7 @@
 
 package com.alkemy.ong.controller;
 
-
+/*
 import com.alkemy.ong.dto.TestimonialsCreationDto;
 import com.alkemy.ong.service.Testimonials;
 import io.swagger.annotations.*;
@@ -72,3 +72,5 @@ public class TestimonialsController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
+
+ */

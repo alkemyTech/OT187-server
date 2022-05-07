@@ -4,6 +4,7 @@ package com.alkemy.ong.mapper;
 import com.alkemy.ong.dto.SlideDto;
 import com.alkemy.ong.dto.SlideSlimDto;
 import com.alkemy.ong.entity.Slide;
+
 import org.mapstruct.Mapper;
 
 import java.util.List;

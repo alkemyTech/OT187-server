@@ -3,7 +3,7 @@ package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.CategoriesCreationDto;
 import com.alkemy.ong.exception.NotFoundException;
-import com.alkemy.ong.response.dto.CategoryResponseDto;
+
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,8 +26,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.alkemy.ong.service.CategoriesService;
 
+/*
 @Api(value = "Categorias controller")
 @RestController
 @RequestMapping("/categories")
@@ -92,4 +92,4 @@ public class CategoriesController {
 }
         
 }
-        
+        */

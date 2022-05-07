@@ -26,8 +26,6 @@ public class OrganizationServiceImpl implements OrganizationService{
     @Autowired
     private OrganizationMapper organizationMapper;
 
-    @Autowired
-    private SlideMapper slideMapper;
 
     @Autowired
     private SlideService slideService;

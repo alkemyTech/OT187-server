@@ -3,7 +3,7 @@ package com.alkemy.ong.service;
 
 
 import com.alkemy.ong.dto.CategoriesCreationDto;
-import com.alkemy.ong.response.dto.CategoryResponseDto;
+
 import java.util.List;
 import java.util.Locale.Category;
 import org.springframework.data.domain.Page;

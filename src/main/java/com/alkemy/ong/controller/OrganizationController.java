@@ -35,8 +35,8 @@ public class OrganizationController {
 
 
 
-
-    @GetMapping()
+/*
+    @GetMapping(name = "/get")
     public ResponseEntity<List<OrganizationSlimDto>> getAllOrganizations(){
       return new ResponseEntity<>(organizationService.getAllOrganizations(), HttpStatus.OK);
     }
@@ -44,6 +44,8 @@ public class OrganizationController {
     public ResponseEntity<OrganizationDto> getOrganizationsAndSlides(@RequestParam ("id") Long id){
         return new ResponseEntity<>(organizationService.getOrganizationAndSlides(id), HttpStatus.OK);
     }
+
+ */
 
     @GetMapping(REQUEST_NAME)
     public ResponseEntity<OrganizationSlimDto> getOrganizationByName(@PathVariable(value = "name") String name){

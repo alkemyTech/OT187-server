@@ -3,7 +3,7 @@ package com.alkemy.ong.service;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.Date;
-
+/*
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public interface TestimonialsResponseDto {
 
@@ -17,3 +17,5 @@ public interface TestimonialsResponseDto {
 
 }
 
+
+ */

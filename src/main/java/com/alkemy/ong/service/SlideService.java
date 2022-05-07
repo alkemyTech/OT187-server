@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface SlideService {
 
-    SlideDto save(SlideDto slideDto);
+   // SlideDto save(SlideDto slideDto);
    SlideDto update(SlideDto SlideDto) throws NotFoundException;
    void delete(Long id) throws NotFoundException;
    List<SlideSlimDto> getAllSlides();
