@@ -32,7 +32,7 @@ public class UserAuthController {
     private UserRepository userRepository;
 
     @Autowired
-    private JwtUtils jwtUtils;
+    private JwtUtils jwtUtilss;
 
     @Autowired
     PasswordEncoder passwordEncoder;
