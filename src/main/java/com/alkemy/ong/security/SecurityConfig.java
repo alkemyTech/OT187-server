@@ -1,7 +1,6 @@
 package com.alkemy.ong.security;
 
 import com.alkemy.ong.security.filter.JwtRequestFilter;
-import com.alkemy.ong.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,11 +33,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
     }
+
     @Bean
     public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
-    
+
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -47,12 +47,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.csrf().disable()
+        httpSecurity.cors().and().csrf().disable()
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
 
                 //Organization
                 .antMatchers(HttpMethod.POST, ORGANIZATION_MAP_REQUEST + REQUEST_ID).hasAnyAuthority("ADMIN")
-        
+
                 //News
                 .antMatchers(HttpMethod.GET, NEWS_URL + REQUEST_ID).hasAnyAuthority("ADMIN")
                 .antMatchers(HttpMethod.POST, NEWS_URL).hasAnyAuthority("ADMIN")
@@ -70,7 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, USER_GET).hasAnyAuthority("ADMIN")
                 .antMatchers(HttpMethod.PATCH, USER_PATCH).hasAnyAuthority("ADMIN")
                 .antMatchers(HttpMethod.GET, USER_AUTH_ME).hasAnyAuthority("ADMIN")
-                .antMatchers(HttpMethod.POST ,USER_REGISTER).permitAll()
+                .antMatchers(HttpMethod.POST, USER_REGISTER).permitAll()
 
 
                 .anyRequest().authenticated()
@@ -78,7 +79,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
 

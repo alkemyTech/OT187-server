@@ -3,7 +3,7 @@ package com.alkemy.ong.controller;
 
 
 import com.alkemy.ong.dto.TestimonialsCreationDto;
-import com.alkemy.ong.service.Testimonials;
+import com.alkemy.ong.service.TestimonialsService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -20,12 +20,12 @@ import java.util.Map;
 @RequestMapping("/testimonials")
 public class TestimonialsController {
 
-    private final Testimonials iTestimonials;
+    /*private final TestimonialsService iTestimonialsService;
     private final MessageSource messageSource;
 
     @Autowired
-    public TestimonialsController(Testimonials iTestimonials, MessageSource messageSource) {
-        this.iTestimonials = iTestimonials;
+    public TestimonialsController(TestimonialsService iTestimonialsService, MessageSource messageSource) {
+        this.iTestimonialsService = iTestimonialsService;
         this.messageSource = messageSource;
     }
 
@@ -37,7 +37,7 @@ public class TestimonialsController {
     })
     public ResponseEntity<?> createTestimonials(@ApiParam(value = "JSON con Testimonial para crear", required = true) @ModelAttribute(name = "testimonialsCreationDto") @Valid TestimonialsCreationDto testimonialsCreationDto) {
         try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(iTestimonials.createTestimonials(testimonialsCreationDto));
+            return ResponseEntity.status(HttpStatus.CREATED).body(iTestimonialsService.createTestimonials(testimonialsCreationDto));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
@@ -51,7 +51,7 @@ public class TestimonialsController {
     })
     public ResponseEntity<?> Update(@ApiParam(value = "El id del testimonio", required = true, example = "1") @ModelAttribute(name = "testimonialsCreationDto") @Valid TestimonialsCreationDto testimonialsCreationDto, @PathVariable Long id) {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(iTestimonials.updateTestimonials(id, testimonialsCreationDto));
+            return ResponseEntity.status(HttpStatus.OK).body(iTestimonialsService.updateTestimonials(id, testimonialsCreationDto));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
@@ -62,13 +62,13 @@ public class TestimonialsController {
         Map<String, Object> response = new HashMap<>();
 
 
-        Testimonials testimonials = iTestimonials.getTestimonialsById(id);
-        if (testimonials == null) {
+        TestimonialsService testimonialsService = iTestimonialsService.getTestimonialsById(id);
+        if (testimonialsService == null) {
             response.put("mensaje", "Error , no se ha encontrado el testimonio con el id indicado");
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
-        iTestimonials.deleteById(id);
+        iTestimonialsService.deleteById(id);
         response.put("mensaje", "El testimonio se ha eliminado con exito");
         return new ResponseEntity<>(response, HttpStatus.OK);
-    }
+    }*/
 }

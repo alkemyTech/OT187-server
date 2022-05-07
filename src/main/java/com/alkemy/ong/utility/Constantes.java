@@ -7,7 +7,7 @@ public class Constantes {
      public static final String REQUEST_ID = "/{id}";
      public static final String REQUEST_NAME = "/{name}";
      public static final String ORGANIZATION_MAP_REQUEST = "/organization/public";
-     public static final String AUTH_URL = "auth/";
+     public static final String AUTH_URL = "/auth/";
      public static final String LOGIN_URL = "/login";
      public static final String REGISTER_URL = "/register";
      public static final String CATEGORY_URL="/category";
@@ -15,7 +15,7 @@ public class Constantes {
      public static final String USER_GET="/users";
      public static final String USER_PATCH="/users/{id}";
      public static final String USER_AUTH_ME= "auth/me";
-     public static final String USER_REGISTER= "auth/register";
+     public static final String USER_REGISTER= "/auth/register";
 
      //AmazonS3
      public static final String AWS_STORAGE_REQUEST = "storage/";

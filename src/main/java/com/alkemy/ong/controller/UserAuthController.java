@@ -51,11 +51,10 @@ public class UserAuthController {
     }
     @GetMapping(USER_AUTH_ME)
     public ResponseEntity<UserDto> getUser(@RequestHeader(name = "Authorization") String token){
-        String tokenObtenido = token.replace("Bearer", " ");
+        String tokenObtenido = token.replace("Bearer ", "");
         String email = jwtUtils.extractUsername(tokenObtenido);
      return new ResponseEntity<>(userDetailsService.findByEmail(email),HttpStatus.OK);
     }
-
 
 
 }
