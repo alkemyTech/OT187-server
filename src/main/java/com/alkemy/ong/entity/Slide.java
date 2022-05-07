@@ -15,6 +15,7 @@ public class Slide {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @NotNull
@@ -28,7 +29,7 @@ public class Slide {
     private Integer disposition;
 
 
-    @ManyToOne
+    @ManyToOne (cascade=CascadeType.ALL)
     private Organization organization;
 
 

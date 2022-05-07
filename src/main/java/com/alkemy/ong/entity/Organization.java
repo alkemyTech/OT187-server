@@ -46,7 +46,8 @@ public class Organization {
     @Column(name = "softDelete", nullable = false)
     private Integer softDelete;
 
-    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
+    @OneToMany
+    @JoinTable(name = "organization_slide", joinColumns = @JoinColumn(name = "organization_id"), inverseJoinColumns = @JoinColumn(name = "slide_id"))
     @OrderBy("disposition ASC")
     private List<Slide> slideList;
 
