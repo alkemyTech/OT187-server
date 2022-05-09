@@ -31,8 +31,8 @@ public class NewsServiceImp implements NewsService {
     @Override
     public NewsDto save(NewsDto newsDto) {
         News news = newsMapper.newsDtoToNews(newsDto);
-        news.setCategoryId(categoryRepository.findById(
-                newsDto.getCategoryId().getId()).orElseThrow(() -> new NotFoundException("Category not found")
+        news.setCategory(categoryRepository.findById(
+                newsDto.getCategoryId()).orElseThrow(() -> new NotFoundException("Category not found")
         ));
         return newsMapper.newsToNewsDto(newsRepository.save(news));
     }
@@ -60,8 +60,8 @@ public class NewsServiceImp implements NewsService {
         news.setName(newsDto.getName());
         news.setImage(newsDto.getImage());
         news.setContent(newsDto.getContent());
-        news.setCategoryId(categoryRepository.findById(
-                newsDto.getCategoryId().getId()).orElseThrow(() -> new NotFoundException("Category not found")
+        news.setCategory(categoryRepository.findById(
+                newsDto.getCategoryId()).orElseThrow(() -> new NotFoundException("Category not found")
         ));
 
         return newsMapper.newsToNewsDto(newsRepository.save(news));

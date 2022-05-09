@@ -8,6 +8,8 @@ public class NewsDto {
     private String content;
     private String image;
     private String type;
-    private CategoryDto categoryId;
+    private CategoryDto category;
+    private Long categoryId;
+
 
 }
