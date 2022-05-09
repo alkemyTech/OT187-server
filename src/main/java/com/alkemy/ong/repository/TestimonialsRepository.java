@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TestimonialsRepository extends JpaRepository<Testimonial, Long> {
-    @Query("UPDATE Testimonial t SET t.active = 0 WHERE e.id = :id")
+    @Query("UPDATE Testimonial t SET t.active = 0 WHERE t.id = :id")
     @Modifying
     void softDelete(@Param("id") Long id);
 }
