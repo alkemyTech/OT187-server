@@ -2,7 +2,8 @@
 package com.alkemy.ong.controller;
 
 
-import com.alkemy.ong.dto.TestimonialsCreationDto;
+import com.alkemy.ong.dto.TestimonialDto;
+import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.service.TestimonialsService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +36,9 @@ public class TestimonialsController {
             @ApiResponse(code = 200, message = "Successful operation"),
             @ApiResponse(code = 400, message = "Bad Request")
     })
-    public ResponseEntity<?> createTestimonials(@ApiParam(value = "JSON con Testimonial para crear", required = true) @ModelAttribute(name = "testimonialsCreationDto") @Valid TestimonialsCreationDto testimonialsCreationDto) {
+    public ResponseEntity<?> createTestimonials(@ApiParam(value = "JSON con Testimonial para crear", required = true) @Valid @RequestBody TestimonialDto testimonialDto) {
         try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(iTestimonialsService.createTestimonials(testimonialsCreationDto));
+            return ResponseEntity.status(HttpStatus.CREATED).body(iTestimonialsService.createTestimonial(testimonialDto));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
@@ -49,9 +50,9 @@ public class TestimonialsController {
             @ApiResponse(code = 200, message = "Successful operation"),
             @ApiResponse(code = 404, message = "Bad Request")
     })
-    public ResponseEntity<?> Update(@ApiParam(value = "El id del testimonio", required = true, example = "1") @ModelAttribute(name = "testimonialsCreationDto") @Valid TestimonialsCreationDto testimonialsCreationDto, @PathVariable Long id) {
+    public ResponseEntity<?> Update(@ApiParam(value = "El id del testimonio", required = true, example = "1") @Valid @RequestBody TestimonialDto testimonialDto, @PathVariable Long id) {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(iTestimonialsService.updateTestimonials(id, testimonialsCreationDto));
+            return ResponseEntity.status(HttpStatus.OK).body(iTestimonialsService.updateTestimonials(id, testimonialDto));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
@@ -59,16 +60,11 @@ public class TestimonialsController {
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
-        Map<String, Object> response = new HashMap<>();
-
-
-        TestimonialsService testimonialsService = iTestimonialsService.getTestimonialsById(id);
-        if (testimonialsService == null) {
-            response.put("mensaje", "Error , no se ha encontrado el testimonio con el id indicado");
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        try {
+            iTestimonialsService.deleteById(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Testimonial deleted");
+        } catch (NotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
-        iTestimonialsService.deleteById(id);
-        response.put("mensaje", "El testimonio se ha eliminado con exito");
-        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

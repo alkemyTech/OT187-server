@@ -1,34 +1,52 @@
 package com.alkemy.ong.service;
 
-import com.alkemy.ong.dto.TestimonialsCreationDto;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import com.alkemy.ong.dto.TestimonialDto;
+import com.alkemy.ong.entity.Testimonial;
+import com.alkemy.ong.exception.NotFoundException;
+import com.alkemy.ong.mapper.TestimonialMapper;
+import com.alkemy.ong.repository.TestimonialsRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class TestimonialServiceImp implements TestimonialsService {
+
+    @Autowired
+    private TestimonialsRepository testimonialRepository;
+    @Autowired
+    private TestimonialMapper testimonialMapper;
     @Override
-    public TestimonialsService getTestimonialsById(Long id) {
-        return null;
+    @Transactional(readOnly = true)
+    public TestimonialDto getTestimonialsById(Long id) {
+        Testimonial testimonial = testimonialRepository.findById(id).orElseThrow((() -> new NotFoundException("Testimonial not found")));
+        return testimonialMapper.testimonialToTestimonialDto(testimonial);
     }
 
     @Override
-    public String deleteById(Long id) {
-        return null;
+    @Transactional
+    public void deleteById(Long id) {
+        Testimonial testimonial = testimonialRepository.findById(id).orElseThrow((() -> new NotFoundException("Testimonial not found")));
+        testimonialRepository.deleteById(id);
     }
 
     @Override
-    public TestimonialsResponseDto createTestimonials(TestimonialsCreationDto testimonialsCreationDto) {
-        return null;
+    @Transactional
+    public TestimonialDto createTestimonial(TestimonialDto testimonialdto) {
+        Testimonial testimonial = testimonialMapper.testimonialDtoToTestimonial(testimonialdto);
+        return testimonialMapper.testimonialToTestimonialDto(testimonialRepository.save(testimonial));
     }
 
     @Override
-    public TestimonialsResponseDto updateTestimonials(Long id, TestimonialsCreationDto testimonialsCreationDto) {
-        return null;
+    public TestimonialDto updateTestimonials(Long id, TestimonialDto testimonialDto) {
+
+        Testimonial testimonial = testimonialRepository.findById(id).orElseThrow((() -> new NotFoundException("Testimonial not found")));
+
+        testimonial.setName(testimonialDto.getName());
+        testimonial.setContent(testimonialDto.getContent());
+        testimonial.setImageUrl(testimonialDto.getImageUrl());
+
+        return testimonialMapper.testimonialToTestimonialDto(testimonialRepository.save(testimonial));
     }
 
-    @Override
-    public Page<TestimonialsService> showAllTestimonials(Pageable pageable) {
-        return null;
-    }
 }
