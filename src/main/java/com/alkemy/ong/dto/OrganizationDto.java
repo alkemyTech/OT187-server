@@ -43,5 +43,14 @@ public class OrganizationDto {
 
     @JsonProperty("aboutUsText")
     private String aboutUsText;
-
+    
+    @JsonProperty("facebookUrl")
+    private String facebookUrl;
+    
+    @JsonProperty("linkedinUrl")
+    private String linkedinUrl;
+    
+    @JsonProperty("instagramUrl")
+    private String instagramUrl;
+    
 }
