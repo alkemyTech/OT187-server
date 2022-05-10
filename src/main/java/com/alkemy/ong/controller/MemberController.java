@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.alkemy.ong.utility.Constantes.MEMBER_RUL;
+import static com.alkemy.ong.utility.Constantes.MEMBER_URL;
 
 @RestController
-@RequestMapping(MEMBER_RUL)
+@RequestMapping(MEMBER_URL)
 public class MemberController {
 
     @Autowired

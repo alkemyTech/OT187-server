@@ -2,6 +2,7 @@ package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.AmazonS3ResponseDto;
 import com.alkemy.ong.service.AmazonS3Service;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,7 @@ import static com.alkemy.ong.utility.Constantes.AWS_UPLOAD_FILE;
 @RestController
 @RequestMapping(AWS_STORAGE_REQUEST)
 public class AmazonS3Controller {
-
+    @Autowired
     private AmazonS3Service amazonS3Service;
 
     @PostMapping(AWS_UPLOAD_FILE)
@@ -23,7 +24,7 @@ public class AmazonS3Controller {
     }
 
     @DeleteMapping(AWS_DELETE_FILE)
-    public ResponseEntity<Void> deleteFile (@RequestParam(value = "url") String url) {
+    public ResponseEntity<Void> deleteFile(@RequestParam(value = "url") String url) {
         amazonS3Service.deleteFileFromAmazonS3Bucket(url);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

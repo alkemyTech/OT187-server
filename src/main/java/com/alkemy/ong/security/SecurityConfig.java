@@ -1,7 +1,6 @@
 package com.alkemy.ong.security;
 
 import com.alkemy.ong.security.filter.JwtRequestFilter;
-import com.alkemy.ong.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,11 +33,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
     }
+
     @Bean
     public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
-    
+
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -47,17 +47,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.csrf().disable()
-                .authorizeRequests().antMatchers("/auth/*").permitAll()
+        httpSecurity.cors().and().csrf().disable()
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+                .authorizeRequests()
 
                 //Organization
-                .antMatchers(HttpMethod.POST, ORGANIZATION_MAP_REQUEST + REQUEST_ID).hasRole("ADMIN")
-        
+                .antMatchers(HttpMethod.POST, ORGANIZATION_MAP_REQUEST + REQUEST_ID).hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, ORGANIZATION_MAP_REQUEST).hasAnyAuthority("ADMIN", "USER")
+
                 //News
-                .antMatchers(HttpMethod.GET, NEWS_URL + REQUEST_ID).hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST, NEWS_URL).hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT, NEWS_URL + REQUEST_ID).hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, NEWS_URL + REQUEST_ID).hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, NEWS_URL + REQUEST_ID).hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST, NEWS_URL).hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.PUT, NEWS_URL + REQUEST_ID).hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.DELETE, NEWS_URL + REQUEST_ID).hasAnyAuthority("ADMIN")
 
                 //Activities
                 .antMatchers(HttpMethod.POST, ACTIVITY_URL).hasAnyAuthority("ADMIN")
@@ -69,15 +71,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //Users
                 .antMatchers(HttpMethod.GET, USER_GET).hasAnyAuthority("ADMIN")
                 .antMatchers(HttpMethod.PATCH, USER_PATCH).hasAnyAuthority("ADMIN")
-                .antMatchers(HttpMethod.GET, USER_AUTH_ME).hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, USER_AUTH_ME).hasAnyAuthority("ADMIN", "USER")
+                .antMatchers(HttpMethod.POST, USER_REGISTER).permitAll()
+                .antMatchers(HttpMethod.POST, USER_LOGIN).permitAll()
 
+                //Members
+                .antMatchers(HttpMethod.GET, MEMBER_URL).hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.DELETE, MEMBER_URL).hasAnyAuthority("ADMIN")
 
                 .anyRequest().authenticated()
                 .and().exceptionHandling()
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
 

@@ -11,17 +11,19 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import static com.alkemy.ong.utility.Constantes.NEWS_URL;
 import static com.alkemy.ong.utility.Constantes.REQUEST_ID;
-
+@RestController
+@RequestMapping(NEWS_URL)
 public class NewsController {
     @Autowired
-    NewsRepository newsRepository;
+    private NewsRepository newsRepository;
     
     @Autowired
-    NewsMapper newsMapper;
+    private NewsMapper newsMapper;
     
     @Autowired
-    NewsService newsService;
+    private NewsService newsService;
     
     @GetMapping(REQUEST_ID)
     public ResponseEntity<NewsDto> getDetails(@PathVariable Long id) {

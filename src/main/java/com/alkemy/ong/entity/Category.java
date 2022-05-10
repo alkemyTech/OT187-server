@@ -14,8 +14,6 @@ import java.time.LocalDateTime;
 @Table(name = "categories")
 @Data
 @NoArgsConstructor
-@SQLDelete(sql="UPDATE categories SET soft_delete = true WHERE id=?")
-@Where(clause = "soft_delete=false")
 @Getter
 @Setter
 
@@ -40,7 +38,7 @@ public class Category {
     private LocalDateTime timestamps;
 
     @Column(name = "active")
-    private Integer active;
+    private Integer active = 1;
 
     public Long getId() {
         return id;

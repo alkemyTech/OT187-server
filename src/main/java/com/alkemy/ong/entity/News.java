@@ -34,7 +34,7 @@ public class News {
                     CascadeType.PERSIST
             })
     @JoinColumn(name = "category_id")
-    private Category categoryId;
+    private Category category;
     
     @Column(columnDefinition = "varchar(20) default 'News'")
     private String type;
