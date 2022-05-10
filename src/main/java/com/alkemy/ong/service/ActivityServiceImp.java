@@ -48,7 +48,7 @@ public class ActivityServiceImp implements ActivityService {
         activity.setId(id);
         activity.setName(activityDto.getName());
         activity.setContent(activityDto.getContent());
-        activity.setImage(activityDto.getContent());
+        activity.setImage(activityDto.getImage());
 
         return activityMapper.activityToActivityDto(activityRepository.save(activity));
     }
