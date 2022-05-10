@@ -4,7 +4,6 @@ import com.alkemy.ong.dto.NewsDto;
 import com.alkemy.ong.mapper.NewsMapper;
 import com.alkemy.ong.repository.NewsRepository;
 import com.alkemy.ong.service.NewsService;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +16,6 @@ import static com.alkemy.ong.utility.Constantes.REQUEST_ID;
 
 @RestController
 @RequestMapping(NEWS_URL)
-
 public class NewsController {
     @Autowired
     private NewsRepository newsRepository;
