@@ -3,7 +3,7 @@ package com.alkemy.ong.service;
 
 import com.alkemy.ong.dto.TestimonialDto;
 
-public interface TestimonialsService {
+public interface TestimonialService {
     TestimonialDto getTestimonialsById(Long id);
 
     void deleteById(Long id);
