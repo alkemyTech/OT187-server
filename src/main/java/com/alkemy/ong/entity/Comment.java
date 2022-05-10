@@ -18,12 +18,14 @@ public class Comment {
     private Long id;
     
     @NotNull
-    @Column(name = "user_id")
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
     
     @NotNull
-    @Column(name = "news_id")
-    private Long newsId;
+    @ManyToOne
+    @JoinColumn(name = "news_id")
+    private News news;
     
     @NotBlank(message = "It is not possible to send an empty comment")
     private String body;
