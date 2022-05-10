@@ -26,5 +26,5 @@ public class Constantes {
      public static final String ACTIVITY_URL="/activity";
      public static final Integer PAGE_SIZE = 10;
      public static final String PAGE_URL = "localhost:8080/news?page=";
-
+     public static final String TESTIMONIAL_URL = "/testimonials";
 }

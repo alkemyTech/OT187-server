@@ -12,11 +12,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static com.alkemy.ong.utility.Constantes.*;
+
 import javax.validation.Valid;
 
 @RestController
 @Api(value = "Testimonial controller")
-@RequestMapping("/testimonials")
+@RequestMapping(TESTIMONIAL_URL)
 public class TestimonialController {
 
     private final TestimonialService iTestimonialService;
@@ -42,13 +44,13 @@ public class TestimonialController {
         }
     }
 
-    @PutMapping(path = "/{id}")
+    @PutMapping(REQUEST_ID)
     @ApiOperation("Update a testimonial")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Successful operation"),
             @ApiResponse(code = 404, message = "Bad Request")
     })
-    public ResponseEntity<?> Update(@ApiParam(value = "El id del testimonio", required = true, example = "1") @Valid @RequestBody TestimonialDto testimonialDto, @PathVariable Long id) {
+    public ResponseEntity<?> update(@ApiParam(value = "El id del testimonio", required = true, example = "1") @Valid @RequestBody TestimonialDto testimonialDto, @PathVariable Long id) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(iTestimonialService.updateTestimonials(id, testimonialDto));
         } catch (Exception e) {
@@ -56,7 +58,7 @@ public class TestimonialController {
         }
     }
 
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(REQUEST_ID)
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         try {
             iTestimonialService.deleteById(id);

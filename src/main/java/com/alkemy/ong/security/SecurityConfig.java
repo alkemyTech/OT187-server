@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static com.alkemy.ong.utility.Constantes.*;
+import static com.alkemy.ong.utility.Constantes.TESTIMONIAL_URL;
 
 @Configuration
 @EnableWebSecurity
@@ -78,6 +79,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //Members
                 .antMatchers(HttpMethod.GET, MEMBER_URL).hasAnyAuthority("ADMIN")
                 .antMatchers(HttpMethod.DELETE, MEMBER_URL).hasAnyAuthority("ADMIN")
+
+                //Testimonials
+                .antMatchers(HttpMethod.GET, TESTIMONIAL_URL).hasAnyAuthority("ADMIN", "USER")
+                .antMatchers(HttpMethod.POST, TESTIMONIAL_URL).hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.DELETE, TESTIMONIAL_URL + REQUEST_ID).hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.PUT, TESTIMONIAL_URL + REQUEST_ID).hasAnyAuthority("ADMIN")
+
 
                 .anyRequest().authenticated()
                 .and().exceptionHandling()

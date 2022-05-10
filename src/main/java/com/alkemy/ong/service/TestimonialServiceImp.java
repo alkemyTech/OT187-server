@@ -27,7 +27,7 @@ public class TestimonialServiceImp implements TestimonialService {
     @Transactional
     public void deleteById(Long id) {
         Testimonial testimonial = testimonialRepository.findById(id).orElseThrow((() -> new NotFoundException("Testimonial not found")));
-        testimonialRepository.deleteById(id);
+        testimonialRepository.softDelete(id);
     }
 
     @Override
