@@ -3,14 +3,9 @@ package com.alkemy.ong.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-
-import java.time.LocalDateTime;
 
 @Data
 public class OrganizationDto {
@@ -43,5 +38,14 @@ public class OrganizationDto {
 
     @JsonProperty("aboutUsText")
     private String aboutUsText;
-
+    
+    @JsonProperty("facebookUrl")
+    private String facebookUrl;
+    
+    @JsonProperty("linkedinUrl")
+    private String linkedinUrl;
+    
+    @JsonProperty("instagramUrl")
+    private String instagramUrl;
+    
 }

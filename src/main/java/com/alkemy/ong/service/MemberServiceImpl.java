@@ -45,6 +45,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public MemberDto findById(Long id) {
         Member member = memberRepository.findById(id).orElseThrow(() -> new NotFoundException("Member not found"));
 
@@ -53,12 +54,16 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional
     public MemberDto save(Member member) {
         return memberMapper.memberToMemberDto(memberRepository.save(member));
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
-        memberRepository.deleteById(id);
+        Member member = memberRepository.findById(id).orElseThrow(() -> new NotFoundException("Member not found"));
+
+        memberRepository.softDelete(id);
     }
 }

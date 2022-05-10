@@ -29,7 +29,7 @@ public class MemberController {
     public ResponseEntity<?> deleteMembers(@PathVariable(value = "id") Long id) {
         Map<String, Object> response = new HashMap<>();
         memberService.deleteById(id);
-        response.put("mensaje", "El miembro ha sido eliminado con exito");
+        response.put("mensaje", "Member has been successfully deleted");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
