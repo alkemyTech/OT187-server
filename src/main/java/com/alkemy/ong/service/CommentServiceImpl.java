@@ -32,7 +32,7 @@ public class CommentServiceImpl implements CommentService{
     @Override
     public List<CommentDto> getAllComments() {
         
-        return commentMapper.commentsToCommentsDto(commentRepository.findAll());
+        return commentMapper.commentsToCommentsDto(commentRepository.findOrderedComments());
     }
     
     @Transactional
