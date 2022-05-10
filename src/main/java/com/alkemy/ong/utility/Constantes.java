@@ -24,5 +24,5 @@ public class Constantes {
      public static final String AWS_EXCEPTION_ERR_UPLOAD = "Error while uploading file. It could not be saved";
      public static final String NEWS_URL="/news";
      public static final String ACTIVITY_URL="/activity";
-     public static final String CONTACT_URL="/contact";
+     public static final String CONTACT_URL="/contacts";
 }
