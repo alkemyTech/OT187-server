@@ -30,9 +30,9 @@ public class CommentServiceImpl implements CommentService{
     }
     
     @Override
-    public List<Comment> getAllComments() {
+    public List<CommentDto> getAllComments() {
         
-        return commentRepository.findAll();
+        return commentMapper.commentsToCommentsDto(commentRepository.findAll());
     }
     
     @Transactional

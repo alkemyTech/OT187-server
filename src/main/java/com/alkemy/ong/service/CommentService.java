@@ -8,6 +8,6 @@ import java.util.List;
 public interface CommentService {
     
     CommentDto save(CommentDto commentDto);
-    List<Comment> getAllComments();
+    List<CommentDto> getAllComments();
     CommentDto update(CommentDto commentDto, Long id);
 }
