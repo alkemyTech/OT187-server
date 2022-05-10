@@ -1,5 +1,6 @@
 package com.alkemy.ong.controller;
 
+import com.alkemy.ong.dto.PageResponseDto;
 import com.alkemy.ong.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,19 +20,18 @@ public class MemberController {
     private MemberService memberService;
 
     @GetMapping
-    public ResponseEntity<?> getMembers(){
-        Map<String,Object> response=new HashMap<>();
+    public ResponseEntity<?> getMembers(@RequestParam(value = "page", defaultValue = "1") int page) {
+        PageResponseDto pageResponse = memberService.getAll(page);
+        return ResponseEntity.ok().body(pageResponse);
+    }
 
-        response.put("members",memberService.findAll());
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<?> deleteMembers(@PathVariable(value = "id") Long id) {
+        Map<String, Object> response = new HashMap<>();
+        memberService.deleteById(id);
+        response.put("mensaje", "Member has been successfully deleted");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @DeleteMapping( value = "/{id}")
-    public ResponseEntity<?> deleteMembers(@PathVariable(value = "id")Long id){
-        Map<String,Object> response=new HashMap<>();
-        memberService.deleteById(id);
-        response.put("mensaje","El miembro ha sido eliminado con exito");
-        return new ResponseEntity<>(response,HttpStatus.OK);
-    }
-
 }
+

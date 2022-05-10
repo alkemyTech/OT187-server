@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static com.alkemy.ong.utility.Constantes.*;
+import static com.alkemy.ong.utility.Constantes.TESTIMONIAL_URL;
 
 @Configuration
 @EnableWebSecurity
@@ -53,24 +54,35 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 //Organization
                 .antMatchers(HttpMethod.POST, ORGANIZATION_MAP_REQUEST + REQUEST_ID).hasAnyAuthority("ADMIN")
-                .antMatchers(HttpMethod.GET, ORGANIZATION_MAP_REQUEST).hasAnyAuthority("ADMIN", "USER")
+                .antMatchers(HttpMethod.GET, ORGANIZATION_MAP_REQUEST + "/*").permitAll()
+                .antMatchers(HttpMethod.PUT, ORGANIZATION_MAP_REQUEST + REQUEST_ID).hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.DELETE, ORGANIZATION_MAP_REQUEST + REQUEST_ID).hasAnyAuthority("ADMIN")
 
                 //News
-                .antMatchers(HttpMethod.GET, NEWS_URL + REQUEST_ID).hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, NEWS_URL + "/*").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers(HttpMethod.POST, NEWS_URL).hasAnyAuthority("ADMIN")
                 .antMatchers(HttpMethod.PUT, NEWS_URL + REQUEST_ID).hasAnyAuthority("ADMIN")
                 .antMatchers(HttpMethod.DELETE, NEWS_URL + REQUEST_ID).hasAnyAuthority("ADMIN")
 
-                //Activities
+                //Activity
+                .antMatchers(HttpMethod.GET, ACTIVITY_URL + "/*").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers(HttpMethod.POST, ACTIVITY_URL).hasAnyAuthority("ADMIN")
                 .antMatchers(HttpMethod.PUT, ACTIVITY_URL + REQUEST_ID).hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.DELETE, ACTIVITY_URL + REQUEST_ID).hasAnyAuthority("ADMIN")
 
                 //AmazonS3
-                .antMatchers(AWS_STORAGE_REQUEST + "*").hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST,AWS_STORAGE_REQUEST + AWS_UPLOAD_FILE).hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.DELETE,AWS_STORAGE_REQUEST + AWS_DELETE_FILE).hasAnyAuthority("ADMIN")
                 
                 //Contacts
                 .antMatchers(HttpMethod.GET, CONTACT_URL).hasAnyAuthority("ADMIN")
                 
+                //Category
+                .antMatchers(HttpMethod.GET, CATEGORY_URL + "/*").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers(HttpMethod.POST, CATEGORY_URL).hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.PUT, CATEGORY_URL + REQUEST_ID).hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.DELETE, CATEGORY_URL + REQUEST_ID).hasAnyAuthority("ADMIN")
+
                 //Users
                 .antMatchers(HttpMethod.GET, USER_GET).hasAnyAuthority("ADMIN")
                 .antMatchers(HttpMethod.PATCH, USER_PATCH).hasAnyAuthority("ADMIN")
@@ -79,8 +91,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, USER_LOGIN).permitAll()
                 
                 //Members
-                .antMatchers(HttpMethod.GET, MEMBER_URL).hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, MEMBER_URL + "/*").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers(HttpMethod.DELETE, MEMBER_URL).hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.PUT, MEMBER_URL + REQUEST_ID).hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST, MEMBER_URL).hasAnyAuthority("ADMIN")
+
+                //Testimonials
+                .antMatchers(HttpMethod.GET, TESTIMONIAL_URL).hasAnyAuthority("ADMIN", "USER")
+                .antMatchers(HttpMethod.POST, TESTIMONIAL_URL).hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.DELETE, TESTIMONIAL_URL + REQUEST_ID).hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.PUT, TESTIMONIAL_URL + REQUEST_ID).hasAnyAuthority("ADMIN")
                 
                 .anyRequest().authenticated()
                 .and().exceptionHandling()
