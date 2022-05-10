@@ -1,6 +1,7 @@
 
 package com.alkemy.ong.service;
 
+import com.alkemy.ong.dto.PageResponseDto;
 import com.alkemy.ong.dto.TestimonialDto;
 
 public interface TestimonialService {
@@ -12,7 +13,7 @@ public interface TestimonialService {
 
     TestimonialDto updateTestimonials(Long id, TestimonialDto testimonial);
 
-
+    PageResponseDto<TestimonialDto> getAll(Integer page);
 }
 
 
