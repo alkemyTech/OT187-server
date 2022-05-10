@@ -2,6 +2,7 @@
 package com.alkemy.ong.controller;
 
 
+import com.alkemy.ong.dto.PageResponseDto;
 import com.alkemy.ong.dto.TestimonialDto;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.service.TestimonialService;
@@ -66,5 +67,10 @@ public class TestimonialController {
         } catch (NotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
+    }
+    @GetMapping
+    public ResponseEntity<?> getTestimonials(@RequestParam(value = "page", defaultValue = "1") int page) {
+        PageResponseDto pageResponse = iTestimonialService.getAll(page);
+        return ResponseEntity.ok().body(pageResponse);
     }
 }
