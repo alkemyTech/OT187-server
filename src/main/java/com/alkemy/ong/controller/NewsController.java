@@ -1,8 +1,10 @@
 package com.alkemy.ong.controller;
 
+import com.alkemy.ong.dto.CommentDto;
 import com.alkemy.ong.dto.NewsDto;
 import com.alkemy.ong.mapper.NewsMapper;
 import com.alkemy.ong.repository.NewsRepository;
+import com.alkemy.ong.service.CommentService;
 import com.alkemy.ong.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,11 +13,16 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import java.util.List;
+
 import static com.alkemy.ong.utility.Constantes.NEWS_URL;
 import static com.alkemy.ong.utility.Constantes.REQUEST_ID;
+
+
 @RestController
 @RequestMapping(NEWS_URL)
 public class NewsController {
+
     @Autowired
     private NewsRepository newsRepository;
     
@@ -24,6 +31,7 @@ public class NewsController {
     
     @Autowired
     private NewsService newsService;
+
     
     @GetMapping(REQUEST_ID)
     public ResponseEntity<NewsDto> getDetails(@PathVariable Long id) {
@@ -47,5 +55,11 @@ public class NewsController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         newsService.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @GetMapping("/{id}/comments")
+    public ResponseEntity<List<CommentDto>> getAllCommentsByNews(@PathVariable Long id)
+    {
+        return ResponseEntity.status(HttpStatus.OK).body(newsService.getAllCommentsByNews(id));
     }
 }

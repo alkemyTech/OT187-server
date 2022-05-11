@@ -14,6 +14,7 @@ public class Constantes {
      public static final String MEMBER_URL="/member";
      public static final String USER_GET="/users";
      public static final String USER_PATCH="/users/{id}";
+     public static final String COMMENT_URL= "/comments";
      public static final String USER_AUTH_ME= "/me";
      public static final String USER_REGISTER= "/auth/register";
      public static final String USER_LOGIN= "/auth/login";
