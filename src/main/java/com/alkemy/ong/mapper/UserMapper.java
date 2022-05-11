@@ -11,16 +11,15 @@ import java.util.Optional;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-    
+    @Mapping(target = "roleId", ignore = true)
     User userDtoToUser(UserDto userDto);
+
     UserDto userToUserDto(User user);
     List<UserDto> allUserstoAllUsersDto (List<User> users);
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
             nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
     User updateUserFromDto(UserDto userDto, @MappingTarget User user);
 
-    Role roleDtoToRole(RoleDto roleDto);
-    RoleDto roleToRoleDto(Role role);
 
 
 }

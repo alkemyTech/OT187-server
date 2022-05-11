@@ -3,6 +3,7 @@ package com.alkemy.ong.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -30,10 +31,8 @@ public class Activity {
     @NotNull
     private String image;
 
-    @NotNull
+    @CreationTimestamp
     private LocalDateTime timestamp;
 
-    @NotNull
-    @Column(columnDefinition = "INT default 0")
-    private Integer deleted;
+    private Integer deleted = 1;
 }
