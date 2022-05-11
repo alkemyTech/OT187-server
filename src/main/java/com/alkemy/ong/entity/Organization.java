@@ -39,7 +39,16 @@ public class Organization {
 
     @Column(name = "aboutUsText")
     private String aboutUsText;
-
+    
+    @Column(name = "facebook_url")
+    private String facebookUrl;
+    
+    @Column(name = "linkedin_url")
+    private String linkedinUrl;
+    
+    @Column(name = "instagram_url")
+    private String instagramUrl;
+    
     @Column(name = "timestamps", nullable = false)
     private LocalDateTime timestamps;
 
@@ -50,9 +59,5 @@ public class Organization {
     @JoinTable(name = "organization_slide", joinColumns = @JoinColumn(name = "organization_id"), inverseJoinColumns = @JoinColumn(name = "slide_id"))
     @OrderBy("disposition ASC")
     private List<Slide> slideList;
-
-
-
-
 
 }

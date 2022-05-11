@@ -4,14 +4,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -45,6 +41,15 @@ public class OrganizationDto {
 
     @JsonProperty("aboutUsText")
     private String aboutUsText;
+
+    @JsonProperty("facebookUrl")
+    private String facebookUrl;
+    
+    @JsonProperty("linkedinUrl")
+    private String linkedinUrl;
+    
+    @JsonProperty("instagramUrl")
+    private String instagramUrl;
 
     @JsonProperty(access= JsonProperty.Access.READ_ONLY)
     @JsonInclude(JsonInclude.Include.NON_NULL)

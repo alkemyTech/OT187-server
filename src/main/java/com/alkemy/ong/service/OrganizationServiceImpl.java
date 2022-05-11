@@ -63,7 +63,10 @@ public class OrganizationServiceImpl implements OrganizationService{
             organization.setEmail(organizationDto.getEmail());
             organization.setWelcomeText(organizationDto.getWelcomeText());
             organization.setAboutUsText(organizationDto.getAboutUsText());
-
+            organization.setFacebookUrl(organizationDto.getFacebookUrl());
+            organization.setLinkedinUrl(organizationDto.getLinkedinUrl());
+            organization.setInstagramUrl(organizationDto.getInstagramUrl());
+            
             return organizationMapper.organizationToOrganizationDto(organizationRepository.save(organization));
         } else {
             throw new NotFoundException("Organization not found");
