@@ -5,6 +5,8 @@ import com.alkemy.ong.dto.CategoriesCreationDto;
 import com.alkemy.ong.exception.NotFoundException;
 
 
+import com.alkemy.ong.response.dto.CategoryResponseDto;
+import com.alkemy.ong.service.CategoriesService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -27,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-/*
+
 @Api(value = "Categorias controller")
 @RestController
 @RequestMapping("/categories")
@@ -81,7 +83,7 @@ public class CategoriesController {
 	public ResponseEntity<?> getAllPageable(@PageableDefault (size = 10, page = 0) Pageable pagebale, 
 			@RequestParam(value = "page", defaultValue = "0") int page){
 	try {
-		Page<CategoryResponseDto> result = iCategory.findAllWithNameInPage(pagebale);	 		
+		Page<CategoryResponseDto> result = iCategory.findAllWithNameInPage(pagebale);
 		if(page >= result.getTotalPages() | page < 0)
 			return ResponseEntity.status(HttpStatus.ACCEPTED).body(message.getMessage("pagination.error.notFound", null, Locale.getDefault()));
 
@@ -92,4 +94,4 @@ public class CategoriesController {
 }
         
 }
-        */
+

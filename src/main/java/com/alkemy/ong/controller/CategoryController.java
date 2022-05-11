@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.alkemy.ong.utility.Constantes.CATEGORY_URL;
-/*
+
 @RestController
 @RequestMapping(CATEGORY_URL)
 @AllArgsConstructor
@@ -56,4 +56,3 @@ public class CategoryController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
-*/
