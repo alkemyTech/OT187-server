@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Locale;
-import lombok.var;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.Authentication;
 
@@ -45,10 +44,10 @@ public class CommentServiceImpl implements CommentService{
     
     @Transactional
     @Override
-    public CommentDto update(CommentDto commentDto, Long id) {
+    public CommentDto update(CommentDto commentDto, Long id, String token) {
         Comment comment = commentRepository.findById(id).orElseThrow(RuntimeException::new);
         comment.setBody(commentDto.getBody());
-        
+    
         return commentMapper.commentToCommentDto(comment);
     }
     
@@ -64,8 +63,6 @@ public class CommentServiceImpl implements CommentService{
            throw new NullPointerException(messageSource.getMessage("comment.not.null", null, Locale.ENGLISH));
        }
     }
-    
-    
 
     private boolean checkId(Authentication aut, Long id) {
         String username = aut.getName();
@@ -77,9 +74,8 @@ public class CommentServiceImpl implements CommentService{
             return (username.equals(emailUserCreator) || authorityUser.equals("ROLE_ADMIN"));
         } else {
             return false;
-          }
-    
-}
+        }
+    }
 
     @Override
     public void existId (Long id){
