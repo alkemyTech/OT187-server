@@ -4,6 +4,7 @@ package com.alkemy.ong.entity;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -32,8 +33,8 @@ public class Member {
     @Column(name = "description")
     private String description;
     @Column(name = "timestamps", nullable = false)
-    private LocalDateTime timestamps;
-    @Column(name = "softDelete", nullable = false)
-    private Integer softDelete;
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+    private Integer active = 1;
 
 }
