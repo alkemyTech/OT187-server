@@ -30,7 +30,7 @@ public class SlideServiceImpl implements SlideService {
     private final AmazonS3ServiceImp amazonS3ServiceImp;
 
 
-/*
+
     @Override
     public SlideDto save(SlideDto slideDto)
     {
@@ -47,7 +47,7 @@ public class SlideServiceImpl implements SlideService {
         return slideMapper.SlideToSlideDto(slideSaved);
     }
 
- */
+
 
     @Override
     public SlideDto update(SlideDto slideDto) throws NotFoundException

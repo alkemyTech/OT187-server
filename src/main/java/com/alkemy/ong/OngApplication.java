@@ -35,7 +35,7 @@ public class OngApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(OngApplication.class, args);
 	}
-
+/*
         @Bean
 	public ObjectMapper objectMapper() {
 		return new ObjectMapper()
@@ -45,6 +45,8 @@ public class OngApplication {
 				.findAndRegisterModules();
 	
 }
+
+ */
 
 
 

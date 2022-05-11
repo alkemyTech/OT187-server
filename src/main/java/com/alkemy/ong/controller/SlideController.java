@@ -25,14 +25,14 @@ public class SlideController {
     {
         this.slideServiceImpl = slideServiceImpl;
     }
-/*
+
     @PostMapping
     public ResponseEntity<SlideDto> save(@Valid @RequestBody SlideDto slideDto)
     {
         return ResponseEntity.status(HttpStatus.CREATED).body(slideServiceImpl.save(slideDto));
     }
 
- */
+
 
     @PutMapping
     public ResponseEntity<SlideDto> update(@Valid @RequestBody SlideDto slideDto) throws NotFoundException
