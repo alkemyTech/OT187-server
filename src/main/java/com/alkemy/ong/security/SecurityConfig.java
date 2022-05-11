@@ -79,6 +79,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, MEMBER_URL).hasAnyAuthority("ADMIN")
                 .antMatchers(HttpMethod.DELETE, MEMBER_URL).hasAnyAuthority("ADMIN")
 
+                //OpenApi
+                .antMatchers(HttpMethod.GET, SWAGGER_URL).permitAll()
+
+
                 .anyRequest().authenticated()
                 .and().exceptionHandling()
                 .and().sessionManagement()
