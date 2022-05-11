@@ -4,7 +4,6 @@ import com.alkemy.ong.dto.CommentDto;
 import com.alkemy.ong.dto.NewsDto;
 import com.alkemy.ong.mapper.NewsMapper;
 import com.alkemy.ong.repository.NewsRepository;
-import com.alkemy.ong.service.CommentService;
 import com.alkemy.ong.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
