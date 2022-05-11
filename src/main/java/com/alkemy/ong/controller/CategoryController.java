@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.alkemy.ong.utility.Constantes.CATEGORY_URL;
@@ -24,6 +25,18 @@ public class CategoryController {
     private CategoryService categoryService;
     @Autowired
     private CategoryMapper categoryMapper;
+
+    @GetMapping("/all")
+    public ResponseEntity<List<CategoryDto>> getAll(){
+        List<CategoryDto> categoryDto = categoryService.findAll();
+        return ResponseEntity.ok().body(categoryDto);
+    }
+
+    @PostMapping
+    public ResponseEntity<CategoryDto> save(@RequestBody CategoryDto categoryDto){
+            CategoryDto Save = categoryService.save(categoryDto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(Save);
+    }
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody Category category) {
