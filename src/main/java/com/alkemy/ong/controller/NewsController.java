@@ -1,9 +1,15 @@
 package com.alkemy.ong.controller;
 
+import com.alkemy.ong.dto.ActivityDto;
 import com.alkemy.ong.dto.NewsDto;
 import com.alkemy.ong.mapper.NewsMapper;
 import com.alkemy.ong.repository.NewsRepository;
 import com.alkemy.ong.service.NewsService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,25 +30,53 @@ public class NewsController {
     
     @Autowired
     private NewsService newsService;
-    
+    @Operation(summary = "Get news by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successful operation. News found",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = NewsDto.class))}),
+            @ApiResponse(responseCode = "400", description = "News id is not valid",
+                    content = @Content)})
     @GetMapping(REQUEST_ID)
     public ResponseEntity<NewsDto> getDetails(@PathVariable Long id) {
         NewsDto news = newsService.findById(id);
         return ResponseEntity.ok().body(news);
     }
-    
+
+    @Operation(summary = "Save news")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successful operation. News found",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = NewsDto.class))}),
+            @ApiResponse(responseCode = "400", description = "News id is not valid",
+                    content = @Content)})
+    @GetMapping(REQUEST_ID)
     @PostMapping
     public ResponseEntity<NewsDto> save(@Valid @RequestBody NewsDto newsDto) {
         NewsDto savedNews = newsService.save(newsDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedNews);
     }
-    
+    @Operation(summary = "Update a news")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successful operation. News updated",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = NewsDto.class))}),
+            @ApiResponse(responseCode = "400", description = "Id is not valid",
+                    content = @Content)})
     @PutMapping(REQUEST_ID)
     public ResponseEntity<NewsDto> update(@PathVariable Long id, @RequestBody NewsDto newsDto) {
         NewsDto updatedNews = newsService.update(newsDto, id);
         return ResponseEntity.ok(updatedNews);
     }
-    
+    @Operation(summary = "Delete a news")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Successful operation. News deleted",
+                    content = {@Content}),
+            @ApiResponse(responseCode = "400", description = "Id is not valid",
+                    content = @Content)})
     @DeleteMapping(REQUEST_ID)
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         newsService.delete(id);
