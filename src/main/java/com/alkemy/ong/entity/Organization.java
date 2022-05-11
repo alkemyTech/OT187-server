@@ -37,14 +37,20 @@ public class Organization {
 
     @Column(name = "aboutUsText")
     private String aboutUsText;
-
+    
+    @Column(name = "facebook_url")
+    private String facebookUrl;
+    
+    @Column(name = "linkedin_url")
+    private String linkedinUrl;
+    
+    @Column(name = "instagram_url")
+    private String instagramUrl;
+    
     @Column(name = "timestamps", nullable = false)
     private LocalDateTime timestamps;
 
     @Column(name = "softDelete", nullable = false)
     private Integer softDelete;
-
-
-
 
 }

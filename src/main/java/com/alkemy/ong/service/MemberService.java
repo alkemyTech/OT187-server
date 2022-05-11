@@ -1,16 +1,16 @@
 package com.alkemy.ong.service;
 
+import com.alkemy.ong.dto.MemberDto;
+import com.alkemy.ong.dto.PageResponseDto;
 import com.alkemy.ong.entity.Member;
-
-import java.util.List;
 
 public interface MemberService {
 
-    List<Member> findAll();
+    MemberDto findById(Long id);
 
-    Member findById(Long id);
-
-    Member save(Member member);
+    MemberDto save(Member member);
 
     void deleteById(Long id);
+
+    PageResponseDto<MemberDto> getAll(Integer page);
 }
