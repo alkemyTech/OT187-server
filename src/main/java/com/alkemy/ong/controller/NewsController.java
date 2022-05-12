@@ -13,6 +13,7 @@ import javax.validation.Valid;
 
 import static com.alkemy.ong.utility.Constantes.NEWS_URL;
 import static com.alkemy.ong.utility.Constantes.REQUEST_ID;
+
 @RestController
 @RequestMapping(NEWS_URL)
 public class NewsController {
