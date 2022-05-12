@@ -2,9 +2,12 @@ package com.alkemy.ong.service;
 
 import com.alkemy.ong.dto.CommentDto;
 import com.alkemy.ong.entity.Comment;
+import com.alkemy.ong.entity.User;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.mapper.CommentMapper;
 import com.alkemy.ong.repository.CommentRepository;
+import com.alkemy.ong.repository.UserRepository;
+import com.alkemy.ong.utility.JwtUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
+
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.Authentication;
 
@@ -27,6 +32,13 @@ public class CommentServiceImpl implements CommentService{
     
     @Autowired
     private CommentMapper commentMapper;
+    
+    @Autowired
+    private UserRepository userRepository;
+    
+    @Autowired
+    JwtUtils jwtUtils;
+    
     @Transactional
     @Override
     public CommentDto save(CommentDto commentDto) {
@@ -44,11 +56,25 @@ public class CommentServiceImpl implements CommentService{
     
     @Transactional
     @Override
-    public CommentDto update(CommentDto commentDto, Long id, String token) {
-        Comment comment = commentRepository.findById(id).orElseThrow(RuntimeException::new);
-        comment.setBody(commentDto.getBody());
+    public CommentDto update(CommentDto commentDto, Long id, String token) throws Exception{
+        Comment comment = commentRepository.findById(id).orElseThrow(()->new NotFoundException("Comment not found"));
+        
+        String email = jwtUtils.extractUsername(token);
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("User not found"));
+            Integer userId = user.getId();
+            String userRole = user.getRoleId().getName();
     
-        return commentMapper.commentToCommentDto(comment);
+        if (userRole.equals("ADMIN")) {
+            comment.setBody(commentDto.getBody());
+            return commentMapper.commentToCommentDto(comment);
+        } else {
+            if (!userId.equals(comment.getUser().getId())) {
+                throw new Exception();
+            } else {
+                comment.setBody(commentDto.getBody());
+                return commentMapper.commentToCommentDto(comment);
+            }
+        }
     }
     
     @Override

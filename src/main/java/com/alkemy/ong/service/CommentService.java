@@ -9,7 +9,7 @@ public interface CommentService {
     
     CommentDto save(CommentDto commentDto);
     List<CommentDto> getAllComments();
-    CommentDto update(CommentDto commentDto, Long id, String token);
+    CommentDto update(CommentDto commentDto, Long id, String token) throws Exception;
      void delete(Authentication aut, Long id);
     void existId(Long id);
 }

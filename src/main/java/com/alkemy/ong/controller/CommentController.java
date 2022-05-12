@@ -1,9 +1,9 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.CommentDto;
+import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.mapper.CommentMapper;
 import com.alkemy.ong.service.CommentService;
-import com.alkemy.ong.utility.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,14 +28,11 @@ public class CommentController {
    
     public MessageSource messageSource;
     
-    public final JwtUtils jwtUtils;
-    
     @Autowired
-    public CommentController(CommentService commentService,CommentMapper commentMapper,MessageSource messageSource, JwtUtils jwtUtils) {
+    public CommentController(CommentService commentService,CommentMapper commentMapper,MessageSource messageSource) {
         this.commentService = commentService;
         this.messageSource = messageSource;
         this.commentMapper = commentMapper;
-        this.jwtUtils = jwtUtils;
     }
     
     @GetMapping
@@ -55,10 +52,16 @@ public class CommentController {
     public ResponseEntity<?> update(@PathVariable("id") Long id,@RequestBody CommentDto commentDto,
                                     @RequestHeader(name = "Authentication") String authHeader) {
         String token = authHeader.substring(7);
-        commentService.update(commentDto, id, token);
         
-        return null;
-    }
+        try {
+            commentService.update(commentDto, id, token);
+            return ResponseEntity.ok(HttpStatus.OK);
+        } catch (NotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception ex) {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+        }
     
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(Authentication aut, @PathVariable Long id) {
