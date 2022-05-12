@@ -21,10 +21,11 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class EmailServiceImpl implements EmailService{
 
-  
 
-    public void contactEmail(String send) throws IOException {
-        send(send, EmailUtility.EMAIL_SUBJECT_CONTACT, EmailUtility.EMAIL_TEMPLATE_CONTACT);
+
+    @Override
+    public void contactEmail(String email) throws IOException {
+        send(email, EmailUtility.EMAIL_SUBJECT_CONTACT, EmailUtility.EMAIL_TEMPLATE_CONTACT);
     }
 
     public void registerEmail(String send) throws IOException {
