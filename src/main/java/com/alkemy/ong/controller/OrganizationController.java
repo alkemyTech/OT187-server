@@ -31,9 +31,6 @@ public class OrganizationController {
     @Autowired
     private  OrganizationServiceImpl organizationService;
 
-
-
-
     @GetMapping(ORGANIZATION_ALL)
     public ResponseEntity<List<OrganizationSlimDto>> getAllOrganizations(){
       return new ResponseEntity<>(organizationService.getAllOrganizations(), HttpStatus.OK);
@@ -42,8 +39,6 @@ public class OrganizationController {
     public ResponseEntity<OrganizationDto> getOrganizationsById(@RequestParam ("id") Long id){
         return new ResponseEntity<>(organizationService.getOrganizationById(id), HttpStatus.OK);
     }
-
-
 
     @GetMapping(REQUEST_NAME)
     public ResponseEntity<OrganizationSlimDto> getOrganizationByName(@PathVariable(value = "name") String name){
