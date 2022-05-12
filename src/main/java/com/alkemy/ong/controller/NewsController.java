@@ -17,7 +17,6 @@ import java.util.List;
 import static com.alkemy.ong.utility.Constantes.NEWS_URL;
 import static com.alkemy.ong.utility.Constantes.REQUEST_ID;
 
-
 @RestController
 @RequestMapping(NEWS_URL)
 public class NewsController {
@@ -30,7 +29,6 @@ public class NewsController {
     
     @Autowired
     private NewsService newsService;
-
     
     @GetMapping(REQUEST_ID)
     public ResponseEntity<NewsDto> getDetails(@PathVariable Long id) {

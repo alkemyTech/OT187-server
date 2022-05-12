@@ -27,7 +27,7 @@ public class OrganizationController {
     private  OrganizationServiceImpl organizationService;
 
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<OrganizationSlimDto>> getAllOrganizations(){
         return new ResponseEntity<>(mapStructMapper.organizationsToOrganizationsSlimDto(organizationService.getAllOrganizations()), HttpStatus.OK);
     }

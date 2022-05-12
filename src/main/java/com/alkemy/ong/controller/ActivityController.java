@@ -18,7 +18,7 @@ public class ActivityController {
     @Autowired
     private ActivityService activityService;
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<ActivityDto> createActivity(@RequestBody ActivityDto activityDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(activityService.createActivity(activityDto));
     }
