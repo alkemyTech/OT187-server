@@ -31,6 +31,7 @@ public class OrganizationController {
     @Autowired
     private  OrganizationServiceImpl organizationService;
 
+
     @GetMapping(ORGANIZATION_ALL)
     public ResponseEntity<List<OrganizationSlimDto>> getAllOrganizations(){
       return new ResponseEntity<>(organizationService.getAllOrganizations(), HttpStatus.OK);
