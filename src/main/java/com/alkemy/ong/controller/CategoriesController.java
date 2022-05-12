@@ -1,17 +1,26 @@
 
 package com.alkemy.ong.controller;
 
+import com.alkemy.ong.dto.ActivityDto;
 import com.alkemy.ong.dto.CategoriesCreationDto;
+import com.alkemy.ong.dto.CategoryDto;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.response.dto.CategoryResponseDto;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+//import io.swagger.annotations.Api;
+//import io.swagger.annotations.ApiOperation;
+//import io.swagger.annotations.ApiResponse;
+//import io.swagger.annotations.ApiResponses;
 import java.util.Locale;
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
@@ -28,7 +37,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.alkemy.ong.service.CategoriesService;
 
-@Api(value = "Categorias controller")
+//@Api(value = "Categorias controller")
+@Tag(name = "Categories")
 @RestController
 @RequestMapping("/categories")
 public class CategoriesController {
@@ -41,10 +51,19 @@ public class CategoriesController {
 		this.message = message;
 	}
 
-	@ApiOperation("Creation Categories")
-	@ApiResponses({
-			@ApiResponse(code = 200, message = "Successful Operation"),
-			@ApiResponse(code = 404, message = "Not Found")
+	@Operation(summary = "Create a new category")
+	@ApiResponses(value = {
+			@ApiResponse(
+					responseCode = "201",
+					description = "Category saved succesfully",
+					content = { @Content(mediaType = "application/json",
+							schema = @Schema(implementation = CategoryDto.class)) }),
+			@ApiResponse(
+					responseCode = "404",
+					description = "Error while saving category"),
+			@ApiResponse(
+					responseCode = "400",
+					description = "Bad request")
 	})
 	@PostMapping
 	public ResponseEntity<?> post(@Valid @ModelAttribute(name = "categoryCreationDto") CategoriesCreationDto categoryCreationDto) throws EntityNotFoundException{
@@ -55,12 +74,18 @@ public class CategoriesController {
 		}
 	
         }
-        
 
-@ApiOperation("Category details")
-	@ApiResponses({
-			@ApiResponse(code = 200, message = "Successful Operation"),
-			@ApiResponse(code = 404, message = "Not Found")
+
+	@Operation(summary = "Find a category by ID")
+	@ApiResponses(value = {
+			@ApiResponse(
+					responseCode = "200",
+					description = "Category found succesfully",
+					content = { @Content(mediaType = "application/json",
+							schema = @Schema(implementation = CategoryDto.class)) }),
+			@ApiResponse(
+					responseCode = "404",
+					description = "Category not found")
 	})
 	@GetMapping(path="/{id}")
 	public ResponseEntity<?> shearch(@PathVariable Long id) {
@@ -72,10 +97,19 @@ public class CategoriesController {
 	}
 
 
-	@ApiOperation("Category list")
-	@ApiResponses({
-			@ApiResponse(code = 200, message = "Successful Operation"),
-			@ApiResponse(code = 404, message = "Not Foundt")
+	@Operation(summary = "Find categories by page")
+	@ApiResponses(value = {
+			@ApiResponse(
+					responseCode = "200",
+					description = "Page found succesfully",
+					content = { @Content(mediaType = "application/json",
+							schema = @Schema(implementation = Page.class)) }),
+			@ApiResponse(
+					responseCode = "202",
+					description = "Page not found"),
+			@ApiResponse(
+					responseCode = "400",
+					description = "Bad request")
 	})
 	@GetMapping
 	public ResponseEntity<?> getAllPageable(@PageableDefault (size = 10, page = 0) Pageable pagebale, 
