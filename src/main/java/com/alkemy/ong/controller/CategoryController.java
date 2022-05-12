@@ -6,6 +6,7 @@ import com.alkemy.ong.mapper.CategoryMapper;
 import com.alkemy.ong.service.CategoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +33,7 @@ public class CategoryController {
         return ResponseEntity.ok().body(categoryDto);
     }
 
-    @PostMapping
+    @PostMapping(value="/save")
     public ResponseEntity<CategoryDto> save(@RequestBody CategoryDto categoryDto){
             CategoryDto Save = categoryService.save(categoryDto);
             return ResponseEntity.status(HttpStatus.CREATED).body(Save);
@@ -67,5 +68,14 @@ public class CategoryController {
         
         response.put("mensaje", "La categoria ha sido eliminada con exito");
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/page/{page}")
+    public ResponseEntity<?> page(@PathVariable(value = "page")Integer page){
+        Map<String,Object> response=new HashMap<>();
+
+        Page<Category> categoryPage=categoryService.findAll(page);
+        response.put("categorias",categoryPage);
+        return new ResponseEntity<>(categoryPage,HttpStatus.OK);
     }
 }
