@@ -1,5 +1,6 @@
 package com.alkemy.ong.controller;
 
+import com.alkemy.ong.dto.MemberDto;
 import com.alkemy.ong.dto.PageResponseDto;
 import com.alkemy.ong.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.alkemy.ong.utility.Constantes.MEMBER_URL;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping(MEMBER_URL)
@@ -32,6 +37,40 @@ public class MemberController {
         response.put("mensaje", "Member has been successfully deleted");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+    
+    
+     @PostMapping
+    @ApiOperation("Create a member")
+    @ApiResponses({
+          @ApiResponse(code = 200, message = "Successful Operation"),
+          @ApiResponse(code = 404, message = "Bad Request")
+        })
+    public ResponseEntity<?> createMember(@Valid @ModelAttribute(name = "memberDto") MemberDto memberDto){
+        memberService.createMember(memberService.save(memberDto));
+        try {
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }catch (Exception e){
+            return new  ResponseEntity<> (HttpStatus.CONFLICT);
+        }
+    }
+    
+    
+    
+        @PutMapping(path = "/{id}")
+    @ApiOperation("update a member by id")
+    @ApiResponses({
+          @ApiResponse(code = 200, message = "Successful Operation"),
+          @ApiResponse(code = 404, message = "Bad Request")
+        })
+	public ResponseEntity<?> updateMember(@PathVariable("id") Long id, @Valid @ModelAttribute(name = "memberCreationDto") MemberDto memberCreationDto)
+    {
+           memberService.updateMemberById(id, memberCreationDto);
+		try {
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch(Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+		}
+	}
 
 }
 

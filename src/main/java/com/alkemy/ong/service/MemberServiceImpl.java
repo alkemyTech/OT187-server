@@ -66,4 +66,16 @@ public class MemberServiceImpl implements MemberService {
 
         memberRepository.softDelete(id);
     }
+    
+    
+        @Override
+    public MemberDto createMember(Member member) {
+        
+         Member memberCreated = memberRepository.save(member);
+     return null;  
+    }
+    
+     public Page<Member> showAllMembers(Pageable pageable) {
+        return memberRepository.findAll(pageable);
+    }
 }
