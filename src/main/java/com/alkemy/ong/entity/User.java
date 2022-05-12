@@ -30,6 +30,7 @@ public class User {
     
     @NotBlank(message = "You must enter a password")
     private String password;
+
     @Column(nullable = false)
     private String photo;
     
