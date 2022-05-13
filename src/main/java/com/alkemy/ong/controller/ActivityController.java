@@ -19,12 +19,20 @@ public class ActivityController {
     private ActivityService activityService;
 
     @PostMapping
-    public ResponseEntity<ActivityDto> createActivity(@RequestBody ActivityDto activityDto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(activityService.createActivity(activityDto));
+    public ResponseEntity<?> createActivity(@RequestBody ActivityDto activityDto) {
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED).body(activityService.createActivity(activityDto));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @PutMapping(REQUEST_ID)
-    public ResponseEntity<ActivityDto> updateActivity(@PathVariable Long id, @RequestBody ActivityDto activityDto) {
+    public ResponseEntity<?> updateActivity(@PathVariable Long id, @RequestBody ActivityDto activityDto) {
+        try {
         return ResponseEntity.ok().body(activityService.updateActivity(id, activityDto));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 }
