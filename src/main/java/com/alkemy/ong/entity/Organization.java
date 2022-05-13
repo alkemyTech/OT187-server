@@ -7,8 +7,10 @@ import javax.persistence.*;
 
 import java.time.LocalDateTime;
 
+import java.util.List;
+
 @Entity
-@Table(name = "organizations")
+@Table(name = "organization")
 @Data
 public class Organization {
 
@@ -52,5 +54,10 @@ public class Organization {
 
     @Column(name = "softDelete", nullable = false)
     private Integer softDelete;
+
+    @OneToMany
+    @JoinTable(name = "organization_slide", joinColumns = @JoinColumn(name = "organization_id"), inverseJoinColumns = @JoinColumn(name = "slide_id"))
+    @OrderBy("disposition ASC")
+    private List<Slide> slideList;
 
 }

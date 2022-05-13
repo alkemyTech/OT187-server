@@ -1,6 +1,5 @@
 
 package com.alkemy.ong.response.dto;
-
 import java.util.Date;
 
 public interface CategoryResponseDto {
@@ -13,4 +12,7 @@ public interface CategoryResponseDto {
     Date getEdited();
     Boolean getDeleted();
 
+
 }
+
+

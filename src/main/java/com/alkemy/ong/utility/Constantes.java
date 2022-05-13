@@ -29,5 +29,9 @@ public class Constantes {
      public static final Integer PAGE_SIZE = 10;
      public static final String PAGE_URL = "localhost:8080/news?page=";
      public static final String TESTIMONIAL_URL = "/testimonials";
+     public static final String SLIDE_URL="/slides";
+     public static final String SLIDE_ID="/slides/{id}";//Organization
+     public static final String ORGANIZATION_ALL= "/organization/all";
+     public static final String ORGANIZATION_ID="/organization/{id}";
 
 }
