@@ -6,7 +6,13 @@ import com.alkemy.ong.dto.PageResponseDto;
 import com.alkemy.ong.dto.TestimonialDto;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.service.TestimonialService;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
@@ -17,8 +23,8 @@ import static com.alkemy.ong.utility.Constantes.*;
 
 import javax.validation.Valid;
 
+@Tag(name = "Testimonials", description = "Endpoint to create, update, delete and get testimonials")
 @RestController
-@Api(value = "Testimonial controller")
 @RequestMapping(TESTIMONIAL_URL)
 public class TestimonialController {
 
@@ -31,13 +37,16 @@ public class TestimonialController {
         this.messageSource = messageSource;
     }
 
-    @PostMapping
-    @ApiOperation("Create a new testimonial")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "Successful operation"),
-            @ApiResponse(code = 400, message = "Bad Request")
+    @Operation(summary = "Create a new testimonial")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Testimonial successfully created",
+            content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = TestimonialDto.class))
+            }),
+            @ApiResponse(responseCode = "409", description = "Testimonial could not be created", content = @Content),
     })
-    public ResponseEntity<?> createTestimonials(@ApiParam(value = "JSON con Testimonial para crear", required = true) @Valid @RequestBody TestimonialDto testimonialDto) {
+    @PostMapping
+    public ResponseEntity<?> createTestimonials(@Parameter(description = "Dto with testimonial data") @Valid @RequestBody TestimonialDto testimonialDto) {
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(iTestimonialService.createTestimonial(testimonialDto));
         } catch (Exception e) {
@@ -45,22 +54,33 @@ public class TestimonialController {
         }
     }
 
-    @PutMapping(REQUEST_ID)
-    @ApiOperation("Update a testimonial")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "Successful operation"),
-            @ApiResponse(code = 404, message = "Bad Request")
+    @Operation(summary = "Update an existing testimonial")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Testimonial successfully updated",
+                    content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = TestimonialDto.class))
+                    }),
+            @ApiResponse(responseCode = "404", description = "Testimonial not found", content = @Content),
     })
-    public ResponseEntity<?> update(@ApiParam(value = "El id del testimonio", required = true, example = "1") @Valid @RequestBody TestimonialDto testimonialDto, @PathVariable Long id) {
+    @PutMapping(REQUEST_ID)
+    public ResponseEntity<?> update(@Parameter(description = "Dto with testimonial data") @Valid @RequestBody TestimonialDto testimonialDto,
+                                    @Parameter(description = "Id of the testimonial to update") @PathVariable Long id) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(iTestimonialService.updateTestimonials(id, testimonialDto));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
-
+    @Operation(summary = "Delete a testimonial")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Testimonial successfully deleted",
+                    content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = TestimonialDto.class))
+                    }),
+            @ApiResponse(responseCode = "409", description = "Testimonial not found", content = @Content),
+    })
     @DeleteMapping(REQUEST_ID)
-    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> delete( @Parameter(description = "Id of the testimonial to delete") @PathVariable(value = "id") Long id) {
         try {
             iTestimonialService.deleteById(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Testimonial deleted");
@@ -68,9 +88,22 @@ public class TestimonialController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
+
+    @Operation(summary = "Get a page of testimonials")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operation successful",
+                    content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = PageResponseDto.class))
+                    }),
+            @ApiResponse(responseCode = "404", description = "Page does not exists", content = @Content),
+    })
     @GetMapping
-    public ResponseEntity<?> getTestimonials(@RequestParam(value = "page", defaultValue = "1") int page) {
-        PageResponseDto pageResponse = iTestimonialService.getAll(page);
-        return ResponseEntity.ok().body(pageResponse);
+    public ResponseEntity<?> getTestimonials(@Parameter(description = "Id of the testimonial to delete") @RequestParam(value = "page", defaultValue = "1") int page) {
+        try {
+            PageResponseDto pageResponse = iTestimonialService.getAll(page);
+            return ResponseEntity.ok().body(pageResponse);
+        } catch (NotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 }
