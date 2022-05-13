@@ -43,7 +43,7 @@ public class TestimonialController {
             content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = TestimonialDto.class))
             }),
-            @ApiResponse(responseCode = "409", description = "Testimonial could not be created", content = @Content),
+            @ApiResponse(responseCode = "409", description = "Testimonial could not be created", content = {@Content(mediaType = "text/plain")}),
     })
     @PostMapping
     public ResponseEntity<?> createTestimonials(@Parameter(description = "Dto with testimonial data") @Valid @RequestBody TestimonialDto testimonialDto) {
@@ -60,7 +60,7 @@ public class TestimonialController {
                     content = {
                             @Content(mediaType = "application/json", schema = @Schema(implementation = TestimonialDto.class))
                     }),
-            @ApiResponse(responseCode = "404", description = "Testimonial not found", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Testimonial not found", content = {@Content(mediaType = "text/plain")}),
     })
     @PutMapping(REQUEST_ID)
     public ResponseEntity<?> update(@Parameter(description = "Dto with testimonial data") @Valid @RequestBody TestimonialDto testimonialDto,
@@ -77,14 +77,14 @@ public class TestimonialController {
                     content = {
                             @Content(mediaType = "application/json", schema = @Schema(implementation = TestimonialDto.class))
                     }),
-            @ApiResponse(responseCode = "409", description = "Testimonial not found", content = @Content),
+            @ApiResponse(responseCode = "409", description = "Testimonial not found", content = {@Content(mediaType = "text/plain")}),
     })
     @DeleteMapping(REQUEST_ID)
     public ResponseEntity<?> delete( @Parameter(description = "Id of the testimonial to delete") @PathVariable(value = "id") Long id) {
         try {
             iTestimonialService.deleteById(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Testimonial deleted");
-        } catch (NotFoundException e) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
@@ -95,14 +95,14 @@ public class TestimonialController {
                     content = {
                             @Content(mediaType = "application/json", schema = @Schema(implementation = PageResponseDto.class))
                     }),
-            @ApiResponse(responseCode = "404", description = "Page does not exists", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Page does not exists", content = {@Content(mediaType = "text/plain")}),
     })
     @GetMapping
     public ResponseEntity<?> getTestimonials(@Parameter(description = "Id of the testimonial to delete") @RequestParam(value = "page", defaultValue = "1") int page) {
         try {
             PageResponseDto pageResponse = iTestimonialService.getAll(page);
             return ResponseEntity.ok().body(pageResponse);
-        } catch (NotFoundException e) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
