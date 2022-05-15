@@ -73,7 +73,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //AmazonS3
                 .antMatchers(HttpMethod.POST,AWS_STORAGE_REQUEST + AWS_UPLOAD_FILE).hasAnyAuthority("ADMIN")
                 .antMatchers(HttpMethod.DELETE,AWS_STORAGE_REQUEST + AWS_DELETE_FILE).hasAnyAuthority("ADMIN")
-
+                
+                //Contacts
+                .antMatchers(HttpMethod.GET, CONTACT_URL).hasAnyAuthority("ADMIN")
+                
                 //Category
                 .antMatchers(HttpMethod.GET, CATEGORY_URL + "/*").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers(HttpMethod.POST, CATEGORY_URL).hasAnyAuthority("ADMIN")
@@ -86,7 +89,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, USER_AUTH_ME).hasAnyAuthority("ADMIN", "USER")
                 .antMatchers(HttpMethod.POST, USER_REGISTER).permitAll()
                 .antMatchers(HttpMethod.POST, USER_LOGIN).permitAll()
-
+                
                 //Members
                 .antMatchers(HttpMethod.GET, MEMBER_URL + "/*").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers(HttpMethod.DELETE, MEMBER_URL).hasAnyAuthority("ADMIN")
@@ -98,14 +101,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, TESTIMONIAL_URL).hasAnyAuthority("ADMIN")
                 .antMatchers(HttpMethod.DELETE, TESTIMONIAL_URL + REQUEST_ID).hasAnyAuthority("ADMIN")
                 .antMatchers(HttpMethod.PUT, TESTIMONIAL_URL + REQUEST_ID).hasAnyAuthority("ADMIN")
-
-                //Testimonials
-                .antMatchers(HttpMethod.GET, TESTIMONIAL_URL).hasAnyAuthority("ADMIN", "USER")
-                .antMatchers(HttpMethod.POST, TESTIMONIAL_URL).hasAnyAuthority("ADMIN")
-                .antMatchers(HttpMethod.DELETE, TESTIMONIAL_URL + REQUEST_ID).hasAnyAuthority("ADMIN")
-                .antMatchers(HttpMethod.PUT, TESTIMONIAL_URL + REQUEST_ID).hasAnyAuthority("ADMIN")
-
-
+                
                 .anyRequest().authenticated()
                 .and().exceptionHandling()
                 .and().sessionManagement()
