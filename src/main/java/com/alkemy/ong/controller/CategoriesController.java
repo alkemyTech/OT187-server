@@ -1,6 +1,6 @@
 
 package com.alkemy.ong.controller;
-
+/*
 import com.alkemy.ong.dto.CategoriesCreationDto;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.response.dto.CategoryResponseDto;
@@ -92,4 +92,6 @@ public class CategoriesController {
 }
         
 }
+
+ */
         

@@ -1,7 +1,7 @@
 
 package com.alkemy.ong.controller;
 
-
+/*
 import com.alkemy.ong.dto.PageResponseDto;
 import com.alkemy.ong.dto.TestimonialDto;
 import com.alkemy.ong.exception.NotFoundException;
@@ -74,3 +74,5 @@ public class TestimonialController {
         return ResponseEntity.ok().body(pageResponse);
     }
 }
+
+ */

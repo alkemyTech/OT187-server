@@ -45,12 +45,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+    private static final String[] AUTH_SWAGGER = {
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            "/v3/api-docs/**",
+            "/swagger-ui/**"
+
+    };
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.cors().and().csrf().disable()
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
+                .antMatchers(AUTH_SWAGGER).permitAll()
 
                 //Organization
                 .antMatchers(HttpMethod.POST, ORGANIZATION_MAP_REQUEST + REQUEST_ID).hasAnyAuthority("ADMIN")
