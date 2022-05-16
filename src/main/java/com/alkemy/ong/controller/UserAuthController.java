@@ -2,6 +2,7 @@ package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.AuthenticationRequest;
 import com.alkemy.ong.dto.UserDto;
+import com.alkemy.ong.service.EmailServiceImpl;
 import com.alkemy.ong.service.UserDetailsServiceImpl;
 import com.alkemy.ong.utility.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 import static com.alkemy.ong.utility.Constantes.*;
@@ -23,6 +25,8 @@ public class UserAuthController {
     private JwtUtils jwtUtils;
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
+    @Autowired
+    private EmailServiceImpl emailServiceImpl;
 
 
     @PostMapping(LOGIN_URL)
@@ -32,8 +36,9 @@ public class UserAuthController {
 
 
     @PostMapping(REGISTER_URL)
-    public ResponseEntity<String> register(@Valid @RequestBody UserDto userDto){
+    public ResponseEntity<String> register(@Valid @RequestBody UserDto userDto) throws IOException {
         userDetailsService.save(userDto);
+        emailServiceImpl.registerEmail(userDto.getEmail());
         UserDetails userDetails = userDetailsService.loadUserByUsername(userDto.getEmail());
         String jwt = jwtUtils.generateToken(userDetails);
         return new ResponseEntity<>(jwt, HttpStatus.OK);
