@@ -53,12 +53,12 @@ public class CategoryServiceImp implements CategoryService {
 
 
     public CategoryDto update(Long id, CategoryDto categoryDto) {
-        Category category = categoryMapper.categoryDtoToCategory(categoryDto);
-        category.setName(categoryDto.getName());
-        category.setDescription(categoryDto.getDescription());
-        category.setImage(categoryDto.getImage());
-        categoryRepository.save(category);
-        return categoryMapper.categoryToCategoryDto(category);
+            Category category = categoryMapper.categoryDtoToCategory(categoryDto);
+            category.setName(categoryDto.getName());
+            category.setDescription(categoryDto.getDescription());
+            category.setImage(categoryDto.getImage());
+            categoryRepository.save(category);
+            return categoryMapper.categoryToCategoryDto(category);
 
     }
 

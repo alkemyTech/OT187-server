@@ -35,8 +35,8 @@ public class CategoryController {
 
     @PostMapping(value="/save")
     public ResponseEntity<CategoryDto> save(@RequestBody CategoryDto categoryDto){
-        CategoryDto Save = categoryService.save(categoryDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(Save);
+            CategoryDto Save = categoryService.save(categoryDto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(Save);
     }
 
     @PutMapping(value = "/{id}")
@@ -65,7 +65,7 @@ public class CategoryController {
         if (category == null) {
             response.put("error", "No se ha podido eliminar la categoria");
         }
-
+        
         response.put("mensaje", "La categoria ha sido eliminada con exito");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
