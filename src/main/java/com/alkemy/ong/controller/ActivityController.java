@@ -7,6 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
+import java.util.List;
+
 import static com.alkemy.ong.utility.Constantes.ACTIVITY_URL;
 import static com.alkemy.ong.utility.Constantes.REQUEST_ID;
 
@@ -19,20 +23,23 @@ public class ActivityController {
     private ActivityService activityService;
 
     @PostMapping
-    public ResponseEntity<?> createActivity(@RequestBody ActivityDto activityDto) {
-        try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(activityService.createActivity(activityDto));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    public ResponseEntity<ActivityDto> createActivity(@RequestBody @Valid ActivityDto activityDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(activityService.createActivity(activityDto));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ActivityDto>> getAllActivities() {
+        return ResponseEntity.ok().body(activityService.getAllActivities());
+    }
+
+    @DeleteMapping(REQUEST_ID)
+    public ResponseEntity<?> deleteActivity(@PathVariable("id") Long id) {
+        activityService.deleteActivity(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @PutMapping(REQUEST_ID)
-    public ResponseEntity<?> updateActivity(@PathVariable Long id, @RequestBody ActivityDto activityDto) {
-        try {
+    public ResponseEntity<ActivityDto> updateActivity(@PathVariable Long id, @RequestBody @Valid ActivityDto activityDto) {
         return ResponseEntity.ok().body(activityService.updateActivity(id, activityDto));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
     }
 }
