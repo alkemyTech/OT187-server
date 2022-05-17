@@ -11,9 +11,10 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
+
     @Query("UPDATE User u SET u.active = 0 WHERE u.id = :id")
     @Modifying
     void softDelete(@Param("id") Integer id);
-    Optional<User> findByEmail(String email);
 
+    Optional<User> findByEmail(String email);
 }

@@ -48,12 +48,12 @@ public class UserAuthController {
     public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto,@PathVariable("id") Integer id){
         return new ResponseEntity<>(userDetailsService.update(userDto, id), HttpStatus.OK);
     }
+
     @GetMapping(USER_AUTH_ME)
     public ResponseEntity<UserDto> getUser(@RequestHeader(name = "Authorization") String token){
         String tokenObtenido = token.replace("Bearer ", "");
         String email = jwtUtils.extractUsername(tokenObtenido);
      return new ResponseEntity<>(userDetailsService.findByEmail(email),HttpStatus.OK);
     }
-
 
 }
