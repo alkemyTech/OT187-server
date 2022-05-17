@@ -30,5 +30,10 @@ public class Role implements Serializable {
     @Column(name = "create_at")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate createAt;
-    
+
+    public Role(String name, String description, LocalDate createAt) {
+        this.name = name;
+        this.description = description;
+        this.createAt = createAt;
+    }
 }

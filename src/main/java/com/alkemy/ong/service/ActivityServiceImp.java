@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 @Service
 public class ActivityServiceImp implements ActivityService {
@@ -38,7 +40,7 @@ public class ActivityServiceImp implements ActivityService {
 
         return activityMapper.activityToActivityDto(activityRepository.save(activity));
     }
-    
+
     @Transactional
     @Override
     public ActivityDto updateActivity(Long id, ActivityDto activityDto) {
@@ -52,5 +54,22 @@ public class ActivityServiceImp implements ActivityService {
 
         return activityMapper.activityToActivityDto(activityRepository.save(activity));
     }
+
+    @Override
+    public List<ActivityDto> getAllActivities() {
+        List<Activity> activities = activityRepository.findAllActive();
+        if (activities.isEmpty()) {
+            throw new NotFoundException("No activities found");
+        }
+        return activityMapper.listActivityToListActivityDto(activities);
+    }
+
+    @Override
+    public void deleteActivity(Long id) {
+        Activity activity = activityRepository.findById(id).orElseThrow(() -> new NotFoundException("Activity not found"));
+        activityRepository.softDelete(activity.getId());
+    }
+
 }
+
 
