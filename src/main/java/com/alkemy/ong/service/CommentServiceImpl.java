@@ -81,7 +81,7 @@ public class CommentServiceImpl implements CommentService{
     public void delete(Authentication aut, Long id) {
        try {
            if (checkId(aut, id)) {
-               commentRepository.deleteById(id);
+               commentRepository.softDelete(id);
            }
        }catch (Exception e){
            throw new NullPointerException(messageSource.getMessage("comment.not.null", null, Locale.ENGLISH));

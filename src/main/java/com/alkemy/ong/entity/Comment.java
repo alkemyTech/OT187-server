@@ -34,4 +34,6 @@ public class Comment {
     @CreationTimestamp
     private LocalDateTime creationDate;
     
+    private Integer active = 1;
+    
 }
