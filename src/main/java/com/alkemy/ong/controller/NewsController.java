@@ -24,14 +24,14 @@ import static com.alkemy.ong.utility.Constantes.REQUEST_ID;
 public class NewsController {
     @Autowired
     private NewsRepository newsRepository;
-    
+
     @Autowired
     private NewsMapper newsMapper;
-    
+
     @Autowired
     private NewsService newsService;
 
-    @ApiOperation(value = "Get news details by id",response = NewsDto.class)
+    @ApiOperation(value = "Get news details by id", response = NewsDto.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved news"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -40,12 +40,17 @@ public class NewsController {
     }
     )
     @GetMapping(REQUEST_ID)
-    public ResponseEntity<NewsDto> getDetails(@ApiParam(value = "News id", required = true, example = "1")@PathVariable Long id) {
-        NewsDto news = newsService.findById(id);
-        return ResponseEntity.ok().body(news);
+    public ResponseEntity<?> getDetails(@ApiParam(value = "News id", required = true, example = "1") @PathVariable Long id) {
+        try {
+            NewsDto news = newsService.findById(id);
+            return ResponseEntity.ok().body(news);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+
     }
 
-    @ApiOperation(value = "Saves news",response = NewsDto.class)
+    @ApiOperation(value = "Saves news", response = NewsDto.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully saved "),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -58,7 +63,8 @@ public class NewsController {
         NewsDto savedNews = newsService.save(newsDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedNews);
     }
-    @ApiOperation(value = "Updates news",response = NewsDto.class)
+
+    @ApiOperation(value = "Updates news", response = NewsDto.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully updated news"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -67,9 +73,13 @@ public class NewsController {
     }
     )
     @PutMapping(REQUEST_ID)
-    public ResponseEntity<NewsDto> update(@ApiParam(value = "News id", required = true, example = "1")@PathVariable Long id, @RequestBody NewsDto newsDto) {
-        NewsDto updatedNews = newsService.update(newsDto, id);
-        return ResponseEntity.ok(updatedNews);
+    public ResponseEntity<?> update(@ApiParam(value = "News id", required = true, example = "1") @PathVariable Long id, @RequestBody NewsDto newsDto) {
+        try {
+            NewsDto updatedNews = newsService.update(newsDto, id);
+            return ResponseEntity.ok(updatedNews);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
     @ApiOperation(value = "Delete news")
@@ -81,8 +91,12 @@ public class NewsController {
     }
     )
     @DeleteMapping(REQUEST_ID)
-    public ResponseEntity<Void> delete(@ApiParam(value = "News id", required = true, example = "1")@PathVariable Long id) {
-        newsService.delete(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    public ResponseEntity<?> delete(@ApiParam(value = "News id", required = true, example = "1") @PathVariable Long id) {
+        try {
+            newsService.delete(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("News deleted");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 }

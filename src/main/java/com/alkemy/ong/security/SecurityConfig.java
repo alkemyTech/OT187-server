@@ -76,6 +76,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE,AWS_STORAGE_REQUEST + AWS_DELETE_FILE).hasAnyAuthority("ADMIN")
                 
                 //Contacts
+                .antMatchers(HttpMethod.POST, CONTACT_URL).permitAll()
                 .antMatchers(HttpMethod.GET, CONTACT_URL).hasAnyAuthority("ADMIN")
                 
                 //Category
