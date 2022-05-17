@@ -17,6 +17,6 @@ public interface ActivityRepository extends JpaRepository<Activity, Long> {
     @Modifying
     void softDelete(@Param("id") Long id);
 
-    @Query("SELECT a FROM Activity a WHERE a.deleted = 0")
+    @Query("SELECT a FROM Activity a WHERE a.deleted = 1")
     List<Activity> findAllActive();
 }

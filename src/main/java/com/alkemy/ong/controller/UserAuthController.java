@@ -1,6 +1,7 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.AuthenticationRequest;
+import com.alkemy.ong.dto.RegisterDto;
 import com.alkemy.ong.dto.UserDto;
 import com.alkemy.ong.service.UserDetailsServiceImpl;
 import com.alkemy.ong.utility.JwtUtils;
@@ -32,11 +33,18 @@ public class UserAuthController {
 
 
     @PostMapping(REGISTER_URL)
-    public ResponseEntity<String> register(@Valid @RequestBody UserDto userDto){
-        userDetailsService.save(userDto);
+    public ResponseEntity<RegisterDto> register(@Valid @RequestBody UserDto userDto){
+        UserDto user = userDetailsService.save(userDto);
         UserDetails userDetails = userDetailsService.loadUserByUsername(userDto.getEmail());
         String jwt = jwtUtils.generateToken(userDetails);
-        return new ResponseEntity<>(jwt, HttpStatus.OK);
+
+        RegisterDto registerDto = new RegisterDto();
+
+        registerDto.setJwt(jwt);
+        registerDto.setFirstName(user.getFirstName());
+        registerDto.setLastName(user.getLastName());
+        registerDto.setEmail(user.getEmail());
+        return new ResponseEntity<>(registerDto, HttpStatus.OK);
     }
 
     @GetMapping(USER_GET)
