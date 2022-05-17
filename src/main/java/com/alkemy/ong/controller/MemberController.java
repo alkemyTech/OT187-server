@@ -25,12 +25,27 @@ public class MemberController {
     private MemberService memberService;
 
     @GetMapping
+    @ApiOperation("Obtiene todos los miembros")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Successfully Operation"),
+            @ApiResponse(code = 401, message = "You do not have valid credentials"),
+            @ApiResponse(code = 403, message = "Forbidden this request"),
+            @ApiResponse(code = 404, message = "Resource is not available to the server")
+    })
     public ResponseEntity<?> getMembers(@RequestParam(value = "page", defaultValue = "1") int page) {
         PageResponseDto pageResponse = memberService.getAll(page);
         return ResponseEntity.ok().body(pageResponse);
     }
 
     @DeleteMapping(value = "/{id}")
+    @ApiOperation("Elimina un miembro por el id")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Successfully Operation"),
+            @ApiResponse(code = 401, message = "You do not have valid credentials"),
+            @ApiResponse(code = 403, message = "Forbidden this request"),
+            @ApiResponse(code = 404, message = "Resource is not available to the server")
+        })
     public ResponseEntity<?> deleteMembers(@PathVariable(value = "id") Long id) {
         Map<String, Object> response = new HashMap<>();
         memberService.deleteById(id);
@@ -39,11 +54,14 @@ public class MemberController {
     }
     
     
-     @PostMapping
+    @PostMapping
     @ApiOperation("Create a member")
+    @ResponseStatus(HttpStatus.CREATED)
     @ApiResponses({
-          @ApiResponse(code = 200, message = "Successful Operation"),
-          @ApiResponse(code = 404, message = "Bad Request")
+            @ApiResponse(code = 200, message = "Successfully Operation"),
+            @ApiResponse(code = 401, message = "You do not have valid credentials"),
+            @ApiResponse(code = 403, message = "Forbidden this request"),
+            @ApiResponse(code = 404, message = "Resource is not available to the server")
         })
     public ResponseEntity<?> createMember(@Valid @ModelAttribute(name = "memberDto") MemberDto memberDto){
         memberService.createMember(memberService.save(memberDto));
@@ -56,11 +74,13 @@ public class MemberController {
     
     
     
-        @PutMapping(path = "/{id}")
+    @PutMapping(path = "/{id}")
     @ApiOperation("update a member by id")
     @ApiResponses({
-          @ApiResponse(code = 200, message = "Successful Operation"),
-          @ApiResponse(code = 404, message = "Bad Request")
+            @ApiResponse(code = 200, message = "Successfully Operation"),
+            @ApiResponse(code = 401, message = "You do not have valid credentials"),
+            @ApiResponse(code = 403, message = "Forbidden this request"),
+            @ApiResponse(code = 404, message = "Resource is not available to the server")
         })
 	public ResponseEntity<?> updateMember(@PathVariable("id") Long id, @Valid @ModelAttribute(name = "memberCreationDto") MemberDto memberCreationDto)
     {
