@@ -98,7 +98,7 @@ public class TestimonialController {
             @ApiResponse(responseCode = "404", description = "Page does not exists", content = {@Content(mediaType = "text/plain")}),
     })
     @GetMapping
-    public ResponseEntity<?> getTestimonials(@Parameter(description = "Id of the testimonial to delete") @RequestParam(value = "page", defaultValue = "1") int page) {
+    public ResponseEntity<?> getTestimonials(@Parameter(description = "Page number to get") @RequestParam(value = "page", defaultValue = "1") int page) {
         try {
             PageResponseDto pageResponse = iTestimonialService.getAll(page);
             return ResponseEntity.ok().body(pageResponse);
