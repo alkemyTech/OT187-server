@@ -55,10 +55,15 @@ public class CategoryController {
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     }
     )
-    @PostMapping(value="/save")
-    public ResponseEntity<CategoryDto> save(@RequestBody CategoryDto categoryDto){
+    @PostMapping()
+    public ResponseEntity<?> save(@RequestBody CategoryDto categoryDto){
+        try {
             CategoryDto Save = categoryService.save(categoryDto);
             return ResponseEntity.status(HttpStatus.CREATED).body(Save);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+
     }
 
     @ApiOperation(value = "Update a category", response = CategoryDto.class)
@@ -70,21 +75,19 @@ public class CategoryController {
     }
     )
     @PutMapping(value = "/{id}")
-    public ResponseEntity<?> update(@ApiParam(value = "Category id", required = true, example = "1")@PathVariable(value = "id") Long id, @RequestBody Category category) {
+    public ResponseEntity<?> update(@ApiParam(value = "Category id", required = true, example = "1")@PathVariable(value = "id") Long id, @RequestBody CategoryDto categorydto) {
         Map<String, Object> response = new HashMap<>();
 
-        Category category1 = categoryMapper.categoryDtoToCategory(categoryService.findById(id));
-
-        if (category1 == null) {
-            response.put("error", "No se encontro ela categoria a actualizar");
+        try {
+            CategoryDto categoryUpdate = categoryService.update(id, categorydto);
+            response.put("category", categoryUpdate);
+            response.put("message", "Category updated successfully");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response.put("error", e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
 
-        category1 = category;
-        CategoryDto categoryDto = categoryService.save(categoryMapper.categoryToCategoryDto(category1));
-        response.put("category", categoryDto);
-        response.put("mensaje", "La categoria ha sido actualizada con exito");
-        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @ApiOperation(value = "Delete a category")
@@ -100,14 +103,16 @@ public class CategoryController {
         Map<String, Object> response = new HashMap<>();
         Category category = categoryMapper.categoryDtoToCategory(categoryService.findById(id));
 
-        if (category == null) {
-            response.put("error", "No se ha podido eliminar la categoria");
+        try {
+            categoryService.delete(id);
+            response.put("Message", "Category successfully deleted");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }catch (Exception e){
+            response.put("error", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
-        
-        response.put("mensaje", "La categoria ha sido eliminada con exito");
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
 
+    }
     @ApiOperation(value = "Add a page", response = Iterable.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Page successfully added"),
