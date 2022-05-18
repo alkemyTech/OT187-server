@@ -1,6 +1,7 @@
 package com.alkemy.ong.service;
 
 import com.alkemy.ong.dto.NewsDto;
+import com.alkemy.ong.dto.PagesDto;
 import com.alkemy.ong.entity.News;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.mapper.CategoryMapper;
@@ -8,6 +9,10 @@ import com.alkemy.ong.mapper.NewsMapper;
 import com.alkemy.ong.repository.CategoryRepository;
 import com.alkemy.ong.repository.NewsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -65,5 +70,25 @@ public class NewsServiceImp implements NewsService {
 
         return newsMapper.newsToNewsDto(newsRepository.save(news));
 
+    }
+
+    //Service to retrieve all news from database and return them in a page
+
+    public PagesDto<NewsDto> getAllPagesNews(int page) {
+        if (page < 0) {
+            throw new NotFoundException("The page number cannot be less than 0.");
+        }
+        Pageable pageRequest = PageRequest.of(page, 10);
+        Page<News> news = newsRepository.findAll(pageRequest);
+        return responsePage(news);
+    }
+
+    private PagesDto<NewsDto> responsePage(Page<News> page) {
+        if (page.isEmpty()) {
+            throw new NotFoundException("The page does not exist.");
+        }
+        Page<NewsDto> response = new PageImpl<>(newsMapper.listNewsEntityToNewsDto(page.getContent()),
+                PageRequest.of(page.getNumber(), page.getSize()), page.getTotalElements());
+        return new PagesDto<>(response, "localhost:8080/news?page=");
     }
 }

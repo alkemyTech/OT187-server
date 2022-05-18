@@ -1,17 +1,17 @@
 package com.alkemy.ong.mapper;
 
-import com.alkemy.ong.dto.CategoryDto;
 import com.alkemy.ong.dto.NewsDto;
-import com.alkemy.ong.entity.Category;
 import com.alkemy.ong.entity.News;
 import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
+
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface NewsMapper {
 
-    News newsDtoToNews(NewsDto newsDto);
+    NewsMapper newsMapper = Mappers.getMapper(NewsMapper.class);
     NewsDto newsToNewsDto(News news);
-
-    Category categoryDtoToCategory(CategoryDto categoryDto);
-    CategoryDto categoryToCategoryDto(Category category);
+    News newsDtoToNews(NewsDto newsDto);
+    List<NewsDto> listNewsEntityToNewsDto(List<News> news);
 }
