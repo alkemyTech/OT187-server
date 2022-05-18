@@ -1,5 +1,6 @@
 package com.alkemy.ong.controller;
 
+import com.alkemy.ong.dto.CommentDto;
 import com.alkemy.ong.dto.NewsDto;
 import com.alkemy.ong.mapper.NewsMapper;
 import com.alkemy.ong.repository.NewsRepository;
@@ -16,12 +17,15 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import java.util.List;
+
 import static com.alkemy.ong.utility.Constantes.NEWS_URL;
 import static com.alkemy.ong.utility.Constantes.REQUEST_ID;
 
 @RestController
 @RequestMapping(NEWS_URL)
 public class NewsController {
+
     @Autowired
     private NewsRepository newsRepository;
 
@@ -98,5 +102,11 @@ public class NewsController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
+    }
+
+    @GetMapping("/{id}/comments")
+    public ResponseEntity<List<CommentDto>> getAllCommentsByNews(@PathVariable Long id)
+    {
+        return ResponseEntity.status(HttpStatus.OK).body(newsService.getAllCommentsByNews(id));
     }
 }
