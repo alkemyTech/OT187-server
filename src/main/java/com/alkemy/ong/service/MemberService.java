@@ -13,4 +13,12 @@ public interface MemberService {
     void deleteById(Long id);
 
     PageResponseDto<MemberDto> getAll(Integer page);
+    
+    
+    
+    MemberDto createMember(Member member);
+
+    public Member save(MemberDto memberDto);
+
+    MemberDto updateMemberById(Long id, MemberDto dto);
 }

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class MemberDto {
     private Long id;
     private String name;
@@ -16,5 +17,6 @@ public class MemberDto {
     private String linkedinUrl;
     private String image;
     private String description;
+    
 
 }
