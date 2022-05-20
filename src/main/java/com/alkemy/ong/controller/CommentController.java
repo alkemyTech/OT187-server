@@ -16,53 +16,53 @@ import static com.alkemy.ong.utility.Constantes.REQUEST_ID;
 
 import java.util.Locale;
 import javax.validation.Valid;
+
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.Authentication;
 
 @RestController
 @RequestMapping(COMMENT_URL)
 public class CommentController {
-    
-    private final CommentService commentService;
-    public CommentMapper commentMapper;
-   
-    public MessageSource messageSource;
-    
+
     @Autowired
-    public CommentController(CommentService commentService,CommentMapper commentMapper,MessageSource messageSource) {
+    private final CommentService commentService;
+
+    @Autowired
+    public MessageSource messageSource;
+
+    @Autowired
+    public CommentController(CommentService commentService, CommentMapper commentMapper, MessageSource messageSource) {
         this.commentService = commentService;
         this.messageSource = messageSource;
-        this.commentMapper = commentMapper;
     }
-    
+
     @GetMapping
     public ResponseEntity<List<CommentDto>> getComments() {
         List<CommentDto> comments = commentService.getAllComments();
-        
         return ResponseEntity.ok().body(comments);
     }
-    
-      @PostMapping
+
+    @PostMapping
     public ResponseEntity<?> addNewComment(@Valid @RequestBody CommentDto commentDto) {
-            CommentDto commentSaved = commentService.save(commentDto);
-            return ResponseEntity.status(HttpStatus.CREATED).body(commentSaved);
+        CommentDto commentSaved = commentService.save(commentDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(commentSaved);
     }
-    
+
     @PutMapping(REQUEST_ID)
-    public ResponseEntity<?> update(@PathVariable("id") Long id,@RequestBody CommentDto commentDto,
-                                    @RequestHeader(name = "Authentication") String authHeader) {
+    public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody CommentDto commentDto,
+                                    @RequestHeader(name = "Authorization") String authHeader) {
         String token = authHeader.substring(7);
-        
+
         try {
             commentService.update(commentDto, id, token);
             return ResponseEntity.ok(HttpStatus.OK);
         } catch (NotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception ex) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-            }
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-    
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(Authentication aut, @PathVariable Long id) {
         commentService.existId(id);

@@ -9,7 +9,7 @@ public class CommentDto {
     @JsonProperty("id")
     private Long id;
     @JsonProperty("userId")
-    private Long userId;
+    private Integer userId;
     @JsonProperty("newsId")
     private Long newsId;
     @JsonProperty("body")

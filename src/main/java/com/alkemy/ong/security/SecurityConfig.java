@@ -94,7 +94,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 
                 //Members
                 .antMatchers(HttpMethod.GET, MEMBER_URL + "/*").hasAnyAuthority("ADMIN", "USER")
-                .antMatchers(HttpMethod.DELETE, MEMBER_URL).hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.DELETE, MEMBER_URL + REQUEST_ID).hasAnyAuthority("ADMIN")
                 .antMatchers(HttpMethod.PUT, MEMBER_URL + REQUEST_ID).hasAnyAuthority("ADMIN")
                 .antMatchers(HttpMethod.POST, MEMBER_URL).hasAnyAuthority("ADMIN")
 
@@ -103,6 +103,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, TESTIMONIAL_URL).hasAnyAuthority("ADMIN")
                 .antMatchers(HttpMethod.DELETE, TESTIMONIAL_URL + REQUEST_ID).hasAnyAuthority("ADMIN")
                 .antMatchers(HttpMethod.PUT, TESTIMONIAL_URL + REQUEST_ID).hasAnyAuthority("ADMIN")
+
+                //Comments
+                .antMatchers(HttpMethod.GET, COMMENT_URL + "/*").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers(HttpMethod.DELETE, COMMENT_URL +  REQUEST_ID).hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.PUT, COMMENT_URL + REQUEST_ID).hasAnyAuthority("ADMIN", "USER")
+                .antMatchers(HttpMethod.POST, COMMENT_URL).hasAnyAuthority("ADMIN", "USER")
 
                 //OpenApi
                 .antMatchers(SWAGGER_URL).permitAll()

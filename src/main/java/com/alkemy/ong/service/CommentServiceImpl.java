@@ -6,6 +6,7 @@ import com.alkemy.ong.entity.User;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.mapper.CommentMapper;
 import com.alkemy.ong.repository.CommentRepository;
+import com.alkemy.ong.repository.NewsRepository;
 import com.alkemy.ong.repository.UserRepository;
 import com.alkemy.ong.utility.JwtUtils;
 import lombok.AllArgsConstructor;
@@ -35,6 +36,10 @@ public class CommentServiceImpl implements CommentService{
     
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private NewsRepository newsRepository;
+
     
     @Autowired
     JwtUtils jwtUtils;
@@ -43,9 +48,16 @@ public class CommentServiceImpl implements CommentService{
     @Override
     public CommentDto save(CommentDto commentDto) {
         Comment comment = commentMapper.commentDtoToComment(commentDto);
+        comment.setNews(newsRepository.findById(commentDto.getNewsId()).orElseThrow(() -> new NotFoundException("News not found")));
+        comment.setUser(userRepository.findById(commentDto.getUserId()).orElseThrow(() -> new NotFoundException("User not found")));
+
         Comment savedComment = commentRepository.save(comment);
-        
-        return commentMapper.commentToCommentDto(savedComment);
+
+        commentDto.setNewsId(savedComment.getNews().getId());
+        commentDto.setUserId(savedComment.getUser().getId());
+        commentDto.setId(savedComment.getId());
+
+        return commentDto;
     }
     
     @Override
