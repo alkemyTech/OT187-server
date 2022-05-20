@@ -71,7 +71,7 @@ public class CategoryServiceImp implements CategoryService {
 
     @Override
     public Page<Category> findAll(Integer page) {
-        return categoryRepository.findAll(PageRequest.of(page, 10));
+        return categoryRepository.findAll(PageRequest.of(page - 1, 10));
     }
 
 }

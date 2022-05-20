@@ -132,7 +132,7 @@ public class CategoryController {
     }
     )
     @GetMapping
-    public ResponseEntity<?> page(@Parameter(description = "Page number", required = true, example = "15") @RequestParam(value = "page")Integer page){
+    public ResponseEntity<?> page(@Parameter(description = "Page number", required = true, example = "15") @RequestParam(value = "page", defaultValue = "1")Integer page){
         Map<String,Object> response=new HashMap<>();
 
         Page<Category> categoryPage=categoryService.findAll(page);
