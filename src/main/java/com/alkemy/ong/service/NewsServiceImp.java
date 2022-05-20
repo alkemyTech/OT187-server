@@ -42,8 +42,10 @@ public class NewsServiceImp implements NewsService {
         news.setCategory(categoryRepository.findById(
                 newsDto.getCategoryId()).orElseThrow(() -> new NotFoundException("Category not found")
         ));
+        NewsDto newsSaved = newsMapper.newsToNewsDto(newsRepository.save(news));
+        newsSaved.setCategoryId(newsSaved.getCategory().getId());
 
-        return newsMapper.newsToNewsDto(newsRepository.save(news));
+        return newsSaved;
     }
 
     @Transactional
