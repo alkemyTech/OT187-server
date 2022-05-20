@@ -5,10 +5,6 @@ import com.alkemy.ong.dto.CategoriesCreationDto;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.response.dto.CategoryResponseDto;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import java.util.Locale;
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
@@ -28,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.alkemy.ong.service.CategoriesService;
 
-@Api(value = "Categorias controller")
 @RestController
 @RequestMapping("/categories")
 public class CategoriesController {
@@ -40,12 +35,7 @@ public class CategoriesController {
 		this.iCategory = iCategory;
 		this.message = message;
 	}
-
-	@ApiOperation("Creation Categories")
-	@ApiResponses({
-			@ApiResponse(code = 200, message = "Successful Operation"),
-			@ApiResponse(code = 404, message = "Not Found")
-	})
+	
 	@PostMapping
 	public ResponseEntity<?> post(@Valid @ModelAttribute(name = "categoryCreationDto") CategoriesCreationDto categoryCreationDto) throws EntityNotFoundException{
 		try{
@@ -56,12 +46,7 @@ public class CategoriesController {
 	
         }
         
-
-@ApiOperation("Category details")
-	@ApiResponses({
-			@ApiResponse(code = 200, message = "Successful Operation"),
-			@ApiResponse(code = 404, message = "Not Found")
-	})
+		
 	@GetMapping(path="/{id}")
 	public ResponseEntity<?> shearch(@PathVariable Long id) {
 		try {
@@ -70,13 +55,7 @@ public class CategoriesController {
 			return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
 		}
 	}
-
-
-	@ApiOperation("Category list")
-	@ApiResponses({
-			@ApiResponse(code = 200, message = "Successful Operation"),
-			@ApiResponse(code = 404, message = "Not Foundt")
-	})
+	
 	@GetMapping
 	public ResponseEntity<?> getAllPageable(@PageableDefault (size = 10, page = 0) Pageable pagebale, 
 			@RequestParam(value = "page", defaultValue = "0") int page){
