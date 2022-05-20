@@ -28,5 +28,7 @@ public class Constantes {
      public static final Integer PAGE_SIZE = 10;
      public static final String PAGE_URL = "localhost:8080/news?page=";
      public static final String TESTIMONIAL_URL = "/testimonials";
+//     public static final String[] SWAGGER_URL = {"/api/docs/**","/v3/api-docs/**"};
+     public static final String[] SWAGGER_URL = {"/api/docs/**","/api-docs/**"};
 
 }
