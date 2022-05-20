@@ -74,8 +74,18 @@ public class MemberServiceImpl implements MemberService {
          Member memberCreated = memberRepository.save(member);
      return null;  
     }
-    
-     public Page<Member> showAllMembers(Pageable pageable) {
+
+    @Override
+    public Member save(MemberDto memberDto) {
+        return null;
+    }
+
+    @Override
+    public MemberDto updateMemberById(Long id, MemberDto dto) {
+        return null;
+    }
+
+    public Page<Member> showAllMembers(Pageable pageable) {
         return memberRepository.findAll(pageable);
     }
 }

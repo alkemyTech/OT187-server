@@ -5,11 +5,13 @@ import com.alkemy.ong.dto.NewsDto;
 import com.alkemy.ong.mapper.NewsMapper;
 import com.alkemy.ong.repository.NewsRepository;
 import com.alkemy.ong.service.NewsService;
-import com.amazonaws.services.xray.model.Http;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +23,7 @@ import java.util.List;
 
 import static com.alkemy.ong.utility.Constantes.NEWS_URL;
 import static com.alkemy.ong.utility.Constantes.REQUEST_ID;
-
+@Tag(name = "News", description = "Endpoint to create, update, delete and get news")
 @RestController
 @RequestMapping(NEWS_URL)
 public class NewsController {
@@ -35,16 +37,20 @@ public class NewsController {
     @Autowired
     private NewsService newsService;
 
-    @ApiOperation(value = "Get news details by id", response = NewsDto.class)
+    @Operation(summary = "Get news details by id")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully retrieved news"),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved news",
+                    content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = NewsDto.class))
+                    }
+            ),
+            @ApiResponse(responseCode = "401", description = "You are not authorized to view the resource"),
+            @ApiResponse(responseCode = "403", description = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(responseCode = "404", description = "The resource you were trying to reach is not found")
     }
     )
     @GetMapping(REQUEST_ID)
-    public ResponseEntity<?> getDetails(@ApiParam(value = "News id", required = true, example = "1") @PathVariable Long id) {
+    public ResponseEntity<?> getDetails(@Parameter(description = "News id", required = true, example = "1") @PathVariable Long id) {
         try {
             NewsDto news = newsService.findById(id);
             return ResponseEntity.ok().body(news);
@@ -54,12 +60,15 @@ public class NewsController {
 
     }
 
-    @ApiOperation(value = "Saves news", response = NewsDto.class)
+    @Operation(summary = "Saves news")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully saved "),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+            @ApiResponse(responseCode = "200", description = "Successfully saved ",
+                    content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = NewsDto.class))
+                    }),
+            @ApiResponse(responseCode = "401", description = "You are not authorized to view the resource"),
+            @ApiResponse(responseCode = "403", description = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(responseCode = "404", description = "The resource you were trying to reach is not found")
     }
     )
     @PostMapping
@@ -68,16 +77,19 @@ public class NewsController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedNews);
     }
 
-    @ApiOperation(value = "Updates news", response = NewsDto.class)
+    @Operation(summary = "Updates news")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully updated news"),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+            @ApiResponse(responseCode = "200", description = "Successfully updated news",
+                    content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = NewsDto.class))
+                    }),
+            @ApiResponse(responseCode = "401", description = "You are not authorized to view the resource"),
+            @ApiResponse(responseCode = "403", description = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(responseCode = "404", description = "The resource you were trying to reach is not found")
     }
     )
     @PutMapping(REQUEST_ID)
-    public ResponseEntity<?> update(@ApiParam(value = "News id", required = true, example = "1") @PathVariable Long id, @RequestBody NewsDto newsDto) {
+    public ResponseEntity<?> update(@Parameter(description = "News id", required = true, example = "1") @PathVariable Long id, @RequestBody NewsDto newsDto) {
         try {
             NewsDto updatedNews = newsService.update(newsDto, id);
             return ResponseEntity.ok(updatedNews);
@@ -86,16 +98,16 @@ public class NewsController {
         }
     }
 
-    @ApiOperation(value = "Delete news")
+    @Operation(summary = "Delete news")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully deleted"),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+            @ApiResponse(responseCode = "200", description = "Successfully deleted"),
+            @ApiResponse(responseCode = "401", description = "You are not authorized to view the resource"),
+            @ApiResponse(responseCode = "403", description = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(responseCode = "404", description = "The resource you were trying to reach is not found")
     }
     )
     @DeleteMapping(REQUEST_ID)
-    public ResponseEntity<?> delete(@ApiParam(value = "News id", required = true, example = "1") @PathVariable Long id) {
+    public ResponseEntity<?> delete(@Parameter(description = "News id", required = true, example = "1") @PathVariable Long id) {
         try {
             newsService.delete(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body("News deleted");

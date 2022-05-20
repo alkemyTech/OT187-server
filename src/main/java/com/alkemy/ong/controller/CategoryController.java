@@ -4,11 +4,13 @@ import com.alkemy.ong.dto.CategoryDto;
 import com.alkemy.ong.entity.Category;
 import com.alkemy.ong.mapper.CategoryMapper;
 import com.alkemy.ong.service.CategoryService;
-
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,6 +24,7 @@ import java.util.Map;
 
 import static com.alkemy.ong.utility.Constantes.CATEGORY_URL;
 
+@Tag(name = "Category", description = "Endpoint to create, update, delete and get page of categories")
 @RestController
 @RequestMapping(CATEGORY_URL)
 @AllArgsConstructor
@@ -33,12 +36,15 @@ public class CategoryController {
     private CategoryMapper categoryMapper;
 
 
-    @ApiOperation(value = "View a list of available categories",response = Iterable.class)
+    @Operation(summary = "View a list of available categories")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully retrieved list"),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+            @ApiResponse(responseCode = "200", description= "Successfully retrieved list",
+                    content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = Iterable.class))
+                    }),
+            @ApiResponse(responseCode = "401", description = "You are not authorized to view the resource"),
+            @ApiResponse(responseCode = "403", description = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(responseCode = "404", description = "The resource you were trying to reach is not found")
     }
     )
     @GetMapping("/all")
@@ -47,12 +53,15 @@ public class CategoryController {
         return ResponseEntity.ok().body(categoryDto);
     }
 
-    @ApiOperation(value = "Add a category", response = CategoryDto.class)
+    @Operation(summary = "Add a category")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully saved"),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+            @ApiResponse(responseCode = "200", description = "Successfully saved",
+                    content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = CategoryDto.class))
+                    }),
+            @ApiResponse(responseCode = "401", description = "You are not authorized to view the resource"),
+            @ApiResponse(responseCode = "403", description = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(responseCode = "404", description = "The resource you were trying to reach is not found")
     }
     )
     @PostMapping()
@@ -63,21 +72,23 @@ public class CategoryController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
-
     }
 
-    @ApiOperation(value = "Update a category", response = CategoryDto.class)
+    @Operation(summary = "Update a category")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully updated"),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+            @ApiResponse(responseCode = "200", description = "Successfully updated",
+                    content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = CategoryDto.class))
+                    }),
+            @ApiResponse(responseCode = "401", description = "You are not authorized to view the resource"),
+            @ApiResponse(responseCode = "403", description = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(responseCode = "404", description = "The resource you were trying to reach is not found")
     }
     )
     @PutMapping(value = "/{id}")
-    public ResponseEntity<?> update(@ApiParam(value = "Category id", required = true, example = "1")@PathVariable(value = "id") Long id, @RequestBody CategoryDto categorydto) {
+    public ResponseEntity<?> update(@Parameter(description = "Category id", required = true, example = "1")
+                                    @PathVariable(value = "id") Long id, @RequestBody CategoryDto categorydto) {
         Map<String, Object> response = new HashMap<>();
-
         try {
             CategoryDto categoryUpdate = categoryService.update(id, categorydto);
             response.put("category", categoryUpdate);
@@ -87,22 +98,19 @@ public class CategoryController {
             response.put("error", e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
-
     }
 
-    @ApiOperation(value = "Delete a category")
+    @Operation(summary = "Delete a category")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully deleted"),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+            @ApiResponse(responseCode = "200", description = "Successfully deleted"),
+            @ApiResponse(responseCode = "401", description = "You are not authorized to view the resource"),
+            @ApiResponse(responseCode = "403", description = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(responseCode = "404", description = "The resource you were trying to reach is not found")
     }
     )
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<?> delete(@ApiParam(value = "Category id", required = true, example = "1")@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> delete(@Parameter(description = "Category id", required = true, example = "1")@PathVariable(value = "id") Long id) {
         Map<String, Object> response = new HashMap<>();
-        Category category = categoryMapper.categoryDtoToCategory(categoryService.findById(id));
-
         try {
             categoryService.delete(id);
             response.put("Message", "Category successfully deleted");
@@ -111,22 +119,24 @@ public class CategoryController {
             response.put("error", e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
-
     }
-    @ApiOperation(value = "Add a page", response = Iterable.class)
+    @Operation(summary = "Add a page")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Page successfully added"),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+            @ApiResponse(responseCode = "200", description = "Page successfully added",
+                    content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = Iterable.class))
+                    }),
+            @ApiResponse(responseCode = "401", description = "You are not authorized to view the resource"),
+            @ApiResponse(responseCode = "403", description = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(responseCode = "404", description = "The resource you were trying to reach is not found")
     }
     )
-    @GetMapping(value = "/page/{page}")
-    public ResponseEntity<?> page(@ApiParam(value = "Page number", required = true, example = "15")@PathVariable(value = "page")Integer page){
+    @GetMapping
+    public ResponseEntity<?> page(@Parameter(description = "Page number", required = true, example = "15") @RequestParam(value = "page")Integer page){
         Map<String,Object> response=new HashMap<>();
 
         Page<Category> categoryPage=categoryService.findAll(page);
-        response.put("categorias",categoryPage);
+        response.put("categories",categoryPage);
         return new ResponseEntity<>(categoryPage,HttpStatus.OK);
     }
 }

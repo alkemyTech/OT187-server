@@ -33,6 +33,6 @@ public class Constantes {
      public static final String SLIDE_ID="/slides/{id}";//Organization
      public static final String ORGANIZATION_ALL= "/organization/all";
      public static final String ORGANIZATION_ID="/organization/{id}";
-     public static final String[] SWAGGER_URL = {"/api/docs/**","swagger-ui.html","/swagger-ui/**"};
+     public static final String[] SWAGGER_URL = {"/api/docs/**","swagger-ui.html","/swagger-ui/**", "/v3/api-docs/**"};
 
 }

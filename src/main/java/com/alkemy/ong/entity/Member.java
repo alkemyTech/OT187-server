@@ -1,7 +1,6 @@
 package com.alkemy.ong.entity;
 
-
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -15,36 +14,36 @@ public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ApiModelProperty(notes = "The unique id of the Member")
+    @Schema(description = "The unique id of the Member")
     @Column(name = "id", nullable = false)
     private Long id;
 
     @Column(name = "name", nullable = false)
-    @ApiModelProperty(notes = "The Member's name",required = true,position = 1)
+    @Schema(description = "The Member's name",required = true)
     private String name;
-    
+
     @Column(name = "facebookUrl")
-    @ApiModelProperty(notes = "The Member's facebook url",position = 2)
+    @Schema(description = "The Member's facebook url")
     private String facebookUrl;
-    
+
     @Column(name = "instagramUrl")
-    @ApiModelProperty(notes = "The Member's instagram url",position = 3)
+    @Schema(description = "The Member's instagram url")
     private String instagramUrl;
-    
+
     @Column(name = "linkedinUrl")
-    @ApiModelProperty(notes = "The Member's instagram url",position = 4)
+    @Schema(description = "The Member's instagram url")
     private String linkedinUrl;
-    
+
     @Column(name = "image", nullable = false)
-    @ApiModelProperty(notes = "The Member's image",required = true,position = 5)
+    @Schema(description = "The Member's image",required = true)
     private String image;
-    
+
     @Column(name = "description")
-    @ApiModelProperty(notes = "The Member's description",position = 6)
+    @Schema(description = "The Member's description")
     private String description;
-    
+
     @Column(name = "timestamps", nullable = false)
-    @ApiModelProperty(notes = "The Member's timestamp creation",position = 7)
+    @Schema(description = "The Member's timestamp creation")
     @CreationTimestamp
     private LocalDateTime createdAt;
     private Integer active = 1;

@@ -4,7 +4,6 @@ package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.PageResponseDto;
 import com.alkemy.ong.dto.TestimonialDto;
-import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.service.TestimonialService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
