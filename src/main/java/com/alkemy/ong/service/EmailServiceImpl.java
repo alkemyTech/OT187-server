@@ -1,6 +1,5 @@
 package com.alkemy.ong.service;
 
-import com.alkemy.ong.config.request.EmailRequest;
 import com.alkemy.ong.utility.EmailUtility;
 import com.sendgrid.Method;
 import com.sendgrid.Request;
@@ -9,18 +8,24 @@ import com.sendgrid.SendGrid;
 import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+
 import lombok.AllArgsConstructor;
+import org.springframework.core.env.Environment;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class EmailServiceImpl implements EmailService{
+public class EmailServiceImpl implements EmailService {
 
+    @Autowired
+    private Environment env;
 
 
     @Override
@@ -31,17 +36,20 @@ public class EmailServiceImpl implements EmailService{
     public void registerEmail(String send) throws IOException {
         send(send, EmailUtility.EMAIL_SUBJECT_REGISTER, EmailUtility.EMAIL_TEMPLATE_REGISTER);
     }
-    
+
     @Override
     public void send(String send, String subject_email, String template) throws IOException {
+
+        String apiKey = env.getProperty("EMAIL_API_KEY");
+
         Email from = new Email(EmailUtility.EMAIL_FROM);
         Email to = new Email(send);
         String subject = subject_email;
         Content content = new Content(EmailUtility.EMAIL_TYPE, getEmailFromResources(template));
         Mail mail = new Mail(from, subject, to, content);
-        SendGrid sg = new SendGrid(EmailUtility.API_KEY);
+        SendGrid sg = new SendGrid(apiKey);
         Request request = new Request();
-        try{
+        try {
             request.setMethod(Method.POST);
             request.setEndpoint(EmailUtility.EMAIL_ENDPOINT);
             request.setBody(mail.build());
@@ -49,12 +57,12 @@ public class EmailServiceImpl implements EmailService{
             System.out.println(response.getStatusCode());
             System.out.println(response.getBody());
             System.out.println(response.getHeaders());
-        }catch (IOException ex){
-            
+        } catch (IOException ex) {
+
         }
     }
-    
-     private String getEmailFromResources(String template) throws IOException {
+
+    private String getEmailFromResources(String template) throws IOException {
         String email = "";
         String line;
         ClassLoader classLoader = getClass().getClassLoader();
@@ -67,12 +75,11 @@ public class EmailServiceImpl implements EmailService{
                 email = email.concat(line);
             }
         } catch (IOException e) {
-           
+
         }
         return email;
 
     }
-     
-     
+
 
 }

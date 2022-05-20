@@ -45,47 +45,38 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public MemberDto save(MemberDto memberDto) {
+
+        Member member = memberMapper.memberDtoToMember(memberDto);
+        memberRepository.save(member);
+
+        return memberMapper.memberToMemberDto(member);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public MemberDto findById(Long id) {
         Member member = memberRepository.findById(id).orElseThrow(() -> new NotFoundException("Member not found"));
-
         return memberMapper.memberToMemberDto(memberRepository.findById(id).get());
-
     }
-
     @Override
     @Transactional
-    public MemberDto save(Member member) {
+    public void deleteById (Long id) {
+        Member member = memberRepository.findById(id).orElseThrow(() -> new NotFoundException("Member not found"));
+        memberRepository.softDelete(id);
+    }
+    @Override
+    public MemberDto updateMemberById(Long id, MemberDto dto) {
+        Member member = memberRepository.findById(id).orElseThrow(() -> new NotFoundException("Member not found"));
+
+        member.setName(dto.getName());
+        member.setDescription(dto.getDescription());
+        member.setFacebookUrl(dto.getFacebookUrl());
+        member.setInstagramUrl(dto.getInstagramUrl());
+        member.setImage(dto.getImage());
+        member.setLinkedinUrl(dto.getLinkedinUrl());
+
         return memberMapper.memberToMemberDto(memberRepository.save(member));
     }
 
-    @Override
-    @Transactional
-    public void deleteById(Long id) {
-        Member member = memberRepository.findById(id).orElseThrow(() -> new NotFoundException("Member not found"));
-
-        memberRepository.softDelete(id);
-    }
-    
-    
-        @Override
-    public MemberDto createMember(Member member) {
-        
-         Member memberCreated = memberRepository.save(member);
-     return null;  
-    }
-
-    @Override
-    public Member save(MemberDto memberDto) {
-        return null;
-    }
-
-    @Override
-    public MemberDto updateMemberById(Long id, MemberDto dto) {
-        return null;
-    }
-
-    public Page<Member> showAllMembers(Pageable pageable) {
-        return memberRepository.findAll(pageable);
-    }
 }

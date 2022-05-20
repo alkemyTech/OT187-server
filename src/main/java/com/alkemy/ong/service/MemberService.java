@@ -8,17 +8,11 @@ public interface MemberService {
 
     MemberDto findById(Long id);
 
-    MemberDto save(Member member);
+    MemberDto save(MemberDto memberDto);
 
     void deleteById(Long id);
 
     PageResponseDto<MemberDto> getAll(Integer page);
-    
-    
-    
-    MemberDto createMember(Member member);
-
-    public Member save(MemberDto memberDto);
 
     MemberDto updateMemberById(Long id, MemberDto dto);
 }

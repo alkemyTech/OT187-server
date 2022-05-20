@@ -3,6 +3,7 @@ package com.alkemy.ong.service;
 
 import com.alkemy.ong.dto.AuthenticationRequest;
 import com.alkemy.ong.dto.AuthenticationResponse;
+import com.alkemy.ong.dto.RegisterDto;
 import com.alkemy.ong.dto.UserDto;
 import com.alkemy.ong.entity.Role;
 import com.alkemy.ong.entity.User;
@@ -26,6 +27,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -39,18 +41,21 @@ public class UserDetailsServiceImpl implements UserService, UserDetailsService {
     private final RoleRepository roleRepository;
     private final JwtUtils jwtUtils;
 
+    private final EmailService emailService;
+
     @Autowired
-    public UserDetailsServiceImpl(UserMapper userMapper, UserRepository userRepository, @Lazy PasswordEncoder passwordEncoder, RoleRepository roleRepository, JwtUtils jwtUtils) {
+    public UserDetailsServiceImpl(UserMapper userMapper, UserRepository userRepository, @Lazy PasswordEncoder passwordEncoder, RoleRepository roleRepository, JwtUtils jwtUtils, EmailService emailService) {
         this.userMapper = userMapper;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;
         this.jwtUtils = jwtUtils;
+        this.emailService = emailService;
     }
 
     @Transactional
     @Override
-    public UserDto save(UserDto userDto) throws EmailExistsException {
+    public RegisterDto save(UserDto userDto) throws EmailExistsException {
         User user = userMapper.userDtoToUser(userDto);
         if (emailExist(user.getEmail())) {
             throw new EmailExistsException("An account with the email address "
@@ -59,7 +64,23 @@ public class UserDetailsServiceImpl implements UserService, UserDetailsService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoleId(roleRepository.findByName("USER"));
         userRepository.save(user);
-        return userMapper.userToUserDto(user);
+
+        try {
+            emailService.registerEmail(userDto.getEmail());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        UserDetails userDetails = loadUserByUsername(userDto.getEmail());
+        String jwt = jwtUtils.generateToken(userDetails);
+
+        RegisterDto registerDto = new RegisterDto();
+
+        registerDto.setJwt(jwt);
+        registerDto.setFirstName(user.getFirstName());
+        registerDto.setLastName(user.getLastName());
+        registerDto.setEmail(user.getEmail());
+        return registerDto;
 
     }
 

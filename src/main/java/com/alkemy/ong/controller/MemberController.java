@@ -65,7 +65,6 @@ public class MemberController {
 
     }
 
-
     @PostMapping
     @Operation(summary = "Create a member")
     @ResponseStatus(HttpStatus.CREATED)
@@ -75,7 +74,7 @@ public class MemberController {
             @ApiResponse(responseCode = "403", description = "Forbidden this request"),
             @ApiResponse(responseCode = "404", description = "Resource is not available to the server")
     })
-    public ResponseEntity<?> createMember(@Valid @ModelAttribute(name = "memberDto") MemberDto memberDto){
+    public ResponseEntity<?> createMember(@Valid @RequestBody MemberDto memberDto){
         try {
             memberService.save(memberDto);
             return new ResponseEntity<>(HttpStatus.CREATED);
@@ -92,7 +91,7 @@ public class MemberController {
             @ApiResponse(responseCode = "403", description = "Forbidden this request"),
             @ApiResponse(responseCode = "404", description = "Resource is not available to the server")
     })
-    public ResponseEntity<?> updateMember(@PathVariable("id") Long id, @Valid @ModelAttribute(name = "memberCreationDto") MemberDto memberCreationDto)
+    public ResponseEntity<?> updateMember(@PathVariable("id") Long id, @Valid @RequestBody MemberDto memberCreationDto)
     {
         try {
             memberService.updateMemberById(id, memberCreationDto);
