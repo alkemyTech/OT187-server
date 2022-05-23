@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface UserService {
 
-    RegisterDto save(UserDto userDto);
+    UserDto save(UserDto userDto);
     void delete(Integer id);
     UserDto findById(Integer id);
     List<UserDto> getAllUsers();

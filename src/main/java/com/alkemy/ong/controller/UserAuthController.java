@@ -35,14 +35,14 @@ public class UserAuthController {
     @PostMapping(REGISTER_URL)
     public ResponseEntity<?> register(@Valid @RequestBody UserDto userDto){
         try {
-            RegisterDto registerDto = userDetailsService.save(userDto);
-            return new ResponseEntity<>(registerDto, HttpStatus.OK);
+            UserDto userSaved = userDetailsService.save(userDto);
+
+            String jwt = jwtUtils.generateToken(userDetailsService.loadUserByUsername(userDto.getEmail()));
+
+            return new ResponseEntity<>(new RegisterDto(userSaved.getFirstName(), userSaved.getLastName(), userSaved.getEmail(), jwt), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage() ,HttpStatus.BAD_REQUEST);
         }
-
-
-
     }
 
     @GetMapping(USER_GET)

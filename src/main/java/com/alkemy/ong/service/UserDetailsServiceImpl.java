@@ -55,7 +55,7 @@ public class UserDetailsServiceImpl implements UserService, UserDetailsService {
 
     @Transactional
     @Override
-    public RegisterDto save(UserDto userDto) throws EmailExistsException {
+    public UserDto save(UserDto userDto) throws EmailExistsException {
         User user = userMapper.userDtoToUser(userDto);
         if (emailExist(user.getEmail())) {
             throw new EmailExistsException("An account with the email address "
@@ -71,16 +71,7 @@ public class UserDetailsServiceImpl implements UserService, UserDetailsService {
             e.printStackTrace();
         }
 
-        UserDetails userDetails = loadUserByUsername(userDto.getEmail());
-        String jwt = jwtUtils.generateToken(userDetails);
-
-        RegisterDto registerDto = new RegisterDto();
-
-        registerDto.setJwt(jwt);
-        registerDto.setFirstName(user.getFirstName());
-        registerDto.setLastName(user.getLastName());
-        registerDto.setEmail(user.getEmail());
-        return registerDto;
+        return userMapper.userToUserDto(user);
 
     }
 
